@@ -1,0 +1,8 @@
+/.dart_tool
+/.flutter-plugins
+/.flutter-plugins-dependencies
+/.metadata
+/.packages
+/.vscode
+/pubspec.lock
+/stage.iml
