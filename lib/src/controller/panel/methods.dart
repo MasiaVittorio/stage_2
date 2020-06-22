@@ -76,6 +76,7 @@ extension StagePanelDataExt on _StagePanelData {
   }
 
   void _confirmClosed(){
+    alertController.savedStates.clear();
     _forgetPanelPage();
     onPanelClose?.call();
     for(final c in _onNextClose){

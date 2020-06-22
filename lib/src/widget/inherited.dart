@@ -15,9 +15,7 @@ class StageProvider<T,S> extends StatefulWidget {
   final StageData<T,S> data;
 
   static StageData<A,B> of<A,B>(BuildContext context){
-    final inherited = 
-            context.dependOnInheritedWidgetOfExactType<_StageInherited>();
-            // TODO: per qualche motivo questo metodo non può dipendere da StageInherited<A,B>??
+    final inherited = context.dependOnInheritedWidgetOfExactType<_StageInherited>();
     return inherited?.data;
   }
 

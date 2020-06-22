@@ -14,18 +14,20 @@ class _StageAlertData {
     isShowing?.dispose();
     currentChild?.dispose();
     currentSize?.dispose();
+    savedStates.clear();
   }
 
 
   //================================
-  // Values
+  // Values 
   final _StagePanelData parent;
 
-  // State
+  // State 
   final BlocVar<List<Widget>> children = BlocVar<List<Widget>>(<Widget>[]);
   final BlocVar<List<double>> sizes = BlocVar<List<double>>(<double>[]);
+  final Map<String,dynamic> savedStates = <String,dynamic>{};
 
-  // Derived
+  // Derived 
   BlocVar<bool> isShowing;
   BlocVar<Widget> currentChild;
   BlocVar<double> currentSize;
