@@ -46,6 +46,7 @@ class RadioHeaderedAlert<T> extends StatefulWidget {
     this.canvasBackground = false,
     this.bottomAction,
     this.withoutHeader = false,
+    this.customScrollPhysics,
   }): this.accentSelected = (bottomAccentColor != null) || accentSelected;
 
 
@@ -59,6 +60,9 @@ class RadioHeaderedAlert<T> extends StatefulWidget {
   final void Function(T) onPageChanged;
   final Widget bottomAction;
   final bool withoutHeader;
+
+  /// If we need to use this not as an alert in a panel but elsewhere
+  final ScrollPhysics customScrollPhysics;
 
   @override
   _RadioHeaderedAlertState<T> createState() => _RadioHeaderedAlertState<T>();
@@ -95,6 +99,7 @@ class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T>> {
       accentSelected: widget.accentSelected ?? false,
       bottomAction: widget.bottomAction,
       withoutHeader: widget.withoutHeader ?? false,
+      customScrollPhysics: widget.customScrollPhysics,
     );
   }
 }
@@ -114,6 +119,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
     @required this.items,
     @required this.bottomAction,
     @required this.withoutHeader,
+    @required this.customScrollPhysics,
   });
 
   final Map<T,RadioHeaderedItem> items;
@@ -127,6 +133,8 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
   final bool canvasBackground;
   final Widget bottomAction;
   final bool withoutHeader;
+
+  final ScrollPhysics customScrollPhysics;
 
 
   @override
@@ -213,7 +221,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
   Widget itemChild(RadioHeaderedItem item, StageData stage) => item.alreadyScrollableChild 
     ? item.child 
     : SingleChildScrollView(
-      physics: stage.panelController.panelScrollPhysics(),
+      physics: this.customScrollPhysics ?? stage.panelController.panelScrollPhysics(),
       padding: EdgeInsets.only(top: this.withoutHeader ? 0.0 : PanelTitle.height),
       child: item.child,
     );
