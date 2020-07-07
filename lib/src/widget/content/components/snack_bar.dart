@@ -7,6 +7,7 @@ class StageSnackBar extends StatelessWidget {
   final Widget secondary;
   final double alignment; //-1 left 0 center +1 right
   final bool scrollable;
+  final VoidCallback onTap;
 
   const StageSnackBar({
     @required this.title,
@@ -14,6 +15,7 @@ class StageSnackBar extends StatelessWidget {
     this.secondary,
     this.alignment,
     this.scrollable = false,
+    this.onTap,
   });
 
   @override
@@ -75,22 +77,25 @@ class StageSnackBar extends StatelessWidget {
 
     final bool right = stage.panelController.snackbarController.snackBarRightAligned ?? false;
 
-    final Widget result = SizedBox(
-      height: height,
-      child: Row(children: <Widget>[
-        if(secondary != null && right)
-          secondaryChild,
-        if(!right) StageSnackButton.placeHolder,
+    final Widget result = InkWell(
+      onTap: onTap,
+      child: SizedBox(
+        height: height,
+        child: Row(children: <Widget>[
+          if(secondary != null && right)
+            secondaryChild,
+          if(!right) StageSnackButton.placeHolder,
 
-        Expanded(child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: body,
-        )),
+          Expanded(child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: body,
+          )),
 
-        if(right) StageSnackButton.placeHolder,
-        if(secondary != null && !right)
-          secondaryChild,
-      ],),
+          if(right) StageSnackButton.placeHolder,
+          if(secondary != null && !right)
+            secondaryChild,
+        ],),
+      ),
     );
 
     if(scrollable ?? false){
