@@ -113,11 +113,11 @@ class Stage<T,S> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData startingThemeData = Theme.of(context);
-    final StageData<T,S> externalStageData = Stage.of<T,S>(context);
+    final StageData externalStageData = Stage.of(context);
 
     return _StageWithThemeAndExternalData<T,S>(
       startingThemeData: startingThemeData,
-      externalStageData: externalStageData,
+      externalStageData: (externalStageData is StageData<T,S>) ? externalStageData : null,
       storeKey: this.storeKey,
       controller: this.controller,
       mainPageToJson: this.mainPageToJson,
