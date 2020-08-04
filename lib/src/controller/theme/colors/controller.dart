@@ -46,7 +46,7 @@ class _StageColorsData<T,S> {
 
 
   //==> Type of theme
-  final BlocVar<StageThemeType> themeType;
+  final BlocVar<StageColorPlace> colorPlace;
 
 
   //================================
@@ -54,11 +54,11 @@ class _StageColorsData<T,S> {
   _StageColorsData(this.parent, {
     @required StageColorsData initialData,
   }):
-    themeType = BlocVar.modal<StageThemeType>(
+    colorPlace = BlocVar.modal<StageColorPlace>(
       initVal: initialData.themeType,
       key: parent.parent._getStoreKey("stage_colors_themeType"), 
       toJson: (type) => type.name,
-      fromJson: (name) => _StageThemeTypes.fromName(name),
+      fromJson: (name) => StageColorPlaces.fromName(name),
       readCallback: (_) => parent.parent._readCallback("stage_colors_themeType"),
     ),
     lightAccent = BlocVar.modal<Color>(
@@ -276,7 +276,7 @@ class _StageColorsData<T,S> {
 
 
   StageColorsData<T,S> get extractData => StageColorsData<T,S>._(
-    themeType: this.themeType.value,
+    themeType: this.colorPlace.value,
     allMainPagesToFill: null,
     allPanelPagesToFill: null,
     lightAccent: this.lightAccent.value, 

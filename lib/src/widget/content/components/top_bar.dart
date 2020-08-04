@@ -48,10 +48,10 @@ class _TopBar<T,S> extends StatelessWidget {
     );
 
     return StageBuild.offPrimaryColorAndItsBrightness((_, currentColor, brightness)
-      => data.themeController.colors.themeType.build((context, type) {
-        final Color color = type.isGoogle 
+      => data.themeController.colors.colorPlace.build((context, type) {
+        final Color color = type.isTexts 
           ? theme.canvasColor : currentColor;
-        final Color textColor = type.isGoogle 
+        final Color textColor = type.isTexts 
           ? theme.colorScheme.onSurface : brightness.contrast;
 
         return Material(

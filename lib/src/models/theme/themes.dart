@@ -1,31 +1,31 @@
 part of stage;
 
-enum StageThemeType {
-  fullColor,
-  google,
+enum StageColorPlace {
+  background,
+  texts,
 }
 
-class _StageThemeTypes {
-  static const Map<String,StageThemeType> map = <String,StageThemeType>{
-    "Full Color": StageThemeType.fullColor,
-    "Google": StageThemeType.google,
+class StageColorPlaces {
+  static const Map<String,StageColorPlace> map = <String,StageColorPlace>{
+    "Background": StageColorPlace.background,
+    "Texts": StageColorPlace.texts,
   }; 
 
-  static StageThemeType fromName(String s) => map[s];
+  static StageColorPlace fromName(String s) => map[s] ?? StageColorPlace.background;
 }
 
-extension StageThemeTypeExt on StageThemeType {
-  static const Map<StageThemeType,String> map = <StageThemeType,String>{
-    StageThemeType.fullColor: "Full Color",
-    StageThemeType.google: "Google",
+extension StageThemeTypeExt on StageColorPlace {
+  static const Map<StageColorPlace,String> map = <StageColorPlace,String>{
+    StageColorPlace.background: "Background",
+    StageColorPlace.texts: "Texts",
   }; 
 
   String get name => map[this];
 
-  bool get isGoogle => this == StageThemeType.google;
-  bool get notGoogle => !isGoogle;
-  bool get isFullColor => this == StageThemeType.fullColor;
-  bool get notFullColor => !isFullColor;
+  bool get isTexts => this == StageColorPlace.texts;
+  bool get notTexts => !isTexts;
+  bool get isBackground => this == StageColorPlace.background;
+  bool get notBackground => !isBackground;
 }
 
 class StageThemeUtils {

@@ -25,13 +25,13 @@ class StageColorsData<T,S> {
   final Map<DarkStyle,Map<S,Color>> darkPanelPageToPrimaries; ///could be null
 
   //==> Theme type
-  final StageThemeType themeType;
+  final StageColorPlace themeType;
 
 
   //=================================
   // Constructors
   StageColorsData._({
-    @required StageThemeType themeType,
+    @required StageColorPlace themeType,
 
     @required Iterable<T> allMainPagesToFill,
     @required Iterable<S> allPanelPagesToFill,
@@ -48,7 +48,7 @@ class StageColorsData<T,S> {
     @required Map<DarkStyle,Color> darkPanelPrimaries,
     @required Map<DarkStyle,Map<S,Color>> darkPanelPageToPrimaries,
   }):
-    themeType = themeType ?? StageThemeType.fullColor,
+    themeType = themeType ?? StageColorPlace.background,
     lightAccent = lightAccent ?? StageDefaultColors.accent,
     lightMainPrimary = lightMainPrimary ?? StageDefaultColors.primary,
     lightMainPageToPrimary = _getFullMapPages<T>(lightMainPageToPrimary, allMainPagesToFill), ///could be null
@@ -100,7 +100,7 @@ class StageColorsData<T,S> {
   );
 
   static StageColorsData<T,S> _fromTheme<T,S>(ThemeData theme, {
-    StageThemeType themeType,
+    StageColorPlace themeType,
     Iterable<T> allMainPagesToFill,
     Iterable<S> allPanelPagesToFill, /// Can be null
     Color lightAccent,
