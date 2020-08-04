@@ -27,9 +27,11 @@ class _PanelBackground extends StatelessWidget {
             ignoring: clampedVal == 0.0 || alert,
             child: GestureDetector(
               onTap: stage.panelController.close,
-              child: Container(
-                color: (backgroundColor?.call(theme, colors.colorPlace.value) ?? Color(0xFF000000))
-                    .withOpacity(alert ? 0.0 : clampedVal * (backgroundOpacity ?? 1/1.3),),
+              child: colors.colorPlace.build((context, place) 
+                => Container(
+                  color: (backgroundColor?.call(theme, place) ?? Color(0xFF000000))
+                      .withOpacity(alert ? 0.0 : clampedVal * (backgroundOpacity ?? 1/1.3),),
+                ),
               ),
             ),
           );

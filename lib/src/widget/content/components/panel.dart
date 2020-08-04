@@ -65,24 +65,22 @@ class _Panel extends StatelessWidget {
           child: GestureDetector(
             onVerticalDragUpdate: (details) => onPanelDrag(details, realDelta),
             onVerticalDragEnd: onPanelDragEnd,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(radius),
-                boxShadow: [
-                  singleShadow 
-                  ?? shadowBuilder?.call(
-                    clampedVal, 
-                    data.themeController.colors
-                        .colorPlace.value
-                  ) 
-                  ?? Stage._defaultSingleShadow
-                ],
-              ),
-              child: ClipRRect(
-                //this is really heavy but needed for the various layers of stuff in the content
-                clipBehavior: Clip.antiAliasWithSaveLayer, 
-                borderRadius: BorderRadius.circular(radius),
-                child: child,
+            child:  data.themeController.colors.colorPlace.build((context, place) 
+              => Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(radius),
+                  boxShadow: [
+                    singleShadow 
+                    ?? shadowBuilder?.call(clampedVal, place) 
+                    ?? Stage._defaultSingleShadow
+                  ],
+                ),
+                child: ClipRRect(
+                  //this is really heavy but needed for the various layers of stuff in the content
+                  clipBehavior: Clip.antiAliasWithSaveLayer, 
+                  borderRadius: BorderRadius.circular(radius),
+                  child: child,
+                ),
               ),
             ),
           ),

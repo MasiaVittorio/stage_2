@@ -27,10 +27,12 @@ class _AlertBackground extends StatelessWidget {
           onTap: stage.panelController.close,
           onVerticalDragUpdate: onPanelDrag,
           onVerticalDragEnd: onPanelDragEnd,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            color: (backgroundColor?.call(theme, colors.colorPlace.value) ?? Color(0xFF000000))
-                .withOpacity(alert ? (backgroundOpacity ?? 1/1.3) : 0.0),
+          child: colors.colorPlace.build((context, place) 
+            => AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              color: (backgroundColor?.call(theme, place) ?? Color(0xFF000000))
+                  .withOpacity(alert ? (backgroundOpacity ?? 1/1.3) : 0.0),
+            ),
           ),
         ),
       ),
