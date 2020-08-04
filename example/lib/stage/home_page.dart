@@ -16,7 +16,6 @@ class HomePage extends StatelessWidget {
 
       body: const Body(),
       topBarData: StageTopBarData(
-        elevation: 10,
         title: StageTopBarTitle<MainPage,PanelPage>(),
         subtitle: StageTopBarSubtitle<PanelPage>((page) => page.subTitle),
       ),

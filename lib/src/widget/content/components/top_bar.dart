@@ -6,13 +6,13 @@ class _TopBar<T,S> extends StatelessWidget {
     @required this.openedPanelSubtitle,
     @required this.alignment,
     @required this.appBarTitle,
-    @required this.topBarElevation,
+    @required this.topBarElevations,
   });
 
   final Widget appBarTitle;
   final Widget openedPanelSubtitle;
 
-  final double topBarElevation;
+  final Map<StageColorPlace,double> topBarElevations;
   final Alignment alignment;
 
   final Animation animation;
@@ -56,7 +56,8 @@ class _TopBar<T,S> extends StatelessWidget {
 
         return Material(
           color: color,
-          elevation: this.topBarElevation ?? StageTopBarData.defaultElevation,
+          elevation: topBarElevations[type] 
+            ?? StageTopBarData.defaultElevations[type],
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             color: color,

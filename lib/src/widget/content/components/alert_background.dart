@@ -11,13 +11,14 @@ class _AlertBackground extends StatelessWidget {
 
   final void Function(DragUpdateDetails) onPanelDrag;
   final void Function(DragEndDetails) onPanelDragEnd;
-  final Color Function(ThemeData theme) backgroundColor;
+  final StageBackgroundGetter backgroundColor;
   final double backgroundOpacity;
 
   @override
   Widget build(BuildContext context) {
     final StageData stage = Stage.of(context);
     final ThemeData theme = Theme.of(context);
+    final colors = stage.themeController.colors;
 
     return stage.panelController.alertController.isShowing.build((_, alert)
       => IgnorePointer(
@@ -28,7 +29,7 @@ class _AlertBackground extends StatelessWidget {
           onVerticalDragEnd: onPanelDragEnd,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
-            color: (backgroundColor?.call(theme) ?? Color(0xFF000000))
+            color: (backgroundColor?.call(theme, colors.colorPlace.value) ?? Color(0xFF000000))
                 .withOpacity(alert ? (backgroundOpacity ?? 1/1.3) : 0.0),
           ),
         ),

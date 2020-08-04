@@ -70,6 +70,7 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
               topPadding: 0.0,
 
               googleLike: googleLike,
+              accentTextColor: googleLike ? finalColor : null,
 
               forceSingleColor: single,
               singleBackgroundColor: finalColor,

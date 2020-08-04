@@ -4,7 +4,7 @@ part of stage;
 class StageTopBarData {
 
 
-  final double elevation;
+  final Map<StageColorPlace,double> elevations;
   final Widget subtitle;
   final Alignment alignment;
   final Widget title;
@@ -13,13 +13,16 @@ class StageTopBarData {
     @required this.title,
     this.subtitle,
     Alignment alignment,
-    double elevation,
+    Map<StageColorPlace,double> elevations,
   }):
     assert(title != null),
     alignment = alignment ?? defaultAlignment,
-    elevation = elevation ?? defaultElevation;
+    elevations = elevations ?? defaultElevations;
 
   static const Alignment defaultAlignment = Alignment.center;
-  static const double defaultElevation = 4.0;
+  static const Map<StageColorPlace,double> defaultElevations = <StageColorPlace,double>{
+    StageColorPlace.texts: 4,
+    StageColorPlace.background: 8,
+  };
   
 }

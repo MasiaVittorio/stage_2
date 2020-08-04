@@ -7,7 +7,6 @@ class _Panel extends StatelessWidget {
     @required this.snackBarAnimation,
     @required this.realDelta,
     @required this.derived,
-    // @required this.thereIsCollapsed,
     @required this.boxedCollapsed,
     @required this.boxedExtended,
     @required this.maxAlertHeight,
@@ -32,7 +31,7 @@ class _Panel extends StatelessWidget {
 
   final double maxAlertHeight;
 
-  final BoxShadow Function(double) shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
+  final StageShadowBuilder shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
   final BoxShadow singleShadow; // If you do not need to animate the shadow
 
   @override
@@ -48,6 +47,8 @@ class _Panel extends StatelessWidget {
       boxedExtended: boxedExtended,
       dimensions: dimensions,
     );
+
+    final data = Stage.of(context);
 
     return AnimatedBuilder(
       animation: panelAnimation,
@@ -67,7 +68,15 @@ class _Panel extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(radius),
-                boxShadow: [singleShadow ?? shadowBuilder?.call(clampedVal) ?? Stage._defaultSingleShadow],
+                boxShadow: [
+                  singleShadow 
+                  ?? shadowBuilder?.call(
+                    clampedVal, 
+                    data.themeController.colors
+                        .colorPlace.value
+                  ) 
+                  ?? Stage._defaultSingleShadow
+                ],
               ),
               child: ClipRRect(
                 //this is really heavy but needed for the various layers of stuff in the content

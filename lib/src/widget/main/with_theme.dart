@@ -78,9 +78,9 @@ class _StageWithThemeAndExternalData<T,S> extends StatefulWidget {
 
 
   // Theming
-  final Color Function(ThemeData) backgroundColor;
+  final StageBackgroundGetter backgroundColor;
   final double backgroundOpacity;
-  final BoxShadow Function(double) shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
+  final StageShadowBuilder shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
   final BoxShadow singleShadow; // If you do not need to animate the shadow
 
   final Widget splashScreen;

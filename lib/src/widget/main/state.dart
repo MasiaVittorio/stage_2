@@ -74,7 +74,7 @@ class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndE
           openedPanelSubtitle: widget.topBarData.subtitle,
           alignment: widget.topBarData.alignment,
           appBarTitle: widget.topBarData.title,
-          topBarElevation: widget.topBarData.elevation,
+          topBarElevations: widget.topBarData.elevations,
         ),
 
         shadowBuilder: widget.shadowBuilder,

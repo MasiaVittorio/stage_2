@@ -1,5 +1,8 @@
 part of stage;
 
+typedef StageShadowBuilder = BoxShadow Function(double, StageColorPlace);
+typedef StageBackgroundGetter = Color Function(ThemeData, StageColorPlace);
+
 class Stage<T,S> extends StatelessWidget {
 
   static StageData<A,B> of<A,B>(BuildContext context) => StageProvider.of<A,B>(context);
@@ -78,9 +81,9 @@ class Stage<T,S> extends StatelessWidget {
   final void Function(T) onMainPageChanged; /// Could be null
 
   // Appearance stuff
-  final Color Function(ThemeData) backgroundColor;
+  final StageBackgroundGetter backgroundColor;
   final double backgroundOpacity;
-  final BoxShadow Function(double) shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
+  final StageShadowBuilder shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
   final BoxShadow singleShadow; // If you do not need to animate the shadow
 
   final Widget splashScreen;
@@ -90,12 +93,12 @@ class Stage<T,S> extends StatelessWidget {
 
   //=================================
   // Default data
-  static BoxShadow _defaultShadowBuilder(double panelVal) => BoxShadow(
+  static BoxShadow _defaultShadowBuilder(double panelVal, StageColorPlace place) => BoxShadow(
     blurRadius: DoubleExt.mapToRangeLoose( 
       //the value is provided already clamped
       panelVal,
-      4.0,
-      8.0,
+      place.isTexts ? 4.0 : 8.0,
+      place.isTexts ? 8.0 : 14.0,
     ),
     color: const Color(0x39000000),
     offset: const Offset(0,0.5),
