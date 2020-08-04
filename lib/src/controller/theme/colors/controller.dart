@@ -44,11 +44,23 @@ class _StageColorsData<T,S> {
   final BlocVar<Map<DarkStyle,Map<S,Color>>> darkPanelPageToPrimaries; /// could be null
   final BlocVar<Map<DarkStyle,Map<S,Color>>> _cachedDarkPanelPageToPrimaries; /// To store its value when manually disabled
 
+
+  //==> Type of theme
+  final BlocVar<StageThemeType> themeType;
+
+
   //================================
   // Constructor
   _StageColorsData(this.parent, {
     @required StageColorsData initialData,
   }):
+    themeType = BlocVar.modal<StageThemeType>(
+      initVal: initialData.themeType,
+      key: parent.parent._getStoreKey("stage_colors_themeType"), 
+      toJson: (type) => type.name,
+      fromJson: (name) => _StageThemeTypes.fromName(name),
+      readCallback: (_) => parent.parent._readCallback("stage_colors_themeType"),
+    ),
     lightAccent = BlocVar.modal<Color>(
       initVal: initialData.lightAccent,
       key: parent.parent._getStoreKey("stage_colors_lightAccent"), 
@@ -264,6 +276,7 @@ class _StageColorsData<T,S> {
 
 
   StageColorsData<T,S> get extractData => StageColorsData<T,S>._(
+    themeType: this.themeType.value,
     allMainPagesToFill: null,
     allPanelPagesToFill: null,
     lightAccent: this.lightAccent.value, 

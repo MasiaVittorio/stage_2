@@ -291,8 +291,10 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
   // System UI Style
   void updateSystemNavBarStyle(Color currentPrimaryColor){
     if(parent.forceSystemNavBarStyle ?? false){
-      final Color color = currentPrimaryColor ?? parent.derived.currentPrimaryColor.value;
-      final Brightness colorBrightness = _currentForcedPrimaryColorBrightness ?? ThemeData.estimateBrightnessForColor(color);
+      final Color color = currentPrimaryColor 
+        ?? parent.derived.currentPrimaryColor.value;
+      final Brightness colorBrightness = _currentForcedPrimaryColorBrightness 
+        ?? ThemeData.estimateBrightnessForColor(color);
 
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: color,

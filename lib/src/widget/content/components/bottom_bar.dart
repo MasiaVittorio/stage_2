@@ -10,24 +10,34 @@ class _BottomBar<T,S> extends StatelessWidget {
 
     final StageData<T,S> data = Stage.of<T,S>(context);
     final ThemeData theme = Theme.of(context);
-    final bool accentSelectedPage = data.themeController.accentSelectedPage;
+    final bool _useAccent = data.themeController.accentSelectedPage;
     final Map<T,StagePage> pagesData = data.mainPagesController.pagesData;
 
     /// [primaryColorsMap] can be null, so cannot be used in batch with .build6!!
-    return data.themeController.derived.mainPageToPrimaryColor.build((_, primaryColorsMap) => BlocVar.build5(
-      data.themeController.derived._mainPrimaryColor,
-      data.mainPagesController._page,
-      data.mainPagesController._orderedPages,
-      data.mainPagesController._enabledPages,
-      data.dimensionsController.dimensions,
-      builder: (_, Color color, T page, List<T> orderedPages, Map<T,bool> enabled, StageDimensions dimensions){
+    return data.mainPagesController._orderedPages.build((_, orderedPages) 
+      => data.dimensionsController.dimensions.build((_, dimensions) 
+      => data.themeController.derived.mainPageToPrimaryColor.build((_, primaryColorsMap) 
+      => data.themeController.derived._mainPrimaryColor.build((_, color) 
+      => data.mainPagesController._enabledPages.build((_, enabled) 
+      => data.themeController.colors.themeType.build((_, type)
+      => data.mainPagesController._page.build((_, page) {
+
+        final bool googleLike = type.isGoogle;
 
         final bool single = primaryColorsMap == null;
+        final Color singleBackground = color;
+        final bool useAccent = single && _useAccent;
+        final Color singleAccent = useAccent ? theme.accentColor : null;
+        /// all that is ignored by radionavbar if googleLike
+
 
         return UpShadower(
           child: RadioNavBar<T>(
             selectedValue: page,
-            orderedValues: <T>[for(final page in orderedPages) if(enabled[page]) page],
+            orderedValues: <T>[
+              for(final page in orderedPages) 
+                if(enabled[page]) page,
+            ],
             items: <T,RadioNavBarItem>{
               for(final entry in pagesData.entries)
                 entry.key: RadioNavBarItem(
@@ -37,17 +47,22 @@ class _BottomBar<T,S> extends StatelessWidget {
                   color: single ? null : primaryColorsMap[entry.key],
                 ),
             },
-            forceSingleColor: single,
-            singleBackgroundColor: color,
             onSelect: data.mainPagesController.goToPage,
-            tileSize: dimensions.barSize,
             topPadding: dimensions.collapsedPanelSize/2,
+            tileSize: dimensions.barSize,
             duration: const Duration(milliseconds: 250),
-            forceBrightness: data.themeController.colors._currentForcedPrimaryColorBrightness,
-            accentTextColor: (single && accentSelectedPage) ? theme.accentColor : null,
+
+            /// "white" (canvas) background, different accent color per page
+            googleLike: googleLike, 
+
+            forceSingleColor: single,
+            singleBackgroundColor: singleBackground,
+            forceBrightness: data.themeController.colors
+                ._currentForcedPrimaryColorBrightness,
+            accentTextColor: singleAccent,
           ),
         );
-      },
-    ));
+      },)))))),
+    );
   }
 }

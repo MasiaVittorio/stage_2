@@ -47,32 +47,40 @@ class _TopBar<T,S> extends StatelessWidget {
       ),
     );
 
-    return StageBuild.offPrimaryColorAndItsBrightness((_, currentColor, brightness){
-          
-      final Color textColor = brightness.contrast;
+    return StageBuild.offPrimaryColorAndItsBrightness((_, currentColor, brightness)
+      => data.themeController.colors.themeType.build((context, type) {
+        final Color color = type.isGoogle 
+          ? theme.canvasColor : currentColor;
+        final Color textColor = type.isGoogle 
+          ? theme.colorScheme.onSurface : brightness.contrast;
 
-      return Material(
-        color: currentColor,
-        elevation: this.topBarElevation ?? StageTopBarData.defaultElevation,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          color: currentColor,
-          child: Material(
-            type: MaterialType.transparency,
-            child: DefaultTextStyle.merge(
-              style: theme.primaryTextTheme.headline6.copyWith(
-                color: textColor,
-                fontWeight: FontWeight.w600,
-              ),
-              child: IconTheme(
-                data: IconThemeData(color: textColor, opacity: 1.0, size: 24.0),
-                child: child,
+        return Material(
+          color: color,
+          elevation: this.topBarElevation ?? StageTopBarData.defaultElevation,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            color: color,
+            child: Material(
+              type: MaterialType.transparency,
+              child: DefaultTextStyle.merge(
+                style: theme.primaryTextTheme.headline6.copyWith(
+                  color: textColor,
+                  fontWeight: FontWeight.w600,
+                ),
+                child: IconTheme(
+                  data: IconThemeData(
+                    color: textColor, 
+                    opacity: 1.0, 
+                    size: 24.0,
+                  ),
+                  child: child,
+                ),
               ),
             ),
           ),
-        ),
-      );
-    },);
+        );
+      },
+      ),);
 
   }
 
