@@ -14,7 +14,7 @@ class StageColorPlaces {
   static StageColorPlace fromName(String s) => map[s] ?? StageColorPlace.background;
 }
 
-extension StageThemeTypeExt on StageColorPlace {
+extension StageColorPlaceExt on StageColorPlace {
   static const Map<StageColorPlace,String> map = <StageColorPlace,String>{
     StageColorPlace.background: "Background",
     StageColorPlace.texts: "Texts",

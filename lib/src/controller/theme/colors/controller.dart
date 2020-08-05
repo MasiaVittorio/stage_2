@@ -55,7 +55,7 @@ class _StageColorsData<T,S> {
     @required StageColorsData initialData,
   }):
     colorPlace = BlocVar.modal<StageColorPlace>(
-      initVal: initialData.themeType,
+      initVal: initialData.colorPlace,
       key: parent.parent._getStoreKey("stage_colors_themeType"), 
       toJson: (type) => type.name,
       fromJson: (name) => StageColorPlaces.fromName(name),
@@ -276,7 +276,7 @@ class _StageColorsData<T,S> {
 
 
   StageColorsData<T,S> get extractData => StageColorsData<T,S>._(
-    themeType: this.colorPlace.value,
+    colorPlace: this.colorPlace.value,
     allMainPagesToFill: null,
     allPanelPagesToFill: null,
     lightAccent: this.lightAccent.value, 
