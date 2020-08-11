@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stage/stage.dart';
 
-
-
-
 String _theUnchecker(String s) => "";
-
 
 class InsertAlert extends StatefulWidget {
   InsertAlert({

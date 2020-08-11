@@ -118,7 +118,7 @@ class _StageDerivedThemeData<T,S> {
       panelPageToPrimaryColor,     //panel page could be null
       map: (openNonAlert, mainPage, panelPage, main, pagedMain, panel, pagedPanel)  
         => _currentWithPanelAndPages<Color,T,S>(openNonAlert, mainPage, panelPage, main, pagedMain, panel, pagedPanel),
-      onChanged: (newColor) => parent.colors.updateSystemNavBarStyle(newColor),
+      onChanged: (newColor) => parent.colors.updateSystemNavBarStyle(),
     );
 
     _darkThemeDatas = BlocVar.fromCorrelateLatest2<

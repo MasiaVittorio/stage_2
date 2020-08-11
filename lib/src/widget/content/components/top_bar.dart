@@ -273,8 +273,8 @@ extension _FontWeightExt on FontWeight {
     (FontWeight.values.indexOf(this) - 1)
     .clamp(3, FontWeight.values.length -1)
   ];
-  FontWeight get bolder => FontWeight.values[
-    (FontWeight.values.indexOf(this) - 1)
-    .clamp(0, FontWeight.values.length - 1)
-  ];
+  // FontWeight get bolder => FontWeight.values[
+  //   (FontWeight.values.indexOf(this) - 1)
+  //   .clamp(0, FontWeight.values.length - 1)
+  // ];
 }

@@ -30,7 +30,9 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
   void initState() {
     super.initState();
 
+
     this._color = widget.initialColor ??  Colors.red.shade500;
+    print("init state with color: $_color");
     
     if(allMaterialPalette.contains(this._color))
       this._initialMode = ColorPickerMode.palette;
@@ -38,17 +40,21 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
       this._initialMode = ColorPickerMode.manual;
   }
 
-  void _onColor(Color c) {
-    setState(() {
-      this._color = c;               
-    });
-  }
+  void _onColor(Color c) => setState(() {
+    print("color selected: $c, previously $_color");
+    this._color = c;
+    print("now color: $_color");
+  });
 
   void _onNewMode(ColorPickerMode newMode){
+    print("on new mode: $newMode");
     if(newMode == ColorPickerMode.palette){
+      print("was palette, we have color: $_color");
       if(!allMaterialPalette.contains(this._color)){
+        print("was not in material palette: $_color");
         this.setState((){
           this._color = findClosest(this._color);
+          print("now it is: $_color");
         });
       }
     }      
@@ -59,28 +65,7 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
 
     final StageData stage = Stage.of(context);
 
-    final Widget _manualWidget = ManualColorPicker(
-      color: this._color,
-      onChanged: this._onColor,
-    );
-    final Widget _customWidget = CustomColorPicker(
-      displayerUndescrollCallback: null,
-      color: this._color,
-      onChanged: this._onColor,
-    );
-    final Widget _paletteWidget = PaletteColorPicker(
-      ///Dont remember what non scrollable means precisely, has to do with the tab controller and re-initiating its state
-      paletteUndescrollCallback: stage.closePanel,
-      onChanged: this._onColor,
-      color: this._color,
-    );
-
-    
-
     return RadioHeaderedAlert<ColorPickerMode>(
-      //action: onSubmitted and close
-      //action color: ,
-      //action icon: , (tutto in un widget?)
       withoutHeader: true,
       canvasBackground: true,
       initialValue: _initialMode,
@@ -97,21 +82,33 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
         ColorPickerMode.manual  : RadioHeaderedItem(
           longTitle: "Manual color",
           title: "Manual", 
-          child: _manualWidget, 
+          child: ManualColorPicker(
+            color: this._color,
+            onChanged: this._onColor,
+          ), 
           icon: Icons.format_color_fill,
           alreadyScrollableChild: true,
         ),
         ColorPickerMode.custom  : RadioHeaderedItem(
           longTitle: "Custom color",
           title: "Custom", 
-          child: _customWidget, 
+          child: CustomColorPicker(
+            displayerUndescrollCallback: null,
+            color: this._color,
+            onChanged: this._onColor,
+          ), 
           icon: Icons.short_text,
           alreadyScrollableChild: true,
         ),
         ColorPickerMode.palette  : RadioHeaderedItem(
           longTitle: "Material palette",
           title: "Palette", 
-          child: _paletteWidget, 
+          child: PaletteColorPicker(
+            ///Dont remember what non scrollable means precisely, has to do with the tab controller and re-initiating its state
+            paletteUndescrollCallback: stage.closePanel,
+            onChanged: this._onColor,
+            color: this._color,
+          ), 
           icon: McIcons.palette,
           unselectedIcon: McIcons.palette_outline,
           alreadyScrollableChild: true,

@@ -60,6 +60,7 @@ class _StageColorsData<T,S> {
       toJson: (type) => type.name,
       fromJson: (name) => StageColorPlaces.fromName(name),
       readCallback: (_) => parent.parent._readCallback("stage_colors_themeType"),
+      onChanged: (_) => parent.colors.updateSystemNavBarStyle(),
     ),
     lightAccent = BlocVar.modal<Color>(
       initVal: initialData.lightAccent,

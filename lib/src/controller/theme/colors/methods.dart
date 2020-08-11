@@ -289,16 +289,19 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
 
   //===========================================
   // System UI Style
-  void updateSystemNavBarStyle(Color currentPrimaryColor){
+  void updateSystemNavBarStyle(){
     if(parent.forceSystemNavBarStyle ?? false){
-      final Color color = currentPrimaryColor 
-        ?? parent.derived.currentPrimaryColor.value;
+      final Color color =  colorPlace.value.isTexts 
+        ? parent.derived.themeData.value.canvasColor 
+        : parent.derived.currentPrimaryColor.value;
       final Brightness colorBrightness = _currentForcedPrimaryColorBrightness 
         ?? ThemeData.estimateBrightnessForColor(color);
 
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: color,
         systemNavigationBarIconBrightness: colorBrightness.opposite,
+        statusBarIconBrightness: colorBrightness.opposite, 
+        statusBarColor: Colors.black12,
       ));
     }
   }
