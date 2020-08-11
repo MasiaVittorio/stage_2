@@ -16,7 +16,7 @@ class _PanelBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     final StageData stage = Stage.of(context);
     final ThemeData theme = Theme.of(context);
-    final colors = stage.themeController.colors;
+    final themeController = stage.themeController;
 
     return stage.panelController.alertController.isShowing.build((_, alert)
       => AnimatedBuilder(
@@ -27,7 +27,7 @@ class _PanelBackground extends StatelessWidget {
             ignoring: clampedVal == 0.0 || alert,
             child: GestureDetector(
               onTap: stage.panelController.close,
-              child: colors.colorPlace.build((context, place) 
+              child: themeController.colorPlace.build((context, place) 
                 => Container(
                   color: (backgroundColor?.call(theme, place) ?? Color(0xFF000000))
                       .withOpacity(alert ? 0.0 : clampedVal * (backgroundOpacity ?? 1/1.3),),

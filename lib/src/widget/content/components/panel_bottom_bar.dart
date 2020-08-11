@@ -36,10 +36,10 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
           => pages._enabledPages.build((_, enabled) 
           => thCon.derived.panelPageToPrimaryColor.build((_, primaryColorsMap) 
           => thCon.derived._panelPrimaryColor.build((_, currentColor) 
-          => thCon.colors.colorPlace.build((_, type) 
+          => thCon.colorPlace.build((_, place) 
           => pages._page.build((_, panelPage) {
 
-            final bool googleLike = type.isTexts;
+            final bool googleLike = place.isTexts;
 
             final bool single = primaryColorsMap == null;
             final Color singleBackground = currentColor;
@@ -74,7 +74,7 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
 
               forceSingleColor: single,
               singleBackgroundColor: finalColor,
-              forceBrightness: thCon.colors
+              forceBrightness: thCon
                   ._currentForcedPrimaryColorBrightness,
             );
 

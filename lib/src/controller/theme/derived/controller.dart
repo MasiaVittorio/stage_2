@@ -42,66 +42,91 @@ class _StageDerivedThemeData<T,S> {
   // Constructor
   _StageDerivedThemeData(this.parent){
 
-    accentColor = BlocVar.fromCorrelateLatest4<
-      Color,  Brightness, DarkStyle, Color, Map<DarkStyle,Color>
+    accentColor = BlocVar.fromCorrelateLatest7<
+      Color, 
+      Brightness, DarkStyle, 
+      Color, Map<DarkStyle,Color>, 
+      Color, Map<DarkStyle,Color>, 
+      StageColorPlace
     >(
       parent.brightness.brightness, 
       parent.brightness.darkStyle, 
-      parent.colors.lightAccent, 
-      parent.colors.darkAccents, 
-      map: (brightness, style, light, darks) 
-        => _currentWithBrightness<Color>(brightness, style, light, darks)
-          ?? StageDefaultColors.accent,
+      parent.backgroundColors.lightAccent, 
+      parent.backgroundColors.darkAccents, 
+      parent.textsColors.lightAccent, 
+      parent.textsColors.darkAccents, 
+      parent.colorPlace,
+      map: _map(StageDefaultColors.accent),
     );
 
-    _mainPrimaryColor = BlocVar.fromCorrelateLatest4<
-      Color,  Brightness, DarkStyle, Color, Map<DarkStyle,Color>
+    _mainPrimaryColor = BlocVar.fromCorrelateLatest7<
+      Color, 
+      Brightness, DarkStyle, 
+      Color, Map<DarkStyle,Color>, 
+      Color, Map<DarkStyle,Color>, 
+      StageColorPlace
     >(
       parent.brightness.brightness, 
       parent.brightness.darkStyle, 
-      parent.colors.lightMainPrimary, 
-      parent.colors.darkMainPrimaries, 
-      map: (brightness, style, light, darks) 
-        => _currentWithBrightness<Color>(brightness, style, light, darks)
-          ?? StageDefaultColors.primary,
+      parent.backgroundColors.lightMainPrimary, 
+      parent.backgroundColors.darkMainPrimaries, 
+      parent.textsColors.lightMainPrimary, 
+      parent.textsColors.darkMainPrimaries, 
+      parent.colorPlace,
+      map: _map(StageDefaultColors.primary),
     );
-
-    _panelPrimaryColor = BlocVar.fromCorrelateLatest4<
-      Color,  Brightness, DarkStyle, Color, Map<DarkStyle,Color>
+    
+    _panelPrimaryColor = BlocVar.fromCorrelateLatest7<
+      Color, 
+      Brightness, DarkStyle, 
+      Color, Map<DarkStyle,Color>, 
+      Color, Map<DarkStyle,Color>, 
+      StageColorPlace
     >(
       parent.brightness.brightness, 
       parent.brightness.darkStyle, 
-      parent.colors.lightPanelPrimary, 
-      parent.colors.darkPanelPrimaries, 
-      map: (brightness, style, light, darks) 
-        => _currentWithBrightness<Color>(brightness, style, light, darks)
-          ?? StageDefaultColors.primary,
+      parent.backgroundColors.lightPanelPrimary, 
+      parent.backgroundColors.darkPanelPrimaries, 
+      parent.textsColors.lightPanelPrimary, 
+      parent.textsColors.darkPanelPrimaries, 
+      parent.colorPlace,
+      map: _map(StageDefaultColors.primary),
     );
-
-    mainPageToPrimaryColor = BlocVar.fromCorrelateLatest4<
-      Map<T,Color>,  Brightness, DarkStyle, Map<T,Color>, Map<DarkStyle,Map<T,Color>>
+    
+    mainPageToPrimaryColor = BlocVar.fromCorrelateLatest7<
+      Map<T,Color>, 
+      Brightness, DarkStyle, 
+      Map<T,Color>, Map<DarkStyle,Map<T,Color>>, 
+      Map<T,Color>, Map<DarkStyle,Map<T,Color>>, 
+      StageColorPlace
     >(
       parent.brightness.brightness, 
       parent.brightness.darkStyle, 
-      parent.colors.lightMainPageToPrimary, 
-      parent.colors.darkMainPageToPrimaries, 
-      map: (brightness, style, light, darks) 
-        => _currentWithBrightness<Map<T,Color>>(brightness, style, light, darks),
-          /// could be null
+      parent.backgroundColors.lightMainPageToPrimary, 
+      parent.backgroundColors.darkMainPageToPrimaries,
+      parent.textsColors.lightMainPageToPrimary, 
+      parent.textsColors.darkMainPageToPrimaries, 
+      parent.colorPlace,
+      map: _map<Map<T,Color>>(null),
       equals: (f,s) => _StageUtils._compareMaps<T,Color>(f, s),
       copier: (m) => Map<T,Color>.from(m),
     );
 
-    panelPageToPrimaryColor = BlocVar.fromCorrelateLatest4<
-      Map<S,Color>,  Brightness, DarkStyle, Map<S,Color>, Map<DarkStyle,Map<S,Color>>
+    panelPageToPrimaryColor = BlocVar.fromCorrelateLatest7<
+      Map<S,Color>, 
+      Brightness, DarkStyle, 
+      Map<S,Color>, Map<DarkStyle,Map<S,Color>>, 
+      Map<S,Color>, Map<DarkStyle,Map<S,Color>>, 
+      StageColorPlace
     >(
       parent.brightness.brightness, 
       parent.brightness.darkStyle, 
-      parent.colors.lightPanelPageToPrimary, 
-      parent.colors.darkPanelPageToPrimaries, 
-      map: (brightness, style, light, darks) 
-        => _currentWithBrightness<Map<S,Color>>(brightness, style, light, darks),
-          /// could be null
+      parent.backgroundColors.lightPanelPageToPrimary,
+      parent.backgroundColors.darkPanelPageToPrimaries,
+      parent.textsColors.lightPanelPageToPrimary, 
+      parent.textsColors.darkPanelPageToPrimaries, 
+      parent.colorPlace,
+      map: _map<Map<S,Color>>(null),
       equals: (f,s) => _StageUtils._compareMaps<S,Color>(f, s),
       copier: (m) => Map<S,Color>.from(m),
     );
@@ -118,36 +143,48 @@ class _StageDerivedThemeData<T,S> {
       panelPageToPrimaryColor,     //panel page could be null
       map: (openNonAlert, mainPage, panelPage, main, pagedMain, panel, pagedPanel)  
         => _currentWithPanelAndPages<Color,T,S>(openNonAlert, mainPage, panelPage, main, pagedMain, panel, pagedPanel),
-      onChanged: (newColor) => parent.colors.updateSystemNavBarStyle(),
+      onChanged: (newColor) => parent.updateSystemNavBarStyle(),
     );
 
-    _darkThemeDatas = BlocVar.fromCorrelateLatest2<
-      Map<DarkStyle,ThemeData>,  Map<DarkStyle,Color>, Map<DarkStyle,Color>
+    _darkThemeDatas = BlocVar.fromCorrelateLatest5<
+      Map<DarkStyle,ThemeData>, 
+      Map<DarkStyle,Color>, Map<DarkStyle,Color>,
+      Map<DarkStyle,Color>, Map<DarkStyle,Color>,
+      StageColorPlace
     >(
-      parent.colors.darkAccents, 
-      parent.colors.darkMainPrimaries, 
-      map: (mapAccents, mapPrimaries) => <DarkStyle,ThemeData>{
+      parent.backgroundColors.darkAccents, 
+      parent.backgroundColors.darkMainPrimaries, 
+      parent.textsColors.darkAccents, 
+      parent.textsColors.darkMainPrimaries, 
+      parent.colorPlace,
+      map: (backAccents, backPrimaries, textsAccents, textsPrimaries, colorPlace) => <DarkStyle,ThemeData>{
         for(final style in DarkStyle.values)
           style: StageThemeUtils.getThemeData(
             brightness: Brightness.dark, 
             darkStyle: style, 
-            primary: mapPrimaries[style], 
-            accent: mapAccents[style], 
+            primary: colorPlace.isTexts ? textsPrimaries[style] : backPrimaries[style], 
+            accent: colorPlace.isTexts ? textsAccents[style] : backAccents[style], 
             forcedPrimaryColorBrightness: parent.forcedPrimaryColorBrightnessOnDarkTheme,
           ),
       }
     );
 
-    _lightThemeData = BlocVar.fromCorrelateLatest2<
-      ThemeData,  Color, Color
+    _lightThemeData = BlocVar.fromCorrelateLatest5<
+      ThemeData, 
+      Color, Color,
+      Color, Color,
+      StageColorPlace
     >(
-      parent.colors.lightAccent,
-      parent.colors.lightMainPrimary,
-      map: (accent,primary) => StageThemeUtils.getThemeData(
+      parent.backgroundColors.lightAccent, 
+      parent.backgroundColors.lightMainPrimary, 
+      parent.textsColors.lightAccent, 
+      parent.textsColors.lightMainPrimary, 
+      parent.colorPlace,
+      map: (backAccent, backPrimary, textsAccent, textsPrimary, colorPlace) => StageThemeUtils.getThemeData(
         brightness: Brightness.light, 
         darkStyle: null, 
-        primary: primary, 
-        accent: accent, 
+        primary: colorPlace.isTexts ? textsPrimary : backPrimary, 
+        accent: colorPlace.isTexts ? textsAccent : backAccent, 
         forcedPrimaryColorBrightness: parent.forcedPrimaryColorBrightnessOnLightTheme,
       ),
     );
@@ -176,14 +213,57 @@ class _StageDerivedThemeData<T,S> {
   //===========================================
   // Maps
 
-  static A _currentWithBrightness<A>(Brightness brightness, DarkStyle style, A light, Map<DarkStyle,A> darks){
-    if(brightness == Brightness.dark){
+  static A _currentWithBrightnessAndPlace<A>(
+    Brightness brightness, DarkStyle style, StageColorPlace place, 
+    A backgroundLight, Map<DarkStyle,A> backgroundDarks,
+    A textsLight, Map<DarkStyle,A> textsDarks,
+  ){
+    if(brightness.isDark){
+      if(place.isTexts){
+        if(textsDarks == null) return null;
+        else return textsDarks[style];
+      } else {
+        if(backgroundDarks == null) return null;
+        else return backgroundDarks[style];
+      }
+    } else {
+      if(place.isTexts){
+        return textsLight;
+      } else {
+        return backgroundLight;
+      }
+    }
+  }
+
+  static A _currentWithBrightness<A>(
+    Brightness brightness, DarkStyle style, 
+    A light, Map<DarkStyle,A> darks,
+  ){
+    if(brightness.isDark){
       if(darks == null) return null;
       else return darks[style];
     } else {
       return light;
     }
   }
+
+  static A Function(
+    Brightness, DarkStyle, 
+    A, Map<DarkStyle,A>, 
+    A, Map<DarkStyle,A>, 
+    StageColorPlace,
+  ) _map<A>(A defVal) => (
+      brightness, style, 
+      backgroundLight, backgroundDarks, 
+      textsLight, textsDarks, 
+      colorPlace,
+    ) => _currentWithBrightnessAndPlace<A>(
+      brightness, style, colorPlace,
+      backgroundLight, backgroundDarks,
+      textsLight, textsDarks,
+    ) ?? defVal;
+
+
 
   static A _currentWithPanelAndPages<A,T,S>(
     bool openNonAlert, 

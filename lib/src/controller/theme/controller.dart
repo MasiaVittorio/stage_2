@@ -6,7 +6,8 @@ class _StageThemeData<T,S> {
   //================================
   // Disposer
   void dispose(){
-    colors?.dispose();
+    backgroundColors?.dispose();
+    textsColors?.dispose();
     brightness?.dispose();
     derived?.dispose();
   }
@@ -17,10 +18,14 @@ class _StageThemeData<T,S> {
 
   final StageData<T,S> parent;
 
-  _StageColorsData<T,S> colors;
+  _StageColorsData<T,S> backgroundColors;
+  _StageColorsData<T,S> textsColors;
   _StageBrightnessData brightness;
   
   _StageDerivedThemeData<T,S> derived;
+
+  //==> Type of theme
+  final BlocVar<StageColorPlace> colorPlace;
 
   // Optional settings
   final Brightness forcedPrimaryColorBrightnessOnLightTheme; /// Could be null
@@ -40,11 +45,25 @@ class _StageThemeData<T,S> {
     forcedPrimaryColorBrightnessOnDarkTheme = initialData.forcedPrimaryColorBrightnessOnDarkTheme,
     accentSelectedPage = initialData.accentSelectedPage,
     pandaOpenedPanelNavBar = initialData.pandaOpenedPanelNavBar,
-    forceSystemNavBarStyle = initialData.forceSystemNavBarStyle
+    forceSystemNavBarStyle = initialData.forceSystemNavBarStyle,
+    colorPlace = BlocVar.modal<StageColorPlace>(
+      initVal: initialData.colorPlace,
+      key: parent._getStoreKey("stage_theme_controller_themeType"), 
+      toJson: (type) => type.name,
+      fromJson: (name) => StageColorPlaces.fromName(name),
+      readCallback: (_) => parent._readCallback("stage_theme_controller_themeType"),
+      onChanged: (_) => parent.themeController.updateSystemNavBarStyle(),
+    )
   {
-    colors = _StageColorsData<T,S>(
+    backgroundColors = _StageColorsData<T,S>(
       this,
-      initialData: initialData.colors,
+      colorPlaceRef: StageColorPlace.background,
+      initialData: initialData.backgroundColors,
+    );
+    textsColors = _StageColorsData<T,S>(
+      this,
+      colorPlaceRef: StageColorPlace.texts,
+      initialData: initialData.textsColors,
     );
     brightness = _StageBrightnessData(
       this, 
@@ -57,13 +76,20 @@ class _StageThemeData<T,S> {
   //===============================
   // Getters
   bool get _isCurrentlyReading => this.parent.storeKey != null && (
-    (this.colors?._isCurrentlyReading ?? true) ||
+    (this.backgroundColors?._isCurrentlyReading ?? true) ||
+    (this.textsColors?._isCurrentlyReading ?? true) ||
     (this.brightness?._isCurrentlyReading ?? true)
   );
 
+  _StageColorsData<T,S> get currentColorsController => colorPlace.value.isTexts
+    ? this.textsColors
+    : this.backgroundColors;
+
 
   StageThemeData<T,S> get extractData => StageThemeData<T,S>._(
-    colors: this.colors.extractData,
+    colorPlace: this.colorPlace.value,
+    backgroundColors: this.backgroundColors.extractData,
+    textsColors: this.textsColors.extractData,
     brightness: this.brightness.extractData,
     forceSystemNavBarStyle: this.forceSystemNavBarStyle,
     accentSelectedPage: this.accentSelectedPage,

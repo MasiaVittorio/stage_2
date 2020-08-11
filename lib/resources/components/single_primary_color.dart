@@ -27,8 +27,8 @@ class StageSinglePrimaryColor extends StatelessWidget {
           onTap: () => stage.pickColor(
             initialColor: singleMain,
             onSubmitted: (Color color){
-              stage.themeController.colors.editMainPrimary(color);
-              stage.themeController.colors.editPanelPrimary(color);
+              stage.themeController.currentColorsController.editMainPrimary(color);
+              stage.themeController.currentColorsController.editPanelPrimary(color);
             },
           ),
         ),

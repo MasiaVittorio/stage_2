@@ -16,7 +16,7 @@ class StageAccentColor extends StatelessWidget {
         title: const Text("Accent"),
         leading: ColorCircleDisplayer(accentColor),
         onTap: () => stage.pickColor(
-          onSubmitted: (Color color) => stage.themeController.colors.editAccent(color),
+          onSubmitted: (Color color) => stage.themeController.currentColorsController.editAccent(color),
           initialColor: accentColor,
         ),
       ),

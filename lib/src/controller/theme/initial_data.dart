@@ -2,8 +2,12 @@ part of stage;
 
 class StageThemeData<T,S> {
 
-  final StageColorsData<T,S> colors;
+  final StageColorsData<T,S> textsColors;
+  final StageColorsData<T,S> backgroundColors;
   final StageBrightnessData brightness;
+
+  // type of theme
+  final StageColorPlace colorPlace;
 
   // Optional settings
   final bool forceSystemNavBarStyle;
@@ -13,7 +17,9 @@ class StageThemeData<T,S> {
   final bool pandaOpenedPanelNavBar; /// If the opened panel's bottom bar should be of the same color of the top bar
 
   StageThemeData._({
-    @required this.colors,
+    @required StageColorPlace colorPlace, // if null, backgrounds
+    @required this.backgroundColors,
+    @required StageColorsData<T,S> textsColors,
     @required this.brightness,
     @required bool forceSystemNavBarStyle,
     @required bool accentSelectedPage,
@@ -22,16 +28,20 @@ class StageThemeData<T,S> {
     @required bool pandaOpenedPanelNavBar,
   }): forceSystemNavBarStyle = forceSystemNavBarStyle ?? _defaultForceSystemNavBarStyle,
       accentSelectedPage = accentSelectedPage ?? _defaultAccentSelectedPage,
+      textsColors = textsColors ?? backgroundColors,
+      colorPlace = colorPlace ?? StageColorPlace.background, 
       pandaOpenedPanelNavBar = pandaOpenedPanelNavBar ?? _defaultPandaOpenedPanelNavBar;
 
   StageThemeData.nullable({
-    this.colors,
+    this.backgroundColors, // for when the colors are applied to the material
+    this.textsColors, // for when you use the google like style: if null, background colors are used
     this.brightness,
     this.forceSystemNavBarStyle,
     this.accentSelectedPage,
     this.forcedPrimaryColorBrightnessOnLightTheme,
     this.forcedPrimaryColorBrightnessOnDarkTheme,
     this.pandaOpenedPanelNavBar,
+    this.colorPlace, // if null, backgrounds
   });
 
   static StageThemeData<T,S> _fromThemeAndNullableData<T,S>(
@@ -42,9 +52,17 @@ class StageThemeData<T,S> {
       Iterable<S> allPanelPagesToFill, /// Can be null
     }
   ) => StageThemeData<T,S>._(
-    colors: StageColorsData._fromThemeAndNullableData<T,S>(
+    colorPlace: initialNullableData?.colorPlace, // if null, backgrounds
+    backgroundColors: StageColorsData._fromThemeAndNullableData<T,S>(
       theme, // can be null
-      initialNullableData?.colors,
+      initialNullableData?.backgroundColors,
+
+      allMainPagesToFill: allMainPagesToFill,
+      allPanelPagesToFill: allPanelPagesToFill,
+    ),
+    textsColors: StageColorsData._fromThemeAndNullableData<T,S>(
+      theme, // can be null
+      initialNullableData?.textsColors ?? initialNullableData?.backgroundColors,
 
       allMainPagesToFill: allMainPagesToFill,
       allPanelPagesToFill: allPanelPagesToFill,
@@ -85,7 +103,9 @@ class StageThemeData<T,S> {
   //==================================
   // Getters
   StageThemeData<T,S> fillWith(StageThemeData<T,S> other) => StageThemeData<T,S>._(
-    colors: this.colors?.fillWith(other?.colors) ?? other?.colors, 
+    colorPlace: this.colorPlace ?? other?.colorPlace,
+    backgroundColors: this.backgroundColors?.fillWith(other?.backgroundColors) ?? other?.backgroundColors, 
+    textsColors: this.textsColors?.fillWith(other?.textsColors) ?? other?.textsColors, 
     brightness: this.brightness?.fillWith(other?.brightness) ?? other?.brightness,
     forceSystemNavBarStyle: this.forceSystemNavBarStyle ?? other?.forceSystemNavBarStyle,
     forcedPrimaryColorBrightnessOnLightTheme: this.forcedPrimaryColorBrightnessOnLightTheme ?? other?.forcedPrimaryColorBrightnessOnLightTheme,

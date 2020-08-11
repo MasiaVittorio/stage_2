@@ -173,9 +173,6 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
   Brightness get _currentBrightness => parent.brightness.brightness.value;
   DarkStyle get _currentDarkStyle => parent.brightness.darkStyle.value;
 
-  Brightness get _currentForcedPrimaryColorBrightness => _currentBrightness.isLight 
-    ? parent.forcedPrimaryColorBrightnessOnLightTheme
-    : parent.forcedPrimaryColorBrightnessOnDarkTheme;
 
   bool editMainPageToPrimary(T page, Color color){
     if(_currentBrightness.isLight){
@@ -287,24 +284,6 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
   }
 
 
-  //===========================================
-  // System UI Style
-  void updateSystemNavBarStyle(){
-    if(parent.forceSystemNavBarStyle ?? false){
-      final Color color =  colorPlace.value.isTexts 
-        ? parent.derived.themeData.value.canvasColor 
-        : parent.derived.currentPrimaryColor.value;
-      final Brightness colorBrightness = _currentForcedPrimaryColorBrightness 
-        ?? ThemeData.estimateBrightnessForColor(color);
-
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        systemNavigationBarColor: color,
-        systemNavigationBarIconBrightness: colorBrightness.opposite,
-        statusBarIconBrightness: colorBrightness.opposite, 
-        statusBarColor: Colors.black12,
-      ));
-    }
-  }
 
 
 }

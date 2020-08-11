@@ -45,26 +45,17 @@ class _StageColorsData<T,S> {
   final BlocVar<Map<DarkStyle,Map<S,Color>>> _cachedDarkPanelPageToPrimaries; /// To store its value when manually disabled
 
 
-  //==> Type of theme
-  final BlocVar<StageColorPlace> colorPlace;
 
 
   //================================
   // Constructor
   _StageColorsData(this.parent, {
+    @required StageColorPlace colorPlaceRef,
     @required StageColorsData initialData,
   }):
-    colorPlace = BlocVar.modal<StageColorPlace>(
-      initVal: initialData.colorPlace,
-      key: parent.parent._getStoreKey("stage_colors_themeType"), 
-      toJson: (type) => type.name,
-      fromJson: (name) => StageColorPlaces.fromName(name),
-      readCallback: (_) => parent.parent._readCallback("stage_colors_themeType"),
-      onChanged: (_) => parent.colors.updateSystemNavBarStyle(),
-    ),
     lightAccent = BlocVar.modal<Color>(
       initVal: initialData.lightAccent,
-      key: parent.parent._getStoreKey("stage_colors_lightAccent"), 
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}_stage_colors_lightAccent"), 
       toJson: (c) => c.value,
       fromJson: (j) => Color(j as int),
       readCallback: (_) => parent.parent._readCallback("stage_colors_lightAccent"),
@@ -72,7 +63,7 @@ class _StageColorsData<T,S> {
 
     lightMainPrimary = BlocVar.modal<Color>(
       initVal: initialData.lightMainPrimary,
-      key: parent.parent._getStoreKey("stage_colors_lightMainPrimary"), 
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_lightMainPrimary"), 
       toJson: (c) => c.value,
       fromJson: (j) => Color(j as int),
       readCallback: (_) => parent.parent._readCallback("stage_colors_lightMainPrimary"),
@@ -80,7 +71,7 @@ class _StageColorsData<T,S> {
 
     lightMainPageToPrimary = BlocVar.modal<Map<T,Color>>(
       initVal: initialData.lightMainPageToPrimary, /// could be null
-      key: parent.parent._getStoreKey("stage_colors_lightMainPageToPrimary"), 
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_lightMainPageToPrimary"), 
       toJson: (map) => map == null ? null : <String,dynamic>{
         for(final entry in map.entries)
           jsonEncode(parent.parent._writeMainPage(entry.key)): entry.value.value,
@@ -93,7 +84,7 @@ class _StageColorsData<T,S> {
     ),
     _cachedLightMainPageToPrimary = BlocVar.modal<Map<T,Color>>(
       initVal: null,
-      key: parent.parent._getStoreKey("stage_colors_lightMainPageToPrimary_CACHED"), 
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_lightMainPageToPrimary_CACHED"), 
       toJson: (map) => map == null ? null : <String,dynamic>{
         for(final entry in map.entries)
           jsonEncode(parent.parent._writeMainPage(entry.key)): entry.value.value,
@@ -106,7 +97,7 @@ class _StageColorsData<T,S> {
 
     lightPanelPrimary = BlocVar.modal<Color>(
       initVal: initialData.lightPanelPrimary,
-      key: parent.parent._getStoreKey("stage_colors_lightPanelPrimary"), 
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_lightPanelPrimary"), 
       toJson: (c) => c.value,
       fromJson: (j) => Color(j as int),
       readCallback: (_) => parent.parent._readCallback("stage_colors_lightPanelPrimary"),
@@ -114,7 +105,7 @@ class _StageColorsData<T,S> {
 
     lightPanelPageToPrimary = BlocVar.modal<Map<S,Color>>(
       initVal: initialData.lightPanelPageToPrimary, ///could be null
-      key: parent.parent._getStoreKey("stage_colors_lightPanelPageToPrimary"), 
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_lightPanelPageToPrimary"), 
       toJson: (map) => map == null ? null : <String,dynamic>{
         for(final entry in map.entries)
           jsonEncode(parent.parent._writePanelPage(entry.key)): entry.value.value,
@@ -127,7 +118,7 @@ class _StageColorsData<T,S> {
     ),
     _cachedLightPanelPageToPrimary = BlocVar.modal<Map<S,Color>>(
       initVal: null,
-      key: parent.parent._getStoreKey("stage_colors_lightPanelPageToPrimary_CACHED"), 
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_lightPanelPageToPrimary_CACHED"), 
       toJson: (map) => map == null ? null : <String,dynamic>{
         for(final entry in map.entries)
           jsonEncode(parent.parent._writePanelPage(entry.key)): entry.value.value,
@@ -140,7 +131,7 @@ class _StageColorsData<T,S> {
 
     darkAccents = BlocVar.modal<Map<DarkStyle,Color>>(
       initVal: initialData.darkAccents,
-      key: parent.parent._getStoreKey("stage_colors_darkAccents"), 
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_darkAccents"), 
       toJson: (map) => <String,dynamic>{
         for(final entry in map.entries)
           entry.key.name: entry.value.value,
@@ -154,7 +145,7 @@ class _StageColorsData<T,S> {
 
     darkMainPrimaries = BlocVar.modal<Map<DarkStyle,Color>>(
       initVal: initialData.darkMainPrimaries,
-      key: parent.parent._getStoreKey("stage_colors_darkMainPrimaries"), 
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_darkMainPrimaries"), 
       toJson: (map) => <String,dynamic>{
         for(final entry in map.entries)
           entry.key.name: entry.value.value,
@@ -168,7 +159,7 @@ class _StageColorsData<T,S> {
 
     darkMainPageToPrimaries = BlocVar.modal<Map<DarkStyle,Map<T,Color>>>(
       initVal: initialData.darkMainPageToPrimaries, ///could be null
-      key: parent.parent._getStoreKey("stage_colors_darkMainPageToPrimaries"),
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_darkMainPageToPrimaries"),
       toJson: (mapOfMaps) => mapOfMaps == null ? null : <String,dynamic>{
         for(final e in mapOfMaps.entries)
           e.key.name : <String,dynamic>{
@@ -187,7 +178,7 @@ class _StageColorsData<T,S> {
     ),
     _cachedDarkMainPageToPrimaries = BlocVar.modal<Map<DarkStyle,Map<T,Color>>>(
       initVal: null,
-      key: parent.parent._getStoreKey("stage_colors_darkMainPageToPrimaries_CACHED"),
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_darkMainPageToPrimaries_CACHED"),
       toJson: (mapOfMaps) => mapOfMaps == null ? null : <String,dynamic>{
         for(final e in mapOfMaps.entries)
           e.key.name : <String,dynamic>{
@@ -206,7 +197,7 @@ class _StageColorsData<T,S> {
 
     darkPanelPrimaries = BlocVar.modal<Map<DarkStyle,Color>>(
       initVal: initialData.darkPanelPrimaries,
-      key: parent.parent._getStoreKey("stage_colors_darkPanelPrimaries"), 
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_darkPanelPrimaries"), 
       toJson: (map) => <String,dynamic>{
         for(final entry in map.entries)
           entry.key.name: entry.value.value,
@@ -220,7 +211,7 @@ class _StageColorsData<T,S> {
 
     darkPanelPageToPrimaries = BlocVar.modal<Map<DarkStyle,Map<S,Color>>>(
       initVal: initialData.darkPanelPageToPrimaries, ///could be null
-      key: parent.parent._getStoreKey("stage_colors_darkPanelPageToPrimaries"),
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_darkPanelPageToPrimaries"),
       toJson: (mapOfMaps) => mapOfMaps == null ? null : <String,dynamic>{
         for(final e in mapOfMaps.entries)
           e.key.name : <String,dynamic>{
@@ -239,7 +230,7 @@ class _StageColorsData<T,S> {
     ),
     _cachedDarkPanelPageToPrimaries = BlocVar.modal<Map<DarkStyle,Map<S,Color>>>(
       initVal: null,
-      key: parent.parent._getStoreKey("stage_colors_darkPanelPageToPrimaries_CACHED"),
+      key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_darkPanelPageToPrimaries_CACHED"),
       toJson: (mapOfMaps) => mapOfMaps == null ? null : <String,dynamic>{
         for(final e in mapOfMaps.entries)
           e.key.name : <String,dynamic>{
@@ -277,7 +268,6 @@ class _StageColorsData<T,S> {
 
 
   StageColorsData<T,S> get extractData => StageColorsData<T,S>._(
-    colorPlace: this.colorPlace.value,
     allMainPagesToFill: null,
     allPanelPagesToFill: null,
     lightAccent: this.lightAccent.value, 

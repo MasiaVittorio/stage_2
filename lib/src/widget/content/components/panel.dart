@@ -65,7 +65,7 @@ class _Panel extends StatelessWidget {
           child: GestureDetector(
             onVerticalDragUpdate: (details) => onPanelDrag(details, realDelta),
             onVerticalDragEnd: onPanelDragEnd,
-            child:  data.themeController.colors.colorPlace.build((context, place) 
+            child:  data.themeController.colorPlace.build((context, place) 
               => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(radius),

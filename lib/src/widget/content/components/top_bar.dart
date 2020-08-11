@@ -48,16 +48,16 @@ class _TopBar<T,S> extends StatelessWidget {
     );
 
     return StageBuild.offPrimaryColorAndItsBrightness((_, currentColor, brightness)
-      => data.themeController.colors.colorPlace.build((context, type) {
-        final Color color = type.isTexts 
+      => data.themeController.colorPlace.build((context, place) {
+        final Color color = place.isTexts 
           ? theme.canvasColor : currentColor;
-        final Color textColor = type.isTexts 
+        final Color textColor = place.isTexts 
           ? theme.colorScheme.onSurface : brightness.contrast;
 
         return Material(
           color: color,
-          elevation: topBarElevations[type] 
-            ?? StageTopBarData.defaultElevations[type],
+          elevation: topBarElevations[place] 
+            ?? StageTopBarData.defaultElevations[place],
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             color: color,

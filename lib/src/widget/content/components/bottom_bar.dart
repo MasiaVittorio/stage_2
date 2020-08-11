@@ -19,10 +19,10 @@ class _BottomBar<T,S> extends StatelessWidget {
       => data.themeController.derived.mainPageToPrimaryColor.build((_, primaryColorsMap) 
       => data.themeController.derived._mainPrimaryColor.build((_, color) 
       => data.mainPagesController._enabledPages.build((_, enabled) 
-      => data.themeController.colors.colorPlace.build((_, type)
+      => data.themeController.colorPlace.build((_, place)
       => data.mainPagesController._page.build((_, page) {
 
-        final bool googleLike = type.isTexts;
+        final bool googleLike = place.isTexts;
 
         final bool single = primaryColorsMap == null;
         final Color singleBackground = color;
@@ -57,7 +57,7 @@ class _BottomBar<T,S> extends StatelessWidget {
 
             forceSingleColor: single,
             singleBackgroundColor: singleBackground,
-            forceBrightness: data.themeController.colors
+            forceBrightness: data.themeController
                 ._currentForcedPrimaryColorBrightness,
             accentTextColor: singleAccent,
           ),
