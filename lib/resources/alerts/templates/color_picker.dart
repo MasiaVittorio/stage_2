@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sid_ui/sid_ui.dart';
 import 'package:stage/stage.dart';
 
-import 'package:sid_ui/interactive/material_color_picker/custom_color_picker.dart';
-import 'package:sid_ui/interactive/material_color_picker/manual_color_picker.dart';
-import 'package:sid_ui/interactive/material_color_picker/palette_color_picker.dart';
-import 'package:sid_ui/interactive/material_color_picker/this_double_color.dart';
+import 'package:sid_ui/interactive/color_picker/color_picker_manual.dart';
+import 'package:sid_ui/interactive/color_picker/color_picker_palette.dart';
+import 'package:sid_ui/interactive/color_picker/color_picker_custom.dart';
+import 'package:sid_ui/interactive/color_picker/models/palette.dart';
 
 
 class ColorPickerAlert extends StatefulWidget {
@@ -34,7 +34,7 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
     this._color = widget.initialColor ??  Colors.red.shade500;
     print("init state with color: $_color");
     
-    if(allMaterialPalette.contains(this._color))
+    if(PaletteTab.allColors.contains(this._color))
       this._initialMode = ColorPickerMode.palette;
     else 
       this._initialMode = ColorPickerMode.manual;
@@ -46,20 +46,6 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
     print("now color: $_color");
   });
 
-  void _onNewMode(ColorPickerMode newMode){
-    print("on new mode: $newMode");
-    if(newMode == ColorPickerMode.palette){
-      print("was palette, we have color: $_color");
-      if(!allMaterialPalette.contains(this._color)){
-        print("was not in material palette: $_color");
-        this.setState((){
-          this._color = findClosest(this._color);
-          print("now it is: $_color");
-        });
-      }
-    }      
-  }
-
   @override
   Widget build(BuildContext context) {
 
@@ -69,7 +55,6 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
       withoutHeader: true,
       canvasBackground: true,
       initialValue: _initialMode,
-      onPageChanged: _onNewMode,
       bottomAction: FloatingActionButton(
         backgroundColor: _color,
         child: Icon(Icons.save,color: _color.contrast),
