@@ -26,7 +26,8 @@ class StageBrightnessToggle extends StatelessWidget {
             child: const _TimeOfDayVSSystem(),
           ),
           AnimatedListed(
-            listed: brightness.isDark,
+            listed: true,
+            // listed: brightness.isDark,
             overlapSizeAndOpacity: 1.0,
             child: const _DarkStyleSwitcher(),
           ),
