@@ -14,7 +14,8 @@ class Stage<T,S> extends StatelessWidget {
     @required this.body,
     @required this.collapsedPanel,
     @required this.extendedPanel,
-    @required this.topBarData,
+    this.extendedPanelBuilder, //can use this and set the regular one to null
+    @required this.topBarContent,
 
     /// Optional external controller
     this.controller, /// Either you put this, or you set the initial controller values
@@ -46,16 +47,16 @@ class Stage<T,S> extends StatelessWidget {
   }): 
     assert(mainPages != null || controller != null),
     assert(body != null),
-    assert(topBarData != null),
-    assert(collapsedPanel != null),
-    assert(extendedPanel != null),
+    assert(topBarContent != null),
+    assert(extendedPanel != null || extendedPanelBuilder != null),
     super(key: key);
 
   // Content
   final Widget body;
   final Widget collapsedPanel; //could be null, but why should it?
-  final Widget extendedPanel;
-  final StageTopBarData topBarData;
+  final Widget extendedPanel; //could be null if the builder is there
+  final Widget Function(BuildContext, Animation) extendedPanelBuilder;
+  final StageTopBarContent topBarContent;
 
   //performance optimization
   final bool wholeScreen;
@@ -138,7 +139,8 @@ class Stage<T,S> extends StatelessWidget {
       body: body,
       collapsedPanel: collapsedPanel,
       extendedPanel: extendedPanel,
-      topBarData: topBarData,
+      extendedPanelBuilder: extendedPanelBuilder,
+      topBarContent: topBarContent,
 
       backgroundColor: backgroundColor,
       backgroundOpacity: backgroundOpacity,

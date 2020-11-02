@@ -30,38 +30,44 @@ class _BottomBar<T,S> extends StatelessWidget {
         final Color singleAccent = useAccent ? theme.accentColor : null;
         /// all that is ignored by radionavbar if googleLike
 
+        final Widget child = RadioNavBar<T>(
+          selectedValue: page,
+          orderedValues: <T>[
+            for(final page in orderedPages) 
+              if(enabled[page]) page,
+          ],
+          items: <T,RadioNavBarItem>{
+            for(final entry in pagesData.entries)
+              entry.key: RadioNavBarItem(
+                title: entry.value.name,
+                icon: entry.value.icon,
+                unselectedIcon: entry.value.unselectedIcon,
+                color: single ? null : primaryColorsMap[entry.key],
+              ),
+          },
+          onSelect: data.mainPagesController.goToPage,
+          topPadding: dimensions.collapsedPanelSize/2,
+          tileSize: dimensions.barSize,
+          duration: const Duration(milliseconds: 250),
 
-        return UpShadower(
-          child: RadioNavBar<T>(
-            selectedValue: page,
-            orderedValues: <T>[
-              for(final page in orderedPages) 
-                if(enabled[page]) page,
-            ],
-            items: <T,RadioNavBarItem>{
-              for(final entry in pagesData.entries)
-                entry.key: RadioNavBarItem(
-                  title: entry.value.name,
-                  icon: entry.value.icon,
-                  unselectedIcon: entry.value.unselectedIcon,
-                  color: single ? null : primaryColorsMap[entry.key],
-                ),
-            },
-            onSelect: data.mainPagesController.goToPage,
-            topPadding: dimensions.collapsedPanelSize/2,
-            tileSize: dimensions.barSize,
-            duration: const Duration(milliseconds: 250),
+          /// "white" (canvas) background, different accent color per page
+          googleLike: googleLike, 
 
-            /// "white" (canvas) background, different accent color per page
-            googleLike: googleLike, 
-
-            forceSingleColor: single,
-            singleBackgroundColor: singleBackground,
-            forceBrightness: data.themeController
-                ._currentForcedPrimaryColorBrightness,
-            accentTextColor: singleAccent,
-          ),
+          forceSingleColor: single,
+          singleBackgroundColor: singleBackground,
+          forceBrightness: data.themeController
+              ._currentForcedPrimaryColorBrightness,
+          accentTextColor: singleAccent,
         );
+
+        return data.themeController.bottomBarShadow.build((context, val){
+          if(val){
+            return UpShadower(
+              child: child,
+            );
+          } else return child;
+        });
+
       },)))))),
     );
   }

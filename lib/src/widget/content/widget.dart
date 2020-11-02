@@ -11,6 +11,7 @@ class _StageContent<T,S> extends StatefulWidget {
     @required this.body,
     @required this.collapsedPanel,
     @required this.extendedPanel,
+    @required this.extendedPanelBuilder,
     @required this.topBarBuilder,
 
     //theming
@@ -22,7 +23,7 @@ class _StageContent<T,S> extends StatefulWidget {
     @required this.splashScreen,
 
     @required this.wholeScreen,
-  });
+  }): assert(extendedPanelBuilder != null || extendedPanel != null);
 
   //logic
   final StageData<T,S> data;
@@ -34,7 +35,8 @@ class _StageContent<T,S> extends StatefulWidget {
   //content
   final Widget body;
   final Widget collapsedPanel; //could be null, but why should it?
-  final Widget extendedPanel;
+  final Widget extendedPanel; //could be null if the builder is there
+  final Widget Function(BuildContext, Animation) extendedPanelBuilder;
   final Widget Function(Animation) topBarBuilder;
 
 

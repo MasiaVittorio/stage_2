@@ -26,6 +26,8 @@ class _StageThemeData<T,S> {
 
   //==> Type of theme
   final BlocVar<StageColorPlace> colorPlace;
+  final BlocVar<Map<StageColorPlace,double>> topBarElevations;
+  final BlocVar<bool> bottomBarShadow;
 
   // Optional settings
   final Brightness forcedPrimaryColorBrightnessOnLightTheme; /// Could be null
@@ -53,6 +55,24 @@ class _StageThemeData<T,S> {
       fromJson: (name) => StageColorPlaces.fromName(name),
       readCallback: (_) => parent._readCallback("stage_theme_controller_themeType"),
       onChanged: (_) => parent.themeController.updateSystemNavBarStyle(),
+    ),
+    bottomBarShadow = BlocVar.modal<bool>(
+      initVal: initialData.bottomBarShadow,
+      key: parent._getStoreKey("stage_theme_controller_bottomBarShadow"), 
+      readCallback: (_) => parent._readCallback("stage_theme_controller_BottomBarShadow"),
+    ),
+    topBarElevations = BlocVar.modal<Map<StageColorPlace,double>>(
+      initVal: initialData.topBarElevations,
+      key: parent._getStoreKey("stage_theme_controller_topBarElevations"), 
+      toJson: (map) => <String,double>{
+        for(final e in map.entries)
+          e.key.name: e.value,
+      },
+      fromJson: (json) => <StageColorPlace,double>{
+        for(final e in (json as Map).entries)
+          StageColorPlaces.fromName(e.key): e.value,
+      },
+      readCallback: (_) => parent._readCallback("stage_theme_controller_topBarElevations"),
     )
   {
     backgroundColors = _StageColorsData<T,S>(
@@ -78,7 +98,10 @@ class _StageThemeData<T,S> {
   bool get _isCurrentlyReading => this.parent.storeKey != null && (
     (this.backgroundColors?._isCurrentlyReading ?? true) ||
     (this.textsColors?._isCurrentlyReading ?? true) ||
-    (this.brightness?._isCurrentlyReading ?? true)
+    (this.brightness?._isCurrentlyReading ?? true) ||
+    this.colorPlace.modalReading ||
+    this.topBarElevations.modalReading ||
+    this.bottomBarShadow.modalReading 
   );
 
   _StageColorsData<T,S> get currentColorsController => colorPlace.value.isTexts
@@ -88,6 +111,7 @@ class _StageThemeData<T,S> {
 
   StageThemeData<T,S> get extractData => StageThemeData<T,S>._(
     colorPlace: this.colorPlace.value,
+    topBarElevations: this.topBarElevations.value,
     backgroundColors: this.backgroundColors.extractData,
     textsColors: this.textsColors.extractData,
     brightness: this.brightness.extractData,
@@ -96,6 +120,7 @@ class _StageThemeData<T,S> {
     forcedPrimaryColorBrightnessOnDarkTheme: this.forcedPrimaryColorBrightnessOnDarkTheme,
     forcedPrimaryColorBrightnessOnLightTheme: this.forcedPrimaryColorBrightnessOnLightTheme,
     pandaOpenedPanelNavBar: this.pandaOpenedPanelNavBar,
+    bottomBarShadow: this.bottomBarShadow.value,
   );
 
 

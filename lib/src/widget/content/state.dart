@@ -169,7 +169,11 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
             : null;
           
           final Widget boxedExtended = _BoxedExtendedPanel<T,S>(
-            widget.extendedPanel, 
+            widget.extendedPanelBuilder == null 
+              ? widget.extendedPanel
+              : Builder(builder: (context) 
+                => widget.extendedPanelBuilder(context, panelAnimation)
+              ), 
             derived: derived,
             dimensions: dimensions,
             data: data,

@@ -26,7 +26,8 @@ class _StageWithThemeAndExternalData<T,S> extends StatefulWidget {
     @required this.body,
     @required this.collapsedPanel,
     @required this.extendedPanel,
-    @required this.topBarData,
+    @required this.extendedPanelBuilder,
+    @required this.topBarContent,
 
     //theming
     @required this.shadowBuilder,
@@ -73,8 +74,9 @@ class _StageWithThemeAndExternalData<T,S> extends StatefulWidget {
   // Content
   final Widget body;
   final Widget collapsedPanel; //could be null, but why should it?
-  final Widget extendedPanel;
-  final StageTopBarData topBarData; // not stored in the controller
+  final Widget extendedPanel; //could be null if the builder is there
+  final Widget Function(BuildContext, Animation) extendedPanelBuilder;
+  final StageTopBarContent topBarContent; // not stored in the controller
 
 
   // Theming

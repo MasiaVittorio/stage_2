@@ -6,13 +6,11 @@ class _TopBar<T,S> extends StatelessWidget {
     @required this.openedPanelSubtitle,
     @required this.alignment,
     @required this.appBarTitle,
-    @required this.topBarElevations,
   });
 
   final Widget appBarTitle;
   final Widget openedPanelSubtitle;
 
-  final Map<StageColorPlace,double> topBarElevations;
   final Alignment alignment;
 
   final Animation animation;
@@ -48,7 +46,8 @@ class _TopBar<T,S> extends StatelessWidget {
     );
 
     return StageBuild.offPrimaryColorAndItsBrightness((_, currentColor, brightness)
-      => data.themeController.colorPlace.build((context, place) {
+      => data.themeController.colorPlace.build((context, place) 
+      => data.themeController.topBarElevations.build((context,elevations) {
         final Color color = place.isTexts 
           ? theme.canvasColor : currentColor;
         final Color textColor = place.isTexts 
@@ -56,8 +55,8 @@ class _TopBar<T,S> extends StatelessWidget {
 
         return Material(
           color: color,
-          elevation: topBarElevations[place] 
-            ?? StageTopBarData.defaultElevations[place],
+          elevation: elevations[place] 
+            ?? StageThemeData.defaultTopBarElevations[place],
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             color: color,
@@ -81,7 +80,7 @@ class _TopBar<T,S> extends StatelessWidget {
           ),
         );
       },
-      ),);
+      ),),);
 
   }
 

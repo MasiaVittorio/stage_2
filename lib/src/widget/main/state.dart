@@ -69,12 +69,12 @@ class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndE
         body: widget.body, 
         collapsedPanel: widget.collapsedPanel, 
         extendedPanel: widget.extendedPanel,
+        extendedPanelBuilder: widget.extendedPanelBuilder,
         topBarBuilder: (animation) => _TopBar<T,S>(
           animation: animation, 
-          openedPanelSubtitle: widget.topBarData.subtitle,
-          alignment: widget.topBarData.alignment,
-          appBarTitle: widget.topBarData.title,
-          topBarElevations: widget.topBarData.elevations,
+          openedPanelSubtitle: widget.topBarContent.subtitle,
+          alignment: widget.topBarContent.alignment,
+          appBarTitle: widget.topBarContent.title,
         ),
 
         shadowBuilder: widget.shadowBuilder,

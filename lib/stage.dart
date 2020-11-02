@@ -55,6 +55,7 @@ part 'src/controller/theme/derived/methods.dart';
 
 part 'src/models/pages.dart';
 part 'src/models/utils.dart';
+part 'src/models/top_bar_content.dart';
 part 'src/models/top_bar_data.dart';
 part 'src/models/dimensions.dart';
 

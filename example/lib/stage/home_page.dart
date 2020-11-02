@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
       splashScreen: Container(color: Colors.blue, child: Center(child: Icon(Icons.favorite_border, size: 150)),),
 
       body: const Body(),
-      topBarData: StageTopBarData(
+      topBarContent: StageTopBarContent(
         title: StageTopBarTitle<MainPage,PanelPage>(),
         subtitle: StageTopBarSubtitle<PanelPage>((page) => page.subTitle),
       ),

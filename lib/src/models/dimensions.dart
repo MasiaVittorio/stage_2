@@ -66,6 +66,8 @@ class StageDimensions{
   static const double defaultPanelRadius = 8.0;
   static const double defaultPanelHorizontalPaddingClosed = 16.0;
   static const double defaultPanelHorizontalPaddingOpened = 12.0;
+  static const double defaultPanelHorizontalPaddingDelta = 
+    defaultPanelHorizontalPaddingClosed - defaultPanelHorizontalPaddingOpened;
   static const double defaultParallax = 0.0;
 
 
@@ -125,7 +127,7 @@ class _StageDerivedDimensions {
     maxTopBarSize = topPadding + extendedAppBarSize;
 
     maxDownExpansion = (panelPages) || (base.forceOpenedPanelOverNavBar)
-      ? base.barSize - minimumBottomPadding
+      ? base.barSize - minimumBottomPadding(base)
       : 0.0;
 
     panelMinBottomPosition
@@ -149,7 +151,7 @@ class _StageDerivedDimensions {
         = (constraints.maxHeight // total height
         - topPadding // away from top (just notification bar, not whole app bar)
         - panelMinBottomPositionKeyboard // away from keyboard
-        - minimumBottomPadding) // and a bit more away
+        - minimumBottomPadding(base)) // and a bit more away
         .clamp(base.collapsedPanelSize, double.infinity); /// It cannot be smaller than the collapsed panel tho, 
         /// so if the keyboard is fucking huge the alert will go higher than the screen, fuck it
 
@@ -164,8 +166,12 @@ class _StageDerivedDimensions {
   double minTopBarSize; /// Accounting for top padding when panel is closed
   double extendedAppBarSize; /// When panel is opened (without accounting for top padding)
   double maxTopBarSize; /// Accounting for top padding when panel is opened 
-  static const double minimumBottomPadding = 16.0; /// If expanding the panel down, leave this space from the bottom
   double maxDownExpansion; /// How much the panel goes down if it does
+
+  // static const double minimumBottomPadding = 16.0; /// If expanding the panel down, leave this space from the bottom
+  double minimumBottomPadding(StageDimensions base) 
+    => base.panelHorizontalPaddingOpened; // If expanding the panel down, leave this space from the bottom
+
 
   double panelMinBottomPosition; /// Accounts for the base position of the panel and the expansion ONLY (use it for the regular panel)
   double totalPanelHeight; /// NOT in case of alert

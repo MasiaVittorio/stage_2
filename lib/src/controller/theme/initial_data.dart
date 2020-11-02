@@ -8,6 +8,8 @@ class StageThemeData<T,S> {
 
   // type of theme
   final StageColorPlace colorPlace;
+  final Map<StageColorPlace,double> topBarElevations;
+  final bool bottomBarShadow;
 
   // Optional settings
   final bool forceSystemNavBarStyle;
@@ -18,6 +20,8 @@ class StageThemeData<T,S> {
 
   StageThemeData._({
     @required StageColorPlace colorPlace, // if null, backgrounds
+    @required Map<StageColorPlace,double> topBarElevations, // if null, defaults
+    @required bool bottomBarShadow, //if null, true
     @required this.backgroundColors,
     @required StageColorsData<T,S> textsColors,
     @required this.brightness,
@@ -30,6 +34,8 @@ class StageThemeData<T,S> {
       accentSelectedPage = accentSelectedPage ?? _defaultAccentSelectedPage,
       textsColors = textsColors ?? backgroundColors,
       colorPlace = colorPlace ?? StageColorPlace.background, 
+      topBarElevations = topBarElevations ?? defaultTopBarElevations,
+      bottomBarShadow = bottomBarShadow ?? defaultBottomBarShadow,
       pandaOpenedPanelNavBar = pandaOpenedPanelNavBar ?? _defaultPandaOpenedPanelNavBar;
 
   StageThemeData.nullable({
@@ -42,6 +48,8 @@ class StageThemeData<T,S> {
     this.forcedPrimaryColorBrightnessOnDarkTheme,
     this.pandaOpenedPanelNavBar,
     this.colorPlace, // if null, backgrounds
+    this.topBarElevations, // if null, defaults
+    this.bottomBarShadow,
   });
 
   static StageThemeData<T,S> _fromThemeAndNullableData<T,S>(
@@ -53,6 +61,8 @@ class StageThemeData<T,S> {
     }
   ) => StageThemeData<T,S>._(
     colorPlace: initialNullableData?.colorPlace, // if null, backgrounds
+    topBarElevations: initialNullableData?.topBarElevations,
+    bottomBarShadow: initialNullableData?.bottomBarShadow,
     backgroundColors: StageColorsData._fromThemeAndNullableData<T,S>(
       theme, // can be null
       initialNullableData?.backgroundColors,
@@ -104,6 +114,8 @@ class StageThemeData<T,S> {
   // Getters
   StageThemeData<T,S> fillWith(StageThemeData<T,S> other) => StageThemeData<T,S>._(
     colorPlace: this.colorPlace ?? other?.colorPlace,
+    topBarElevations: this.topBarElevations ?? other?.topBarElevations,
+    bottomBarShadow: this.bottomBarShadow ?? other?.bottomBarShadow,
     backgroundColors: this.backgroundColors?.fillWith(other?.backgroundColors) ?? other?.backgroundColors, 
     textsColors: this.textsColors?.fillWith(other?.textsColors) ?? other?.textsColors, 
     brightness: this.brightness?.fillWith(other?.brightness) ?? other?.brightness,
@@ -122,6 +134,13 @@ class StageThemeData<T,S> {
   static const bool _defaultAccentSelectedPage = false;
   static const bool _defaultPandaOpenedPanelNavBar = true;
 
+  static const Map<StageColorPlace,double> defaultTopBarElevations = 
+    <StageColorPlace,double>{
+      StageColorPlace.texts: 4,
+      StageColorPlace.background: 8,
+    };
+
+  static const bool defaultBottomBarShadow = true;
 
 
 }
