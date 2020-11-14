@@ -37,7 +37,8 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
           => thCon.derived.panelPageToPrimaryColor.build((_, primaryColorsMap) 
           => thCon.derived._panelPrimaryColor.build((_, currentColor) 
           => thCon.colorPlace.build((_, place) 
-          => pages._page.build((_, panelPage) {
+          => pages._page.build((_, panelPage) 
+          => data.badgesController.panelPages.build((_, badges) {
 
             final bool googleLike = place.isTexts;
 
@@ -76,9 +77,11 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
               singleBackgroundColor: finalColor,
               forceBrightness: thCon
                   ._currentForcedPrimaryColorBrightness,
+
+              badges: badges,
             );
 
-          },))))),
+          },)))))),
         ),
       ),
     );

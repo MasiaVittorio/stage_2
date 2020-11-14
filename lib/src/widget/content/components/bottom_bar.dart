@@ -20,7 +20,8 @@ class _BottomBar<T,S> extends StatelessWidget {
       => data.themeController.derived._mainPrimaryColor.build((_, color) 
       => data.mainPagesController._enabledPages.build((_, enabled) 
       => data.themeController.colorPlace.build((_, place)
-      => data.mainPagesController._page.build((_, page) {
+      => data.mainPagesController._page.build((_, page) 
+      => data.badgesController.mainPages.build((_, badges) {
 
         final bool googleLike = place.isTexts;
 
@@ -45,6 +46,7 @@ class _BottomBar<T,S> extends StatelessWidget {
                 color: single ? null : primaryColorsMap[entry.key],
               ),
           },
+          badges: badges,
           onSelect: data.mainPagesController.goToPage,
           topPadding: dimensions.collapsedPanelSize/2,
           tileSize: dimensions.barSize,
@@ -68,7 +70,7 @@ class _BottomBar<T,S> extends StatelessWidget {
           } else return child;
         });
 
-      },)))))),
+      },))))))),
     );
   }
 }

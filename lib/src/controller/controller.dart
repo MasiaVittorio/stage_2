@@ -17,6 +17,7 @@ class StageData<T,S> {
     panelController?.dispose();
     dimensionsController?.dispose();
     themeController?.dispose();
+    badgesController?.dispose();
   }
 
 
@@ -46,7 +47,7 @@ class StageData<T,S> {
   _StagePanelData panelController; /// Opening and closing the panel
   _StageThemeData<T,S> themeController; /// Theming options (Colors / Brightnesses...)
   final StagePopBehavior popBehavior; /// Cannot be customize by the user or change over time
-
+  _StageBadgesData<T,S> badgesController; /// Putting badges to alert the user about going to a certain page
 
 
   //================================
@@ -114,6 +115,9 @@ class StageData<T,S> {
       this,
       initialData: initialThemeData,
     );
+
+    badgesController = _StageBadgesData<T,S>(this);
+    
     _readCallback("controller initialized");
 
     Future.delayed(Duration(milliseconds: 100)).then((_){
@@ -140,7 +144,8 @@ class StageData<T,S> {
     (this.dimensionsController?._isCurrentlyReading ?? true) ||
     (this.mainPagesController?._isCurrentlyReading ?? true) ||
     (this.themeController?._isCurrentlyReading ?? true) || // if these and  up are null it means that those controllers are not initialised yet
-    (this.panelPagesController?._isCurrentlyReading ?? false) 
+    (this.panelPagesController?._isCurrentlyReading ?? false) ||
+    (this.badgesController?._isCurrentlyReading ?? false)
   );
 
   S _readPanelPage(dynamic j) => this._jsonToPanelPage?.call(j) ?? j as T;

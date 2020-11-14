@@ -18,6 +18,8 @@ dependencies:
     path: ../sid_bloc
   flutter_vector_icons: ^0.2.1
   animations: ^1.0.0+5
+  badges: ^1.1.4
+
 
 
 dev_dependencies:

@@ -139,19 +139,33 @@ class _MenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     
     final StageData data = Stage.of(context);
-    return IconButton(
-      onPressed: (){
-        if(data.panelController.isMostlyOpenedNonAlert.value){
-          data.panelController.close();
-        } else {
-          data.panelController.open();
-        }
-      },
-      icon: data.panelController.isMostlyOpenedNonAlert.build((context, openNonAlert) => ImplicitlySwitchingIcon(
-        firstIcon: AnimatedIcons.menu_close,
-        secondIcon: AnimatedIcons.close_menu,
-        duration: const Duration(milliseconds: 300),
-        progress: openNonAlert ? 1.0 : 0.0, 
+
+    return data.badgesController.panelPages.build((_, panelBadges) 
+      => data.panelController.isMostlyOpenedNonAlert.build((_, openNonAlert) 
+      => Badge(
+        showBadge: !(openNonAlert) && panelBadges.values.any((v) => v == true),
+        badgeContent: null,
+        toAnimate: false,
+        shape: BadgeShape.circle,
+        // alignment: Alignment.topRight,
+        badgeColor: Theme.of(context).accentColor,
+        position: BadgePosition.topEnd(top: 8, end: 8),
+        ignorePointer: true,
+        child: IconButton(
+          onPressed: (){
+            if(data.panelController.isMostlyOpenedNonAlert.value){
+              data.panelController.close();
+            } else {
+              data.panelController.open();
+            }
+          },
+          icon: ImplicitlySwitchingIcon(
+            firstIcon: AnimatedIcons.menu_close,
+            secondIcon: AnimatedIcons.close_menu,
+            duration: const Duration(milliseconds: 300),
+            progress: openNonAlert ? 1.0 : 0.0, 
+          ),
+        ),
       ),),
     );
   }

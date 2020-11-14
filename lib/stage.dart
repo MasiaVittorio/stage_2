@@ -3,6 +3,7 @@ library stage;
 import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:badges/badges.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -18,6 +19,7 @@ export 'resources/all.dart';
 part 'src/controller/controller.dart';
 part 'src/controller/methods.dart';
 
+part 'src/controller/badges/controller.dart';
 
 part 'src/controller/dimensions/controller.dart';
 part 'src/controller/dimensions/methods.dart';
