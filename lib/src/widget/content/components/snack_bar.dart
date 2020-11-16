@@ -8,6 +8,7 @@ class StageSnackBar extends StatelessWidget {
   final double alignment; //-1 left 0 center +1 right
   final bool scrollable;
   final VoidCallback onTap;
+  final EdgeInsets contentPadding;
 
   const StageSnackBar({
     @required this.title,
@@ -16,7 +17,9 @@ class StageSnackBar extends StatelessWidget {
     this.alignment,
     this.scrollable = false,
     this.onTap,
+    this.contentPadding = defaultContentPadding,
   });
+  static const EdgeInsets defaultContentPadding = const EdgeInsets.symmetric(horizontal: 12);
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +90,7 @@ class StageSnackBar extends StatelessWidget {
           if(!right) StageSnackButton.placeHolder,
 
           Expanded(child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: contentPadding ?? defaultContentPadding,
             child: body,
           )),
 
