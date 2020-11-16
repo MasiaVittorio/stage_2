@@ -49,10 +49,12 @@ extension StageDataExt on StageData {
   void showSnackBar(Widget child, {
     Duration duration = _StageSnackBarDataExt.kSnackBarDuration, 
     bool rightAligned = false,
+    bool pagePersistent = false,
   }) => panelController.snackbarController.show(
     child, 
     duration: duration,
     rightAligned: rightAligned ?? false,
+    pagePersistent: pagePersistent ?? false,
   );
 
   void closeSnackBar() => panelController.snackbarController.close();

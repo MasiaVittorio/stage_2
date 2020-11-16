@@ -23,6 +23,8 @@ class _StageSnackBarData {
   int snackBarId = 0; 
   /// ++snackBarId one every snackbar you show, so the delayed closure does not close 
   /// a new snackbar (if it was manually closed and reopened in some way)
+  
+  int _pagePersistentSnackBarId = null;
 
   /// Derived
   BlocVar<bool> isShowing;

@@ -45,11 +45,13 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
   /// duration null == it stays shown until pop
   void show(Widget child, {
     Duration duration = kSnackBarDuration, 
-    bool rightAligned = false
+    bool rightAligned = false,
+    bool pagePersistent = false,
   }) async {
     assert(_openInternal != null, _StagePanelData._warning);
     
     ++snackBarId;
+    if(pagePersistent ?? false) _pagePersistentSnackBarId = snackBarId;
     if(parent.isMostlyOpened.value){
       parent._onNextClose.add(() => _realShow(child, duration, rightAligned));
     } else {

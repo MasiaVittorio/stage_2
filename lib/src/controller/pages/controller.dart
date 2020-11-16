@@ -134,7 +134,12 @@ class _StagePagesData<T> {
     if(!isEnabled(newPage)) return false;
 
     // Close snackbar if shown
-    parent.closeSnackBar();
+    if(
+      parent.panelController.snackbarController._pagePersistentSnackBarId
+      != parent.panelController.snackbarController.snackBarId
+    ){
+      parent.closeSnackBar();
+    }
 
     // Put current (previous) page value on top of the stack
     _previousPages.remove(_page.value);
