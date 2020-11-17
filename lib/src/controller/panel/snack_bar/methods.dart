@@ -5,18 +5,18 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
   //=======================
   // Getters
   double get position {
-    assert(this._getPosition != null, _StagePanelData._warning);
-    return this._getPosition();
+    assert(this._getSnackPosition != null, _StagePanelData._warning);
+    return this._getSnackPosition();
   }
 
   double get velocity {
-    assert(this._getVelocity != null, _StagePanelData._warning);
-    return this._getVelocity();
+    assert(this._getSnackVelocity != null, _StagePanelData._warning);
+    return this._getSnackVelocity();
   }
 
   bool get isAnimating {
-    assert(this._getIsAnimating != null, _StagePanelData._warning);
-    return this._getIsAnimating();
+    assert(this._getSnackIsAnimating != null, _StagePanelData._warning);
+    return this._getSnackIsAnimating();
   }
 
   SidereusScrollPhysics snackBarScrollPhysics({
@@ -48,7 +48,7 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
     bool rightAligned = false,
     bool pagePersistent = false,
   }) async {
-    assert(_openInternal != null, _StagePanelData._warning);
+    assert(_openSnackInternal != null, _StagePanelData._warning);
     
     ++snackBarId;
     if(pagePersistent ?? false) _pagePersistentSnackBarId = snackBarId;
@@ -69,18 +69,20 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
     snackBarRightAligned = rightAligned ?? false; /// Changing this before showing snackbar so the build methods get it right
 
     this.child.set(newChild);
-    await _openInternal();
+    await _openSnackInternal();
     _delaySnackBarClosure(duration, snackBarId);
   }
   
   Future<void> close() async {
-    assert(_closeInternal != null, _StagePanelData._warning);
+    assert(_closeSnackInternal != null, _StagePanelData._warning);
 
     ++snackBarId;
 
     if(position != 0.0){
       if(!isAnimating || velocity > 0){
-        await _closeInternal();
+        await _closeSnackInternal();
+        _onNextSnackClose.forEach((f) => f?.call());
+        _onNextSnackClose.clear();
       }
     } 
 
@@ -93,7 +95,11 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
 
   }
 
-
+  void onNextSnackClose(VoidCallback callback){
+    if(callback != null){
+      _onNextSnackClose.add(callback);
+    }
+  }
 
   //======================================
   // Private

@@ -31,11 +31,14 @@ class _StageSnackBarData {
 
   /// Callbacks to be attached from the widget 
   /// (that contains the animation controller that drives the panel)
-  Future<void> Function() _openInternal; /// This future completes as soon as the SnackBar is opened, not closed
-  Future<void> Function() _closeInternal;
-  double Function() _getPosition;
-  double Function() _getVelocity;
-  bool Function() _getIsAnimating;
+  Future<void> Function() _openSnackInternal; /// This future completes as soon as the SnackBar is opened, not closed
+  Future<void> Function() _closeSnackInternal;
+  double Function() _getSnackPosition;
+  double Function() _getSnackVelocity;
+  bool Function() _getSnackIsAnimating;
+
+  /// Data
+  final List<VoidCallback> _onNextSnackClose = <VoidCallback>[];
   
 
   //========================================

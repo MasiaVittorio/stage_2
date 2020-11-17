@@ -37,20 +37,26 @@ extension StagePanelDataExt on _StagePanelData {
     return;
   }
 
-  void closeCompletely(){
+  Future<void> closeCompletely() async {
     assert(_closeInternal != null, _StagePanelData._warning);
-    _closeInternal().then((_){
-      _completelyClosedRoutine();
-    });
+    await _closeInternal();
+    _completelyClosedRoutine();
   }
 
-  void open(){
+  Future<void> open() async {
     assert(_openInternal != null, _StagePanelData._warning);
-    _openInternal().then((_){
-      _openedRoutine();
-    });
+    await _openInternal();
+    _openedRoutine();
   }
 
+  void onNextSnackBarClose(VoidCallback callback)
+    => snackbarController.onNextSnackClose(callback);
+
+  void onNextPanelClose(VoidCallback callback){
+    if(callback != null){
+      _onNextClose.add(callback);
+    }
+  }
 
 
   //=======================
@@ -80,12 +86,11 @@ extension StagePanelDataExt on _StagePanelData {
     _forgetPanelPage();
     onPanelClose?.call();
     for(final c in _onNextClose){
-      c();
+      c?.call();
     }
     _onNextClose.clear();
     alertController.previouslyOpenedPanel = false;
   }
-
 
   void _forgetPanelPage(){
     if(parent.panelPagesController == null) return;

@@ -29,9 +29,9 @@ extension StageDataExt on StageData {
 
   SidereusScrollPhysics get panelScrollPhysics => panelController.panelScrollPhysics();
 
-  void closePanel() => panelController.close();
+  Future<void> closePanel() => panelController.close();
 
-  void closePanelCompletely() => panelController.closeCompletely();
+  Future<void> closePanelCompletely() => panelController.closeCompletely();
 
   void openPanel() => panelController.open();
 
@@ -57,7 +57,7 @@ extension StageDataExt on StageData {
     pagePersistent: pagePersistent ?? false,
   );
 
-  void closeSnackBar() => panelController.snackbarController.close();
+  Future<void> closeSnackBar() => panelController.snackbarController.close();
 
 
 
@@ -82,11 +82,11 @@ extension StageDataExt on StageData {
     this.panelController._getPosition = panelPosition;
     this.panelController._getVelocity = panelVelocity;
 
-    this.panelController.snackbarController._closeInternal = closeSnackBar;
-    this.panelController.snackbarController._openInternal = openSnackBar;
-    this.panelController.snackbarController._getIsAnimating = snackBarIsAnimating;
-    this.panelController.snackbarController._getPosition = snackBarPosition;
-    this.panelController.snackbarController._getVelocity = snackBarVelocity;
+    this.panelController.snackbarController._closeSnackInternal = closeSnackBar;
+    this.panelController.snackbarController._openSnackInternal = openSnackBar;
+    this.panelController.snackbarController._getSnackIsAnimating = snackBarIsAnimating;
+    this.panelController.snackbarController._getSnackPosition = snackBarPosition;
+    this.panelController.snackbarController._getSnackVelocity = snackBarVelocity;
   }
 
 
