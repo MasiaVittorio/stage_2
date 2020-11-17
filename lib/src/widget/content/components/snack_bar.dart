@@ -231,7 +231,12 @@ class _StageSnackBar extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     
     final Widget closeButton = StageSnackButton(
-      onTap: (){},
+      onTap: (){
+        stage.panelController.snackbarController._onNextManualClose
+          .forEach((f) => f?.call());
+        stage.panelController.snackbarController._onNextManualClose
+          .clear();
+      },
       autoClose: true,
       child: const Icon(Icons.close),
       accent: true,

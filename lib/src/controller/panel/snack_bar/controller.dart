@@ -39,6 +39,7 @@ class _StageSnackBarData {
 
   /// Data
   final List<VoidCallback> _onNextSnackClose = <VoidCallback>[];
+  final List<VoidCallback> _onNextManualClose = <VoidCallback>[];
   
 
   //========================================

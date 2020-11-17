@@ -47,6 +47,7 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
     Duration duration = kSnackBarDuration, 
     bool rightAligned = false,
     bool pagePersistent = false,
+    VoidCallback onManualClose,
   }) async {
     assert(_openSnackInternal != null, _StagePanelData._warning);
     
@@ -56,6 +57,9 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
       parent._onNextClose.add(() => _realShow(child, duration, rightAligned));
     } else {
       _realShow(child, duration, rightAligned);
+    }
+    if(onManualClose != null){
+      _onNextManualClose.add(onManualClose);
     }
   }
 
@@ -83,6 +87,7 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
         await _closeSnackInternal();
         _onNextSnackClose.forEach((f) => f?.call());
         _onNextSnackClose.clear();
+        _onNextManualClose.clear();
       }
     } 
 

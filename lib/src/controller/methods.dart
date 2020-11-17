@@ -50,11 +50,13 @@ extension StageDataExt on StageData {
     Duration duration = _StageSnackBarDataExt.kSnackBarDuration, 
     bool rightAligned = false,
     bool pagePersistent = false,
+    VoidCallback onManualClose,
   }) => panelController.snackbarController.show(
     child, 
     duration: duration,
     rightAligned: rightAligned ?? false,
     pagePersistent: pagePersistent ?? false,
+    onManualClose: onManualClose,
   );
 
   Future<void> closeSnackBar() => panelController.snackbarController.close();
