@@ -9,12 +9,14 @@ class PanelTitle extends StatelessWidget {
   final bool centered;
   final bool animated;
   final bool autoClose;
+  final Color customColor;
 
   const PanelTitle(this.title, {
     this.centered = true, 
     this.twoLines = false,
     this.animated = false,
     this.autoClose = true,
+    this.customColor,
   }): assert(centered != null);
 
   static const double _minHeight = 30.0;
@@ -34,6 +36,11 @@ class PanelTitle extends StatelessWidget {
     final TextStyle style = DefaultTextStyle.of(context).style;
     final StageData stage = Stage.of(context);
 
+    final color = customColor ?? (RightContrast(
+      theme, 
+      fallbackOnTextTheme: true
+    ).onCanvas);
+
     final title = Container(
       height: twoLines 
         ? _minHeightTwoLines
@@ -50,10 +57,7 @@ class PanelTitle extends StatelessWidget {
             maxLines: this.twoLines ? 2: 1, 
             overflow: TextOverflow.ellipsis,
             style: style.copyWith(
-              color: RightContrast(
-                theme, 
-                fallbackOnTextTheme: true
-              ).onCanvas,
+              color: color,
               fontWeight: style.fontWeight.increment,
             ),
           )
@@ -63,10 +67,7 @@ class PanelTitle extends StatelessWidget {
             maxLines: this.twoLines ? 2: 1, 
             overflow: TextOverflow.ellipsis,
             style: style.copyWith(
-              color: RightContrast(
-                theme, 
-                fallbackOnTextTheme: true
-              ).onCanvas,
+              color: color,
               fontWeight: style.fontWeight.increment,
             ),
           ),

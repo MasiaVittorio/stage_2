@@ -9,6 +9,7 @@ class HeaderedAlert extends StatelessWidget {
     this.alreadyScrollableChild = false,
     this.canvasBackground = false,
     this.withoutHeader = false,
+    this.customTitleColor,
   }): assert(alreadyScrollableChild != null), 
       assert(canvasBackground != null);
 
@@ -18,11 +19,12 @@ class HeaderedAlert extends StatelessWidget {
   final bool alreadyScrollableChild;
   final bool canvasBackground;
   final bool withoutHeader;
+  final Color customTitleColor;
 
   @override
   Widget build(BuildContext context) {
     return HeaderedAlertCustom(
-      PanelTitle(title, animated: true), 
+      PanelTitle(title, animated: true, customColor: customTitleColor), 
       titleSize: PanelTitle.height, 
       child: this.child,
       bottom: this.bottom,

@@ -67,7 +67,11 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
       snackBarVelocity: () => snackBarAnimation.velocity,
       snackBarIsAnimating: () => snackBarAnimation.isAnimating,   
       openSnackBar: () => snackBarAnimation.animateTo(1.0),
-      closeSnackBar: () => snackBarAnimation.animateBack(0.0),
+      closeSnackBar: () async {
+        /// being often a delayed action, this has to make sure the stage was not disposed
+        if(!mounted) return;
+        await snackBarAnimation.animateBack(0.0);
+      },
       // LOW PRIORITY: use curves?
     );
   }
@@ -80,6 +84,7 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
   // Animation controller
 
   Future<void> closeInternal() async {
+    if(!mounted) return;
     if(panelAnimation.value != 0.0) {
       await this.panelAnimation.animateBack(
         0.0, 
