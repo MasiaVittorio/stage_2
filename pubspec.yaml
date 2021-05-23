@@ -3,6 +3,7 @@ description: A substitute for the scaffold widget that also manages state, navig
 version: 0.0.1
 author:
 homepage:
+publish_to: none
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -16,9 +17,9 @@ dependencies:
     path: ../sid_ui
   sid_bloc:
     path: ../sid_bloc
-  flutter_vector_icons: ^0.2.1
-  animations: ^1.0.0+5
-  badges: ^1.1.4
+  flutter_vector_icons: ^1.0.0
+  animations: ^2.0.0
+  badges: ^2.0.1
 
 
 

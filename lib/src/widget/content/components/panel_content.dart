@@ -62,7 +62,7 @@ class _PanelContent extends StatelessWidget {
         builder: (_, Widget snackBarChild, Widget alertChild) => Stack(
           fit: StackFit.expand,
           alignment: Alignment.topCenter,
-          overflow: Overflow.clip,
+          clipBehavior: Clip.hardEdge,
           children: <Widget>[
 
             Positioned(

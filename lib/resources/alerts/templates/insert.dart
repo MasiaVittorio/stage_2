@@ -105,18 +105,38 @@ class _InsertAlertState extends State<InsertAlert> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: FlatButton.icon(
-                    icon: const Icon(Icons.close),
-                    label: const Text("Cancel"),
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: TextButton(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Icon(Icons.close),
+                        const SizedBox(width: 8.0),
+                        const Text("Cancel"),
+                      ],
+                    ),
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.symmetric(vertical: 16.0),
+                      ),
+                    ),
                     onPressed: stage.panelController.close,
                   ),
                 ),
                 Expanded(
-                  child: FlatButton.icon(
-                    icon: const Icon(Icons.check),
-                    label: const Text("Confirm"),
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: TextButton(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Icon(Icons.check),
+                        const SizedBox(width: 8.0),
+                        const Text("Confirm"),
+                      ],
+                    ),
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.symmetric(vertical: 16.0),
+                      ),
+                    ),
                     onPressed: _seriouslyValid ? () {
                       final result = this.widget.onConfirm(this._controller.text);
                       if(result != false){

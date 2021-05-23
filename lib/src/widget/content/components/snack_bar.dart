@@ -310,7 +310,7 @@ class _StageSnackBar extends StatelessWidget {
 
                   return Stack(
                     fit: StackFit.expand,
-                    overflow: Overflow.clip,
+                    clipBehavior: Clip.hardEdge,
                     children: <Widget>[
 
                       Positioned(
