@@ -71,7 +71,7 @@ class RadioHeaderedAlert<T> extends StatefulWidget {
 class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T>> {
 
   T page;
-  List<T> orderedPages;
+  List<T>/*!*/ orderedPages;
   T previous;
 
   @override
@@ -83,11 +83,11 @@ class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return _RadioHeaderedAlertWidget(
+    return _RadioHeaderedAlertWidget<T>(
       page: page, 
       items: widget.items,
       orderedPages: orderedPages, 
-      onSelect: (newVal) => this.setState((){
+      onSelect: (T newVal) => this.setState((){
         widget.onPageChanged?.call(newVal);
         previous = page;
         page = newVal;
@@ -144,7 +144,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
     final Widget navBar = RadioNavBar<T>(
       selectedValue: page,
       orderedValues: orderedPages,
-      tileSize: bottomAction != null ? 56.0+8.0*2 : null,
+      tileSize: bottomAction != null ? 56.0+8.0*2 : RadioNavBar.defaultTileSize,
       items: {for(final entry in items.entries) 
         entry.key : RadioNavBarItem(
           title: entry.value.title,

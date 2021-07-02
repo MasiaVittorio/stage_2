@@ -34,7 +34,7 @@ class PanelTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final TextStyle style = DefaultTextStyle.of(context).style;
-    final StageData stage = Stage.of(context);
+    final StageData/*!*/ stage = Stage.of(context);
 
     final color = customColor ?? (RightContrast(
       theme, 
