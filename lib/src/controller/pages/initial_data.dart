@@ -41,7 +41,7 @@ class StagePagesData<T> {
     manualNullable: this,
   );
 
-  static StagePagesData<T?>? _create<T>({
+  static StagePagesData<T>? _create<T>({
     required StagePagesData<T>? inheritedData,
     required StagePagesData<T>? manualNullable,
   }) => manualNullable?.fillWith(inheritedData) ?? inheritedData;
@@ -57,7 +57,7 @@ class StagePagesData<T> {
       ...pagesData!.keys,
   };
 
-  StagePagesData<T?> fillWith(StagePagesData<T>? other) {
+  StagePagesData<T> fillWith(StagePagesData<T>? other) {
     final Set<T> keys = <T>{
       ...this._allKeys,
       if(other != null)

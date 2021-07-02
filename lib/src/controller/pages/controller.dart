@@ -85,7 +85,7 @@ class _StagePagesData<T> {
 
   T? get previousPage => _previousPages.isNotEmpty ? _previousPages.last : null;
 
-  StagePagesData<T?> get extractData => StagePagesData<T?>._(
+  StagePagesData<T> get extractData => StagePagesData<T>._(
     defaultPage: this.defaultPage,
     pagesData: this.pagesData,
     enabledPages: this._enabledPages.value,

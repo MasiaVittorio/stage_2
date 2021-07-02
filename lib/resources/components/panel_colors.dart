@@ -77,7 +77,7 @@ class StagePanelColorsPerPage<S> extends StatelessWidget {
     },);
   }
 
-  void pickPageColor(StageData<dynamic,S> stage, S? page, Color? initialColor)
+  void pickPageColor(StageData<dynamic,S> stage, S page, Color? initialColor)
     => stage.pickColor(
       initialColor: initialColor,
       onSubmitted: (color) => stage.themeController.currentColorsController!.editPanelPageToPrimary(page, color),

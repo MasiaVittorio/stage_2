@@ -32,9 +32,9 @@ class StageData<T,S> {
 
   /// Persistence
   final T Function(dynamic)? _jsonToMainPage; /// Reading the main page from disk
-  final dynamic Function(T?)? _mainPageToJson; /// Writing a main page to disk (useless if T is an already jsonable type like String or int)
+  final dynamic Function(T)? _mainPageToJson; /// Writing a main page to disk (useless if T is an already jsonable type like String or int)
   final S Function(dynamic)? _jsonToPanelPage;
-  final dynamic Function(S?)? _panelPageToJson;
+  final dynamic Function(S)? _panelPageToJson;
 
   /// wether this controller is still reading the 
   /// saved values from disk for at least one variable
@@ -56,9 +56,9 @@ class StageData<T,S> {
     // Persistence
     required this.storeKey,
     required T Function(dynamic)? jsonToMainPage,
-    required dynamic Function(T?)? mainPageToJson,
+    required dynamic Function(T)? mainPageToJson,
     required S Function(dynamic)? jsonToPanelPage,
-    required dynamic Function(S?)? panelPageToJson,
+    required dynamic Function(S)? panelPageToJson,
 
     // Initial data
     required StageThemeData<T,S> initialThemeData,
@@ -66,7 +66,7 @@ class StageData<T,S> {
     required StagePagesData<S>? initialPanelPagesData, /// Could be null
     required StageDimensions? initialDimensions, /// Could be null
     required StagePanelData? panelData, /// Could be null
-    required void Function(T?)? onMainPageChanged,
+    required void Function(T)? onMainPageChanged,
 
     required StagePopBehavior? popBehavior, /// Could be null
   }) :
@@ -92,7 +92,7 @@ class StageData<T,S> {
       uniqueKey: "MAIN",
       onPageChanged: onMainPageChanged,
       initialData: initialMainPagesData,
-      pageToJson: (T? p) => _writeMainPage(p), 
+      pageToJson: (T p) => _writeMainPage(p), 
       jsonToPage: (j) => _readMainPage(j),
       /// ^ Needed explicitly as it is different if the pages controller is dedicated to the panel or the main pages
     );
@@ -103,7 +103,7 @@ class StageData<T,S> {
       uniqueKey: "PANEL",
       onPageChanged: null,
       initialData: initialPanelPagesData,
-      pageToJson: (S? p) => _writePanelPage(p),
+      pageToJson: (S p) => _writePanelPage(p),
       jsonToPage: (j) => _readPanelPage(j),
       /// ^ Needed explicitly as it is different if the pages controller is dedicated to the panel or the main pages
     );
@@ -149,9 +149,9 @@ class StageData<T,S> {
   );
 
   S _readPanelPage(dynamic j) => this._jsonToPanelPage?.call(j) ?? j as S;
-  dynamic _writePanelPage(S? p) => this._panelPageToJson?.call(p) ?? p;
+  dynamic _writePanelPage(S p) => this._panelPageToJson?.call(p) ?? p;
   T _readMainPage(dynamic j) => this._jsonToMainPage?.call(j) ?? j as T;
-  dynamic _writeMainPage(T? p) => this._mainPageToJson?.call(p) ?? p;
+  dynamic _writeMainPage(T p) => this._mainPageToJson?.call(p) ?? p;
 
 
   Future<bool> _decidePop() async {

@@ -52,7 +52,7 @@ class StageColorsData<T,S> {
     lightAccent = lightAccent ?? StageDefaultColors.accent,
     lightMainPrimary = lightMainPrimary ?? StageDefaultColors.primary,
     lightMainPageToPrimary = _getFullMapPages<T>(lightMainPageToPrimary, allMainPagesToFill), ///could be null
-    lightPanelPrimary = lightPanelPrimary ?? StageDefaultColors.primary,
+    lightPanelPrimary = lightPanelPrimary ?? lightMainPrimary ?? StageDefaultColors.primary,
     lightPanelPageToPrimary = _getFullMapPages<S>(lightPanelPageToPrimary, allPanelPagesToFill), ///could be null
     darkAccents = _getFullMapDarkAccents(darkAccents),
     darkMainPrimaries = _getFullMapDarkPrimaries(darkMainPrimaries),

@@ -108,7 +108,7 @@ class _StageThemeData<T,S> {
     : this.backgroundColors;
 
 
-  StageThemeData<T?,S?> get extractData => StageThemeData<T?,S?>._(
+  StageThemeData<T,S> get extractData => StageThemeData<T,S>._(
     colorPlace: this.colorPlace.value,
     topBarElevations: this.topBarElevations.value,
     backgroundColors: this.backgroundColors.extractData,

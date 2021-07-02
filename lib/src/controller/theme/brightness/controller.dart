@@ -17,7 +17,7 @@ class _StageBrightnessData {
 
   //============================================
   // Actual State
-  final BlocVar<Brightness?> brightness;
+  final BlocVar<Brightness> brightness;
   final BlocVar<DarkStyle> darkStyle;
 
   //============================================
@@ -33,11 +33,11 @@ class _StageBrightnessData {
   _StageBrightnessData(this.parent, {
     required StageBrightnessData initialData,
   }): 
-    brightness = BlocVar.modal<Brightness?>(
-      initVal: initialData.brightness,
+    brightness = BlocVar.modal<Brightness>(
+      initVal: initialData.brightness ?? StageBrightnessData.defaultBrightness,
       key: parent.parent._getStoreKey("stage_brightness_brightness"), 
-      toJson: (b) => b!.name,
-      fromJson: (j) => _Brightness.fromName(j as String?),
+      toJson: (b) => b.name,
+      fromJson: (j) => _Brightness.fromName(j as String?)!,
       readCallback: (_) => parent.parent._readCallback("stage_brightness_brightness"),
     ),
     autoDark = BlocVar.modal<bool?>(

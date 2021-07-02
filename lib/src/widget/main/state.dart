@@ -2,8 +2,8 @@ part of stage;
 
 
 
-class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndExternalData<T?,S?>> {
-  StageData<T?,S?>? controller;
+class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndExternalData<T,S>> {
+  StageData<T,S>? controller;
 
   @override
   void initState() {
@@ -11,19 +11,19 @@ class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndE
     if(widget.controller != null){
       controller = widget.controller;
     } else {
-      final StageData<T?,S?>? inherited = widget.externalStageData;
-      final StageThemeData<T?,S?>? externalTheme = inherited?.themeController.extractData;
+      final StageData<T,S>? inherited = widget.externalStageData;
+      final StageThemeData<T,S>? externalTheme = inherited?.themeController.extractData;
 
-      final StagePagesData<T?> mainPages = StagePagesData._create<T?>(
+      final StagePagesData<T> mainPages = StagePagesData._create<T>(
         manualNullable: widget.mainPages,
         inheritedData: inherited?.mainPagesController.extractData, 
       )!;
-      final StagePagesData<S?>? panelPages = StagePagesData._create<S?>(
+      final StagePagesData<S>? panelPages = StagePagesData._create<S>(
         manualNullable: widget.panelPages, /// Can be null
         inheritedData: inherited?.panelPagesController?.extractData, 
       );
 
-      controller = StageData<T?,S?>(
+      controller = StageData<T,S>(
         storeKey: widget.storeKey,
         mainPageToJson: widget.mainPageToJson,
         jsonToMainPage: widget.jsonToMainPage,
@@ -33,7 +33,7 @@ class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndE
         initialDimensions: widget.dimensions ?? inherited?.dimensionsController.dimensions.value, // Could be null
         initialMainPagesData: mainPages,
         initialPanelPagesData: panelPages, /// Can be null
-        initialThemeData: StageThemeData._create<T?,S?>(
+        initialThemeData: StageThemeData._create<T,S>(
           theme: widget.startingThemeData,
           manualNullable: widget.stageTheme,
           inheritedData: externalTheme, // can be null
