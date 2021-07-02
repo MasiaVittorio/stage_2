@@ -8,8 +8,8 @@ class _StageBuildOffOpenNonAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
 
-    return stage.panelController.isMostlyOpenedNonAlert.build(builder);
+    return stage.panelController!.isMostlyOpenedNonAlert.build(builder as Widget Function(BuildContext, bool?));
   }
 }

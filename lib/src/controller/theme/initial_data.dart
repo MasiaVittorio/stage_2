@@ -2,38 +2,39 @@ part of stage;
 
 class StageThemeData<T,S> {
 
-  final StageColorsData<T,S> textsColors;
-  final StageColorsData<T,S> backgroundColors;
-  final StageBrightnessData brightness;
+  final StageColorsData<T,S>? textsColors;
+  final StageColorsData<T,S>? backgroundColors;
+  final StageBrightnessData? brightness;
 
   // type of theme
-  final StageColorPlace colorPlace;
-  final Map<StageColorPlace,double> topBarElevations;
-  final bool bottomBarShadow;
+  final StageColorPlace? colorPlace;
+  static const StageColorPlace defaultColorPlace = StageColorPlace.background;
+  final Map<StageColorPlace,double>? topBarElevations;
+  final bool? bottomBarShadow;
 
   // Optional settings
-  final bool forceSystemNavBarStyle;
-  final bool accentSelectedPage;
-  final Brightness forcedPrimaryColorBrightnessOnLightTheme; /// Could be null
-  final Brightness forcedPrimaryColorBrightnessOnDarkTheme; /// Could be null
-  final bool pandaOpenedPanelNavBar; /// If the opened panel's bottom bar should be of the same color of the top bar
+  final bool? forceSystemNavBarStyle;
+  final bool? accentSelectedPage;
+  final Brightness? forcedPrimaryColorBrightnessOnLightTheme; /// Could be null
+  final Brightness? forcedPrimaryColorBrightnessOnDarkTheme; /// Could be null
+  final bool? pandaOpenedPanelNavBar; /// If the opened panel's bottom bar should be of the same color of the top bar
 
   StageThemeData._({
-    @required StageColorPlace colorPlace, // if null, backgrounds
-    @required Map<StageColorPlace,double> topBarElevations, // if null, defaults
-    @required bool bottomBarShadow, //if null, true
-    @required this.backgroundColors,
-    @required StageColorsData<T,S> textsColors,
-    @required this.brightness,
-    @required bool forceSystemNavBarStyle,
-    @required bool accentSelectedPage,
-    @required this.forcedPrimaryColorBrightnessOnLightTheme, /// Could be null
-    @required this.forcedPrimaryColorBrightnessOnDarkTheme, /// Could be null
-    @required bool pandaOpenedPanelNavBar,
+    required StageColorPlace? colorPlace, // if null, backgrounds
+    required Map<StageColorPlace,double>? topBarElevations, // if null, defaults
+    required bool? bottomBarShadow, //if null, true
+    required this.backgroundColors,
+    required StageColorsData<T,S>? textsColors,
+    required this.brightness,
+    required bool? forceSystemNavBarStyle,
+    required bool? accentSelectedPage,
+    required this.forcedPrimaryColorBrightnessOnLightTheme, /// Could be null
+    required this.forcedPrimaryColorBrightnessOnDarkTheme, /// Could be null
+    required bool? pandaOpenedPanelNavBar,
   }): forceSystemNavBarStyle = forceSystemNavBarStyle ?? _defaultForceSystemNavBarStyle,
       accentSelectedPage = accentSelectedPage ?? _defaultAccentSelectedPage,
       textsColors = textsColors ?? backgroundColors,
-      colorPlace = colorPlace ?? StageColorPlace.background, 
+      colorPlace = colorPlace ?? defaultColorPlace, 
       topBarElevations = topBarElevations ?? defaultTopBarElevations,
       bottomBarShadow = bottomBarShadow ?? defaultBottomBarShadow,
       pandaOpenedPanelNavBar = pandaOpenedPanelNavBar ?? _defaultPandaOpenedPanelNavBar;
@@ -53,11 +54,11 @@ class StageThemeData<T,S> {
   });
 
   static StageThemeData<T,S> _fromThemeAndNullableData<T,S>(
-    ThemeData theme, 
-    StageThemeData<T,S> initialNullableData,
+    ThemeData? theme, 
+    StageThemeData<T,S>? initialNullableData,
     {
-      Iterable<T> allMainPagesToFill,
-      Iterable<S> allPanelPagesToFill, /// Can be null
+      Iterable<T>? allMainPagesToFill,
+      Iterable<S>? allPanelPagesToFill, /// Can be null
     }
   ) => StageThemeData<T,S>._(
     colorPlace: initialNullableData?.colorPlace, // if null, backgrounds
@@ -97,11 +98,11 @@ class StageThemeData<T,S> {
   );
   
   static StageThemeData<T,S> _create<T,S>({
-    @required ThemeData theme,
-    @required StageThemeData<T,S> inheritedData,
-    @required StageThemeData<T,S> manualNullable,
-    @required Iterable<T> allMainPagesToFill,
-    @required Iterable<S> allPanelPagesToFill, // can be null
+    required ThemeData? theme,
+    required StageThemeData<T,S>? inheritedData,
+    required StageThemeData<T,S>? manualNullable,
+    required Iterable<T>? allMainPagesToFill,
+    required Iterable<S>? allPanelPagesToFill, // can be null
   }) => _fromThemeAndNullableData(
     theme, 
     manualNullable?.fillWith(inheritedData) ?? inheritedData,
@@ -112,7 +113,7 @@ class StageThemeData<T,S> {
 
   //==================================
   // Getters
-  StageThemeData<T,S> fillWith(StageThemeData<T,S> other) => StageThemeData<T,S>._(
+  StageThemeData<T,S> fillWith(StageThemeData<T,S>? other) => StageThemeData<T,S>._(
     colorPlace: this.colorPlace ?? other?.colorPlace,
     topBarElevations: this.topBarElevations ?? other?.topBarElevations,
     bottomBarShadow: this.bottomBarShadow ?? other?.bottomBarShadow,

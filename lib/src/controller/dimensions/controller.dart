@@ -6,7 +6,7 @@ class _StageDimensionsData {
   //================================
   // Disposer
   void dispose(){
-    dimensions?.dispose();
+    dimensions.dispose();
   }
 
 
@@ -20,7 +20,7 @@ class _StageDimensionsData {
   //================================
   // Constructor
   _StageDimensionsData(this.parent, {
-    @required StageDimensions initialDimensions,
+    required StageDimensions initialDimensions,
   }):
     assert(initialDimensions != null), 
     dimensions = BlocVar.modal<StageDimensions>(

@@ -6,7 +6,7 @@ class _Brightness {
     "Light": Brightness.light,
     "Dark": Brightness.dark,
   };
-  static Brightness fromName(String name) => invertedNames[name];
+  static Brightness? fromName(String? name) => invertedNames[name!];
 
 }
 
@@ -16,23 +16,21 @@ enum AutoDarkMode {
   system,  
 }
 
-extension AutoDarkExt on AutoDarkMode {
-  String get name => _AutoDarkMode.names[this];
+extension AutoDarkExt on AutoDarkMode? {
+  String? get name => _AutoDarkMode.names[this!];
 
-  IconData get icon => _AutoDarkMode.icons[this];
+  IconData? get icon => _AutoDarkMode.icons[this!];
 
-  Brightness currentBrightness(MediaQueryData mediaQuery){
+  Brightness currentBrightness(MediaQueryData? mediaQuery){
     switch (this) {
       case AutoDarkMode.system:
         return mediaQuery?.platformBrightness ?? Brightness.light;
-        break;
       case AutoDarkMode.timeOfDay:
         final DateTime now = DateTime.now();
         // LOW PRIORITY: better hours
         return now.hour >= 7 && now.hour <= 20
           ? Brightness.light
           : Brightness.dark;
-        break;
       default:
         return StageBrightnessData.defaultBrightness;
     }
@@ -50,7 +48,7 @@ class _AutoDarkMode {
     "System": AutoDarkMode.system,
   };
 
-  static AutoDarkMode fromName(String name) => invertedNames[name];
+  static AutoDarkMode? fromName(String? name) => invertedNames[name!];
 
   static const Map<AutoDarkMode,IconData> icons = <AutoDarkMode,IconData>{
     AutoDarkMode.system: Icons.timeline,

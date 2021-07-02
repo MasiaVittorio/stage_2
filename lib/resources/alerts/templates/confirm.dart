@@ -14,11 +14,11 @@ class ConfirmAlert extends StatelessWidget {
 
   final String confirmText;
   final IconData confirmIcon;
-  final Color confirmColor;
+  final Color? confirmColor;
 
   final String cancelText;
   final IconData cancelIcon;
-  final Color cancelColor;
+  final Color? cancelColor;
 
   final bool autoCloseAfterConfirm;
 
@@ -30,13 +30,13 @@ class ConfirmAlert extends StatelessWidget {
   static const double twoLinesheight = AlternativesAlert.tileSize * 2 + PanelTitle.twoLinesHeight; 
 
   ConfirmAlert({
-    @required this.action,
-    String warningText,
-    String confirmText,
-    IconData confirmIcon,
+    required this.action,
+    String? warningText,
+    String? confirmText,
+    IconData? confirmIcon,
     this.confirmColor, //defaults to the text color provided by the context
-    String cancelText,
-    IconData cancelIcon,
+    String? cancelText,
+    IconData? cancelIcon,
     this.cancelColor, //defaults to the text color provided by the context
     this.autoCloseAfterConfirm = true,
     this.completelyCloseAfterConfirm = false,
@@ -47,7 +47,7 @@ class ConfirmAlert extends StatelessWidget {
     this.confirmIcon = confirmIcon ??  _kConfirmIcon,
     this.cancelIcon = cancelIcon ??  _kCancelIcon,
     this.warningText = warningText ?? "Are you sure? This action may not be reversible.",
-    this.twoLinesWarning = twoLinesWarning ?? false;
+    this.twoLinesWarning = twoLinesWarning;
 
   @override
   Widget build(BuildContext context) {

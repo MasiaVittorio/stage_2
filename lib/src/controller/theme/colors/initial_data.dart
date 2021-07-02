@@ -6,23 +6,23 @@ class StageColorsData<T,S> {
   //=================================
   // Values
   //==> Light Colors
-  final Color lightAccent;
+  final Color? lightAccent;
 
-  final Color lightMainPrimary;
-  final Map<T,Color> lightMainPageToPrimary; ///could be null
+  final Color? lightMainPrimary;
+  final Map<T,Color?>? lightMainPageToPrimary; ///could be null
 
-  final Color lightPanelPrimary;
-  final Map<S,Color> lightPanelPageToPrimary; ///could be null
+  final Color? lightPanelPrimary;
+  final Map<S,Color?>? lightPanelPageToPrimary; ///could be null
 
 
   //==> Dark Colors (for each dark style)
-  final Map<DarkStyle,Color> darkAccents;
+  final Map<DarkStyle,Color?>? darkAccents;
 
-  final Map<DarkStyle,Color> darkMainPrimaries;
-  final Map<DarkStyle,Map<T,Color>> darkMainPageToPrimaries; ///could be null
+  final Map<DarkStyle,Color?>? darkMainPrimaries;
+  final Map<DarkStyle,Map<T,Color?>>? darkMainPageToPrimaries; ///could be null
 
-  final Map<DarkStyle,Color> darkPanelPrimaries;
-  final Map<DarkStyle,Map<S,Color>> darkPanelPageToPrimaries; ///could be null
+  final Map<DarkStyle,Color?>? darkPanelPrimaries;
+  final Map<DarkStyle,Map<S,Color?>>? darkPanelPageToPrimaries; ///could be null
 
   // //==> Theme type
   // final StageColorPlace colorPlace;
@@ -33,20 +33,20 @@ class StageColorsData<T,S> {
   StageColorsData._({
     // @required StageColorPlace colorPlace,
 
-    @required Iterable<T> allMainPagesToFill,
-    @required Iterable<S> allPanelPagesToFill,
+    required Iterable<T>? allMainPagesToFill,
+    required Iterable<S>? allPanelPagesToFill,
 
-    @required Color lightAccent,
-    @required Color lightMainPrimary,
-    @required Map<T,Color> lightMainPageToPrimary,
-    @required Color lightPanelPrimary,
-    @required Map<S,Color> lightPanelPageToPrimary,
+    required Color? lightAccent,
+    required Color? lightMainPrimary,
+    required Map<T,Color?>? lightMainPageToPrimary,
+    required Color? lightPanelPrimary,
+    required Map<S,Color?>? lightPanelPageToPrimary,
 
-    @required Map<DarkStyle,Color> darkAccents,
-    @required Map<DarkStyle,Color> darkMainPrimaries,
-    @required Map<DarkStyle,Map<T,Color>> darkMainPageToPrimaries,
-    @required Map<DarkStyle,Color> darkPanelPrimaries,
-    @required Map<DarkStyle,Map<S,Color>> darkPanelPageToPrimaries,
+    required Map<DarkStyle?,Color?>? darkAccents,
+    required Map<DarkStyle?,Color?>? darkMainPrimaries,
+    required Map<DarkStyle?,Map<T,Color?>>? darkMainPageToPrimaries,
+    required Map<DarkStyle?,Color?>? darkPanelPrimaries,
+    required Map<DarkStyle?,Map<S,Color?>>? darkPanelPageToPrimaries,
   }):
     // colorPlace = colorPlace ?? StageColorPlace.background,
     lightAccent = lightAccent ?? StageDefaultColors.accent,
@@ -74,11 +74,11 @@ class StageColorsData<T,S> {
   });
 
   static StageColorsData<T,S> _fromThemeAndNullableData<T,S>(
-    ThemeData theme, 
-    StageColorsData<T,S> nullableData,
+    ThemeData? theme, 
+    StageColorsData<T,S>? nullableData,
     {
-      Iterable<T> allMainPagesToFill,
-      Iterable<S> allPanelPagesToFill, /// Can be null
+      Iterable<T>? allMainPagesToFill,
+      Iterable<S>? allPanelPagesToFill, /// Can be null
     }
   ) => _fromTheme<T,S>(
     theme,
@@ -97,19 +97,19 @@ class StageColorsData<T,S> {
     darkPanelPageToPrimaries: nullableData?.darkPanelPageToPrimaries,
   );
 
-  static StageColorsData<T,S> _fromTheme<T,S>(ThemeData theme, {
-    Iterable<T> allMainPagesToFill,
-    Iterable<S> allPanelPagesToFill, /// Can be null
-    Color lightAccent,
-    Color lightMainPrimary,
-    Map<T,Color> lightMainPageToPrimary,
-    Color lightPanelPrimary,
-    Map<S,Color> lightPanelPageToPrimary,
-    Map<DarkStyle,Color> darkAccents,
-    Map<DarkStyle,Color> darkMainPrimaries,
-    Map<DarkStyle,Map<T,Color>> darkMainPageToPrimaries,
-    Map<DarkStyle,Color> darkPanelPrimaries,
-    Map<DarkStyle,Map<S,Color>> darkPanelPageToPrimaries,
+  static StageColorsData<T,S> _fromTheme<T,S>(ThemeData? theme, {
+    Iterable<T>? allMainPagesToFill,
+    Iterable<S>? allPanelPagesToFill, /// Can be null
+    Color? lightAccent,
+    Color? lightMainPrimary,
+    Map<T,Color?>? lightMainPageToPrimary,
+    Color? lightPanelPrimary,
+    Map<S,Color?>? lightPanelPageToPrimary,
+    Map<DarkStyle,Color?>? darkAccents,
+    Map<DarkStyle,Color?>? darkMainPrimaries,
+    Map<DarkStyle,Map<T,Color?>>? darkMainPageToPrimaries,
+    Map<DarkStyle,Color?>? darkPanelPrimaries,
+    Map<DarkStyle,Map<S,Color?>>? darkPanelPageToPrimaries,
   }) => StageColorsData<T,S>._(
     allMainPagesToFill: allMainPagesToFill,
     allPanelPagesToFill: allPanelPagesToFill,
@@ -126,7 +126,7 @@ class StageColorsData<T,S> {
     darkPanelPageToPrimaries: darkPanelPageToPrimaries ?? null,
   );
 
-  StageColorsData<T,S> fillWith(StageColorsData<T,S> other) => StageColorsData<T,S>._(
+  StageColorsData<T,S> fillWith(StageColorsData<T,S>? other) => StageColorsData<T,S>._(
     allMainPagesToFill: null,
     allPanelPagesToFill: null,
     lightAccent: this.lightAccent ?? other?.lightAccent, 
@@ -146,7 +146,7 @@ class StageColorsData<T,S> {
 
   //================================
   // Static
-  static Map<DarkStyle,Map<A,Color>> _getFullMapDarkPagesPrimaries<A>(Map<DarkStyle,Map<A,Color>> provided, Iterable<A> allPagesToFill){
+  static Map<DarkStyle,Map<A,Color?>>? _getFullMapDarkPagesPrimaries<A>(Map<DarkStyle?,Map<A,Color?>?>? provided, Iterable<A>? allPagesToFill){
     if(provided == null) return null;
 
     Set<A> keys = <A>{
@@ -157,7 +157,7 @@ class StageColorsData<T,S> {
           ...map.keys,
     };
 
-    Map<A,Color> validMap;
+    Map<A,Color?>? validMap;
     for(final map in provided.values){
       if(map != null){
         validMap = map;
@@ -166,8 +166,8 @@ class StageColorsData<T,S> {
     }
     assert(validMap != null, "there has to be at least one map with some colors specified if you want different colors for each page");
 
-    Color validColor;
-    for(final color in validMap.values){
+    Color? validColor;
+    for(final color in validMap!.values){
       if(color != null){
         validColor = color;
         break;
@@ -175,16 +175,16 @@ class StageColorsData<T,S> {
     }
     assert(validColor != null, "there has to be at least one color specified if you want different colors for each page");
 
-    return <DarkStyle,Map<A,Color>>{
+    return <DarkStyle,Map<A,Color?>>{
       for(final style in DarkStyle.values)
-        style: <A,Color>{
+        style: <A,Color?>{
           for(final A key in keys)
-            key: (provided[style] != null ? provided[style][key] : null) ?? validMap[key] ?? validColor
+            key: (provided[style] != null ? provided[style]![key] : null) ?? validMap[key] ?? validColor
         },
     };
   }
 
-  static Map<A,Color> _getFullMapPages<A>(Map<A,Color> provided, Iterable<A> allPagesToFill){
+  static Map<A,Color?>? _getFullMapPages<A>(Map<A,Color?>? provided, Iterable<A>? allPagesToFill){
     if(provided == null) return null;
 
     Set<A> keys = <A>{
@@ -193,7 +193,7 @@ class StageColorsData<T,S> {
       else ...provided.keys,
     };
 
-    Color validColor;
+    Color? validColor;
     for(final color in provided.values){
       if(color != null){
         validColor = color;
@@ -203,22 +203,22 @@ class StageColorsData<T,S> {
 
     assert(validColor != null, "there has to be at least one color specified if you want different colors for each page");
 
-    return <A,Color>{
+    return <A,Color?>{
       for(final A key in keys)
         key: provided[key] ?? validColor,
     };
   }
 
-  static Map<DarkStyle,Color> _getFullMapDarkAccents(Map<DarkStyle,Color> provided)
-    => <DarkStyle,Color>{
+  static Map<DarkStyle,Color?> _getFullMapDarkAccents(Map<DarkStyle?,Color?>? provided)
+    => <DarkStyle,Color?>{
       for(final style in DarkStyle.values)
         if(provided != null)
           style: provided[style] ?? style.defaultAccent
         else 
           style: style.defaultAccent,
     };
-  static Map<DarkStyle,Color> _getFullMapDarkPrimaries(Map<DarkStyle,Color> provided)
-    => <DarkStyle,Color>{
+  static Map<DarkStyle,Color?> _getFullMapDarkPrimaries(Map<DarkStyle?,Color?>? provided)
+    => <DarkStyle,Color?>{
       for(final style in DarkStyle.values)
         if(provided != null)
           style: provided[style] ?? style.defaultPrimary

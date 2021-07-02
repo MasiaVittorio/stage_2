@@ -1,13 +1,13 @@
 part of stage;
 
 extension StageAlertDataExt on _StageAlertData {
-  static const double kAlertSize = 250;
+  static const double defaultAlertSize = 250;
 
   //===================================
   // Public
 
   void showAlert(Widget child, {
-    double size = kAlertSize, 
+    double size = defaultAlertSize, 
     bool replace = false
   }) async {
 
@@ -15,18 +15,18 @@ extension StageAlertDataExt on _StageAlertData {
       if(this.children.value.isEmpty){
         previouslyOpenedPanel = true;
       }
-      await parent._closeInternal();
+      await parent._closeInternal!();
     }
 
-    if(parent.snackbarController.position != 0.0){
-      await parent.snackbarController.close();
+    if(parent.snackbarController!.position != 0.0){
+      await parent.snackbarController!.close();
     }
 
-    if((replace ?? false) && this.sizes.value.isNotEmpty && this.children.value.isNotEmpty){
+    if(replace && this.sizes.value.isNotEmpty && this.children.value.isNotEmpty){
       sizes.value.removeLast();
       children.value.removeLast();
     }
-    sizes.value.add(size ?? kAlertSize);
+    sizes.value.add(size);
     children.value.add(child);
     sizes.refresh();
     children.refresh();
@@ -69,7 +69,7 @@ extension StageAlertDataExt on _StageAlertData {
         shouldReOpen = true;
       }
       if(shouldReOpen){
-        SchedulerBinding.instance.addPostFrameCallback((_) {
+        SchedulerBinding.instance!.addPostFrameCallback((_) {
           parent.open();
         });
         return true;

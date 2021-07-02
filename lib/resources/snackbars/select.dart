@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 
 class SelectSnackbar extends StatelessWidget {
   const SelectSnackbar({
-    @required this.children,
+    required this.children,
     this.initialIndex,
-    @required this.onTap,
+    required this.onTap,
     this.autoClose = true,
   });
   final List<Widget> children;
-  final int initialIndex;
+  final int? initialIndex;
   final void Function(int) onTap;
   final bool autoClose;
 
@@ -32,18 +32,18 @@ class SelectSnackbar extends StatelessWidget {
 
 class _SnackbarSelector extends StatefulWidget {
   const _SnackbarSelector({
-    @required this.width,
-    @required this.height,
-    @required this.children,
-    @required this.initialIndex,
-    @required this.autoClose,
-    @required this.onTap,
+    required this.width,
+    required this.height,
+    required this.children,
+    required this.initialIndex,
+    required this.autoClose,
+    required this.onTap,
   });
 
   final double height;
   final double width;
   final List<Widget> children;
-  final int initialIndex;
+  final int? initialIndex;
   final void Function(int) onTap;
   final bool autoClose;
 
@@ -53,9 +53,9 @@ class _SnackbarSelector extends StatefulWidget {
 
 class _SnackbarSelectorState extends State<_SnackbarSelector> with SingleTickerProviderStateMixin {
 
-  AnimationController animationController;
-  ScrollController scrollController;
-  int selectedIndex;
+  AnimationController? animationController;
+  ScrollController? scrollController;
+  int? selectedIndex;
 
   @override
   void initState() {
@@ -74,7 +74,7 @@ class _SnackbarSelectorState extends State<_SnackbarSelector> with SingleTickerP
   }
 
   void prepare(){
-    animationController.animateTo(1, curve: Curves.easeOutBack);
+    animationController!.animateTo(1, curve: Curves.easeOutBack);
   }
 
   @override
@@ -101,8 +101,8 @@ class _SnackbarSelectorState extends State<_SnackbarSelector> with SingleTickerP
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
-    final bool rightAligned = stage.panelController.snackbarController.snackBarRightAligned ?? false;
+    final StageData stage = Stage.of(context)!;
+    final bool rightAligned = stage.panelController!.snackbarController!.snackBarRightAligned ?? false;
 
     List<Widget> children = <Widget>[
       for(int i=0; i<widget.children.length; ++i)
@@ -145,12 +145,12 @@ class _SnackbarSelectorState extends State<_SnackbarSelector> with SingleTickerP
     );
 
     return AnimatedBuilder(
-      animation: animationController,
+      animation: animationController!,
       child: child,
       builder: (_, child)
         => Transform.translate(
           offset: Offset(
-            (1 - animationController.value) * 
+            (1 - animationController!.value) * 
             (rightAligned ? 200 : -200), 
             0,
           ),

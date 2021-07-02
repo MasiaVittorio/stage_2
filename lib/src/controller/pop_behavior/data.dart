@@ -14,7 +14,6 @@ class StagePopBehavior {
 
   final bool backToClosePanel;
 
-
   //=========================================
   // Constructor
   const StagePopBehavior({
@@ -28,13 +27,13 @@ class StagePopBehavior {
 
     bool backToClosePanel = true,
   }):
-    rememberPanelPage = rememberPanelPage ?? false,
+    rememberPanelPage = rememberPanelPage,
 
-    backToPreviousMainPage = backToPreviousMainPage ?? true,
-    backToDefaultMainPage = backToDefaultMainPage ?? false,
+    backToPreviousMainPage = backToPreviousMainPage,
+    backToDefaultMainPage = backToDefaultMainPage,
 
-    backToPreviousPanelPage = backToPreviousPanelPage ?? false,
-    backToDefaultPanelPage = backToDefaultPanelPage ?? true,
+    backToPreviousPanelPage = backToPreviousPanelPage,
+    backToDefaultPanelPage = backToDefaultPanelPage,
 
-    backToClosePanel = backToClosePanel ?? true;
+    backToClosePanel = backToClosePanel;
 }

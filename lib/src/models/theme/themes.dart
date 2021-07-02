@@ -11,16 +11,16 @@ class StageColorPlaces {
     "Texts": StageColorPlace.texts,
   }; 
 
-  static StageColorPlace fromName(String s) => map[s] ?? StageColorPlace.background;
+  static StageColorPlace fromName(String? s) => map[s!] ?? StageColorPlace.background;
 }
 
-extension StageColorPlaceExt on StageColorPlace {
+extension StageColorPlaceExt on StageColorPlace? {
   static const Map<StageColorPlace,String> map = <StageColorPlace,String>{
     StageColorPlace.background: "Background",
     StageColorPlace.texts: "Texts",
   }; 
 
-  String get name => map[this];
+  String? get name => map[this!];
 
   bool get isTexts => this == StageColorPlace.texts;
   bool get notTexts => !isTexts;
@@ -31,11 +31,11 @@ extension StageColorPlaceExt on StageColorPlace {
 class StageThemeUtils {
 
   static ThemeData getThemeData({
-    @required Brightness brightness, 
-    @required DarkStyle darkStyle,
-    @required Color primary,
-    @required Color accent, 
-    @required Brightness forcedPrimaryColorBrightness, /// Could be null
+    required Brightness brightness, 
+    required DarkStyle? darkStyle,
+    required Color primary,
+    required Color accent, 
+    required Brightness? forcedPrimaryColorBrightness, /// Could be null
   }) {
     
     final Color _toggleable = accent;
@@ -49,11 +49,11 @@ class StageThemeUtils {
 
       canvasColor: brightness.isLight
         ? Colors.grey.shade50
-        : _darkCanvasColors[darkStyle],
+        : _darkCanvasColors[darkStyle!],
       // colorScheme: , TODO: surface non riflette canvas?
       scaffoldBackgroundColor: brightness.isLight 
         ? Colors.grey.shade200 
-        : _darkBackgroundColors[darkStyle],
+        : _darkBackgroundColors[darkStyle!],
       primaryColor: primary,
       accentColor: accent,
       textTheme: _textTheme.apply(

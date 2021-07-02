@@ -7,8 +7,8 @@ class _BoxedCollapsedPanel extends StatelessWidget {
   final _StageDerivedDimensions derived;
 
   _BoxedCollapsedPanel(this.content, {
-    @required this.dimensions,
-    @required this.derived,
+    required this.dimensions,
+    required this.derived,
   });
 
   @override

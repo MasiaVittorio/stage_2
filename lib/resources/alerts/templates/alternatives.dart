@@ -2,23 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:stage/stage.dart';
 
 class Alternative {
-  final Color color;
+  final Color? color;
   final String title;
   final VoidCallback action;
   final IconData icon;
   final bool autoClose;
   final bool completelyAutoClose;
   const Alternative({
-    @required this.title,
-    @required this.icon,
-    @required this.action,
+    required this.title,
+    required this.icon,
+    required this.action,
     this.autoClose = false,
     this.completelyAutoClose = false,
     this.color,
-  }): assert(title!=null),
-      assert(icon!=null),
-      assert(autoClose!=null),
-      assert(completelyAutoClose!=null);
+  });
 }
 
 class AlternativesAlert extends StatelessWidget {
@@ -35,14 +32,10 @@ class AlternativesAlert extends StatelessWidget {
   static double twoLinesheightCalc(int alts) => tileSize * alts + PanelTitle.twoLinesHeight;
 
   AlternativesAlert({
-    @required this.alternatives,
-    @required this.label,
+    required this.alternatives,
+    required this.label,
     this.twoLinesLabel = false,
-  }):
-    assert(label != null),
-    assert(alternatives != null),
-    assert(alternatives.isNotEmpty),
-    assert(twoLinesLabel != null);
+  }): assert(alternatives.isNotEmpty);
 
   @override
   Widget build(BuildContext context) {
@@ -55,15 +48,15 @@ class AlternativesAlert extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
 
-            PanelTitle(this.label, twoLines: this.twoLinesLabel ?? false,),
+            PanelTitle(this.label, twoLines: this.twoLinesLabel,),
 
             for(final alt in this.alternatives)
               ListTile(
-                onTap: alt.action==null ? null: (){
+                onTap: (){
                   if(alt.completelyAutoClose){
-                    stage.panelController.closeCompletely();
+                    stage!.panelController!.closeCompletely();
                   } else if(alt.autoClose){
-                    stage.panelController.close();
+                    stage!.panelController!.close();
                   }
                   alt.action();
                 },

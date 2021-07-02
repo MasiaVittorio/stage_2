@@ -8,42 +8,42 @@ class _BottomBar<T,S> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final StageData<T,S> data = Stage.of<T,S>(context);
+    final StageData<T,S> data = Stage.of<T,S>(context)!;
     final ThemeData theme = Theme.of(context);
-    final bool _useAccent = data.themeController.accentSelectedPage;
-    final Map<T,StagePage> pagesData = data.mainPagesController.pagesData;
+    final bool? _useAccent = data.themeController!.accentSelectedPage;
+    final Map<T,StagePage?>? pagesData = data.mainPagesController.pagesData;
 
     /// [primaryColorsMap] can be null, so cannot be used in batch with .build6!!
-    return data.mainPagesController._orderedPages.build((_, orderedPages) 
-      => data.dimensionsController.dimensions.build((_, dimensions) 
-      => data.themeController.derived.mainPageToPrimaryColor.build((_, primaryColorsMap) 
-      => data.themeController.derived._mainPrimaryColor.build((_, color) 
-      => data.mainPagesController._enabledPages.build((_, enabled) 
-      => data.themeController.colorPlace.build((_, place)
-      => data.mainPagesController._page.build((_, page) 
-      => data.badgesController.mainPages.build((_, badges) {
+    return data.mainPagesController._orderedPages.build(((_, orderedPages) 
+      => data.dimensionsController!.dimensions.build(((_, dimensions) 
+      => data.themeController!.derived!.mainPageToPrimaryColor!.build(((_, primaryColorsMap) 
+      => data.themeController!.derived!._mainPrimaryColor!.build(((_, color) 
+      => data.mainPagesController._enabledPages!.build(((_, enabled) 
+      => data.themeController!.colorPlace.build(((_, place)
+      => data.mainPagesController._page.build(((_, page) 
+      => data.badgesController!.mainPages.build((_, badges) {
 
         final bool googleLike = place.isTexts;
 
         final bool single = primaryColorsMap == null;
-        final Color singleBackground = color;
-        final bool useAccent = single && _useAccent;
-        final Color singleAccent = useAccent ? theme.accentColor : null;
+        final Color? singleBackground = color;
+        final bool useAccent = single && _useAccent!;
+        final Color? singleAccent = useAccent ? theme.accentColor : null;
         /// all that is ignored by radionavbar if googleLike
 
         final Widget child = RadioNavBar<T>(
-          selectedValue: page,
+          selectedValue: page!,
           orderedValues: <T>[
             for(final page in orderedPages) 
-              if(enabled[page]) page,
+              if(enabled[page]!) page,
           ],
           items: <T,RadioNavBarItem>{
-            for(final entry in pagesData.entries)
+            for(final entry in pagesData!.entries)
               entry.key: RadioNavBarItem(
-                title: entry.value.name,
-                icon: entry.value.icon,
-                unselectedIcon: entry.value.unselectedIcon,
-                color: single ? null : primaryColorsMap[entry.key],
+                title: entry.value!.name,
+                icon: entry.value!.icon,
+                unselectedIcon: entry.value!.unselectedIcon,
+                color: single ? null : primaryColorsMap[entry.key!],
               ),
           },
           badges: badges,
@@ -57,12 +57,12 @@ class _BottomBar<T,S> extends StatelessWidget {
 
           forceSingleColor: single,
           singleBackgroundColor: singleBackground,
-          forceBrightness: data.themeController
+          forceBrightness: data.themeController!
               ._currentForcedPrimaryColorBrightness,
           accentTextColor: singleAccent,
         );
 
-        return data.themeController.bottomBarShadow.build((context, val){
+        return data.themeController!.bottomBarShadow.build((context, val){
           if(val){
             return UpShadower(
               child: child,
@@ -70,7 +70,7 @@ class _BottomBar<T,S> extends StatelessWidget {
           } else return child;
         });
 
-      },))))))),
+      })))))))))))))),
     );
   }
 }

@@ -3,15 +3,15 @@ part of stage;
 //helper to make the snackbar child easier
 class StageSnackBar extends StatelessWidget {
   final Widget title;
-  final Widget subtitle;
-  final Widget secondary;
-  final double alignment; //-1 left 0 center +1 right
+  final Widget? subtitle;
+  final Widget? secondary;
+  final double? alignment; //-1 left 0 center +1 right
   final bool scrollable;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final EdgeInsets contentPadding;
 
   const StageSnackBar({
-    @required this.title,
+    required this.title,
     this.subtitle,
     this.secondary,
     this.alignment,
@@ -23,18 +23,18 @@ class StageSnackBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
-    final StageDimensions dimensions = stage.dimensionsController.dimensions.value;
+    final StageData stage = Stage.of(context)!;
+    final StageDimensions dimensions = stage.dimensionsController!.dimensions.value;
     // Ok to access to it like that because the snackbars are temporary
     final double height = dimensions.collapsedPanelSize;
 
-    final double xAlignment = alignment ?? secondary != null 
+    final double xAlignment = alignment ?? (secondary != null 
       ? 0 
-      : stage.panelController.snackbarController.snackBarRightAligned
+      : stage.panelController!.snackbarController!.snackBarRightAligned
         ? 1
-        : -1;
+        : -1);
 
-    final Widget secondaryChild = secondary != null 
+    final Widget? secondaryChild = secondary != null 
       ? Container(
         alignment: Alignment.center,
         height: height,
@@ -59,7 +59,7 @@ class StageSnackBar extends StatelessWidget {
               subtitle != null ? 0.5 : 0.0
             ),
             child: DefaultTextStyle(
-              style: theme.textTheme.subtitle1,
+              style: theme.textTheme.subtitle1!,
               child: title,
             ),
           ),
@@ -70,38 +70,38 @@ class StageSnackBar extends StatelessWidget {
             child: Align(
               alignment: Alignment(xAlignment,-0.5),
               child: DefaultTextStyle(
-                style: theme.textTheme.subtitle2,
-                child: subtitle,
+                style: theme.textTheme.subtitle2!,
+                child: subtitle!,
               ),
             ),
           ),
       ],
     );
 
-    final bool right = stage.panelController.snackbarController.snackBarRightAligned ?? false;
+    final bool right = stage.panelController!.snackbarController!.snackBarRightAligned;
 
     final Widget result = InkWell(
       onTap: onTap,
       child: SizedBox(
         height: height,
         child: Row(children: <Widget>[
-          if(secondary != null && right)
+          if(secondaryChild != null && right)
             secondaryChild,
           if(!right) StageSnackButton.placeHolder,
 
           Expanded(child: Padding(
-            padding: contentPadding ?? defaultContentPadding,
+            padding: contentPadding,
             child: body,
           )),
 
           if(right) StageSnackButton.placeHolder,
-          if(secondary != null && !right)
+          if(secondaryChild != null && !right)
             secondaryChild,
         ],),
       ),
     );
 
-    if(scrollable ?? false){
+    if(scrollable){
       return SnackBarClosingScrollable(result);
     }
 
@@ -115,14 +115,14 @@ class SnackBarClosingScrollable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
+    final StageData? stage = Stage.of(context);
     return LayoutBuilder(builder: (_, constraints)
       => ConstrainedBox(
         constraints: constraints,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          physics: stage.panelController.snackbarController.snackBarScrollPhysics(
-            bottom: !(stage.panelController.snackbarController.snackBarRightAligned ?? false),
+          physics: stage!.panelController!.snackbarController!.snackBarScrollPhysics(
+            bottom: !(stage.panelController!.snackbarController!.snackBarRightAligned),
             always: true,
           ),
           child: ConstrainedBox(
@@ -139,18 +139,18 @@ class SnackBarClosingScrollable extends StatelessWidget {
 class StageSnackButton extends StatelessWidget {
 
   const StageSnackButton({
-    @required this.onTap,
-    @required this.child,
+    required this.onTap,
+    required this.child,
     this.autoClose = true,
     this.accent = false,
     this.backgroundColor,
   }) : isPlaceHolder = false;
   final bool isPlaceHolder;
-  final Widget child;
-  final Color backgroundColor;
-  final VoidCallback onTap;
-  final bool autoClose;
-  final bool accent;
+  final Widget? child;
+  final Color? backgroundColor;
+  final VoidCallback? onTap;
+  final bool? autoClose;
+  final bool? accent;
 
   const StageSnackButton.asPlaceHolder():
     onTap = null,
@@ -165,14 +165,14 @@ class StageSnackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final StageData stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
 
-    return BlocVar.build2<StageDimensions,Color>( 
-      stage.dimensionsController.dimensions,
-      stage.themeController.derived.currentPrimaryColor,
+    return BlocVar.build2<StageDimensions,Color?>( 
+      stage.dimensionsController!.dimensions,
+      stage.themeController!.derived!.currentPrimaryColor!,
       builder:(_, dimensions, color){
         
-        final double height = dimensions.collapsedPanelSize;
+        final double height = dimensions!.collapsedPanelSize;
 
         if(isPlaceHolder) return SizedBox(
           height: height, 
@@ -180,14 +180,14 @@ class StageSnackButton extends StatelessWidget {
         );
         
         return Material(
-          color: backgroundColor ?? (accent 
-            ? getColor(Theme.of(context), color) 
+          color: backgroundColor ?? (accent! 
+            ? getColor(Theme.of(context), color!) 
             : color),
           borderRadius: BorderRadius.circular(dimensions.panelRadiusClosed),
           child: InkResponse(
             radius: height/2,
             onTap: onTap == null ? null : (){
-              this.onTap();
+              this.onTap!();
               if(this.autoClose ?? true){
                 stage.closeSnackBar();
               }
@@ -215,11 +215,11 @@ class StageSnackButton extends StatelessWidget {
 class _StageSnackBar extends StatelessWidget {
 
   _StageSnackBar({
-    @required this.animation,
-    @required this.child,
+    required this.animation,
+    required this.child,
   });
 
-  final Animation animation;
+  final Animation? animation;
   final Widget child;
 
   static const double textOpacity = 0.9;
@@ -227,14 +227,14 @@ class _StageSnackBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final StageData stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
     final ThemeData theme = Theme.of(context);
     
     final Widget closeButton = StageSnackButton(
       onTap: (){
-        stage.panelController.snackbarController._onNextManualClose
-          .forEach((f) => f?.call());
-        stage.panelController.snackbarController._onNextManualClose
+        stage.panelController!.snackbarController!._onNextManualClose
+          .forEach((f) => f());
+        stage.panelController!.snackbarController!._onNextManualClose
           .clear();
       },
       autoClose: true,
@@ -242,12 +242,12 @@ class _StageSnackBar extends StatelessWidget {
       accent: true,
     );
 
-    final bool right = stage.panelController.snackbarController.snackBarRightAligned ?? false;
+    final bool right = stage.panelController!.snackbarController!.snackBarRightAligned;
 
     return BlocVar.build2(
-      stage.themeController.derived.currentPrimaryColor,
-      stage.themeController.derived.forcedPrimaryColorBrightness,
-      builder: (_,color, forcedPrimaryColorBrightness) {
+      stage.themeController!.derived!.currentPrimaryColor!,
+      stage.themeController!.derived!.forcedPrimaryColorBrightness!,
+      builder: (_,dynamic color, dynamic forcedPrimaryColorBrightness) {
         final Brightness colorBrightness 
             = forcedPrimaryColorBrightness
             ?? ThemeData.estimateBrightnessForColor(color);
@@ -263,7 +263,7 @@ class _StageSnackBar extends StatelessWidget {
               bodyColor: iconColor.withOpacity(textOpacity), 
             ),
           ),
-          child: stage.dimensionsController.dimensions.build((_, dimensions) {
+          child: stage.dimensionsController!.dimensions.build((_, dimensions) {
             
             final double height = dimensions.collapsedPanelSize;
             final Offset center = Offset(height / 2, height / 2);
@@ -289,10 +289,10 @@ class _StageSnackBar extends StatelessWidget {
             return SizedBox(
               height: height,
               child: AnimatedBuilder(
-                animation: this.animation,
+                animation: this.animation!,
                 child: alert, 
                 builder: (_, alert){
-                  final double val = animation.value;
+                  final double val = animation!.value;
                   // not clamped because they clamp it already in mapToRange
 
                   final double scale = Curves.easeOut.transform(
@@ -342,7 +342,7 @@ class _StageSnackBar extends StatelessWidget {
                 },
               ),
             );
-          },),
+          }),
         );
       },
     );
@@ -352,9 +352,9 @@ class _StageSnackBar extends StatelessWidget {
 
 class _CircleClipper extends CustomClipper<Rect> {
   _CircleClipper({
-    @required this.center, 
-    @required this.radiusFraction,
-    @required this.offsetFromRight,
+    required this.center, 
+    required this.radiusFraction,
+    required this.offsetFromRight,
   });
 
   final Offset center;

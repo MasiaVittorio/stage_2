@@ -4,8 +4,8 @@ part of stage;
 class _BottomGesture extends StatelessWidget {
   
   _BottomGesture({
-    @required this.onPanelDrag,
-    @required this.onPanelDragEnd,
+    required this.onPanelDrag,
+    required this.onPanelDragEnd,
   });
 
   final void Function(DragUpdateDetails) onPanelDrag;

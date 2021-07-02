@@ -10,7 +10,7 @@ class StageMainColors<T> extends StatelessWidget {
   });
 
   final bool switchPagesVsSingle;
-  final List<Widget> extraChildren;
+  final List<Widget>? extraChildren;
 
   @override
   Widget build(BuildContext context) 
@@ -18,9 +18,9 @@ class StageMainColors<T> extends StatelessWidget {
       
       final Widget child = pageColors != null
         ? StageMainColorsPerPage<T>(extraChildren: extraChildren)
-        : StageMainSingleColor(extraChildren: extraChildren);
+        : StageMainSingleColor(extraChildren: extraChildren!);
 
-      if(switchPagesVsSingle ?? false){
+      if(switchPagesVsSingle){
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -41,23 +41,23 @@ class StageMainColorsPerPage<T> extends StatelessWidget {
 
   const StageMainColorsPerPage({this.extraChildren = const <Widget>[]});
 
-  final List<Widget> extraChildren;
+  final List<Widget>? extraChildren;
 
   @override
   Widget build(BuildContext context) {
 
-    final StageData<T,dynamic> stage = Stage.of<T,dynamic>(context);
-    final Map<T,StagePage> pagesData = stage.mainPagesController.pagesData;
+    final StageData<T,dynamic> stage = Stage.of<T,dynamic>(context)!;
+    final Map<T?,StagePage?>? pagesData = stage.mainPagesController!.pagesData;
 
     return StageBuild.offMainColors<T>((_,__, pageColors){
 
       if(pageColors == null) return Container();
 
       final List<Widget> children = <Widget>[
-        for(final page in pagesData.keys)
+        for(final page in pagesData!.keys)
           ListTile(
-            title: Text(pagesData[page].name),
-            leading: ColorCircleDisplayer(pageColors[page], icon: pagesData[page].icon,),
+            title: Text(pagesData[page]!.name),
+            leading: ColorCircleDisplayer(pageColors[page!], icon: pagesData[page]!.icon,),
             onTap: () => pickPageColor(stage, page, pageColors[page]),
           ),
         ...(extraChildren ?? const <Widget>[]),
@@ -66,9 +66,9 @@ class StageMainColorsPerPage<T> extends StatelessWidget {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          for(final List<Widget> couple in children.part(2))
+          for(final List<Widget>? couple in children.part(2))
             Row(children: <Widget>[
-              for(final child in couple)
+              for(final child in couple!)
                 Expanded(child: child),
             ],),
         ],
@@ -76,10 +76,10 @@ class StageMainColorsPerPage<T> extends StatelessWidget {
     },);
   }
 
-  void pickPageColor(StageData<T,dynamic> stage, T page, Color initialColor)
+  void pickPageColor(StageData<T,dynamic> stage, T? page, Color? initialColor)
     => stage.pickColor(
       initialColor: initialColor,
-      onSubmitted: (color) => stage.themeController.currentColorsController.editMainPageToPrimary(page, color),
+      onSubmitted: (color) => stage.themeController!.currentColorsController!.editMainPageToPrimary(page, color),
     );
 
 }
@@ -94,7 +94,7 @@ class StageMainSingleColor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final StageData stage = Stage.of(context);
+    final StageData? stage = Stage.of(context);
 
     return StageBuild.offMainColors((_, singleColor, __){
 
@@ -102,17 +102,17 @@ class StageMainSingleColor extends StatelessWidget {
         ListTile(
           title: const Text("Primary"),
           leading: ColorCircleDisplayer(singleColor),
-          onTap: () => pickSingleColor(stage, singleColor),
+          onTap: () => pickSingleColor(stage!, singleColor),
         ),
-        ...(extraChildren ?? const <Widget>[]),
+        ...(extraChildren),
       ];
 
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          for(final List<Widget> couple in children.part(2))
+          for(final List<Widget>? couple in children.part(2))
             Row(children: <Widget>[
-              for(final child in couple)
+              for(final child in couple!)
                 Expanded(child: child),
             ],),
         ],
@@ -120,8 +120,8 @@ class StageMainSingleColor extends StatelessWidget {
     },);
   }
 
-  void pickSingleColor(StageData stage, Color initialColor) => stage.pickColor(
-    onSubmitted: (Color color) => stage.themeController.currentColorsController.editMainPrimary(color),
+  void pickSingleColor(StageData stage, Color? initialColor) => stage.pickColor(
+    onSubmitted: (Color color) => stage.themeController!.currentColorsController!.editMainPrimary(color),
     initialColor: initialColor,
   );
 
@@ -129,8 +129,8 @@ class StageMainSingleColor extends StatelessWidget {
 
 
 class ColorCircleDisplayer extends StatelessWidget {
-  final Color color;
-  final IconData icon;
+  final Color? color;
+  final IconData? icon;
   const ColorCircleDisplayer(this.color, {this.icon});
 
   @override
@@ -149,14 +149,14 @@ class ColorCircleDisplayer extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: borderRadius,
           color: color,
-          border: theme.isDark && color.notLegibleOn(theme.canvasColor)
+          border: theme.isDark && color!.notLegibleOn(theme.canvasColor)
             ? Border.all(color: theme.colorScheme.onSurface, width: 1)
             : null,
         ),
         child: icon == null ? null : Icon(
           icon, 
           size: 22,
-          color: color.contrast,
+          color: color!.contrast,
         ),
       ),
     );
@@ -171,11 +171,11 @@ class _MultiPageColorsToggleMain<T> extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    final StageData<T,dynamic> stage = Stage.of<T,dynamic>(context);
+    final StageData<T,dynamic>? stage = Stage.of<T,dynamic>(context);
 
     return StageBuild.offMainColors((_, singleColor, pageColors){
 
-      final colors = stage.themeController.currentColorsController;
+      final colors = stage!.themeController!.currentColorsController;
       return RadioSliderOf<bool>(
         items: <bool,RadioSliderItem>{
           false: RadioSliderItem(
@@ -190,9 +190,9 @@ class _MultiPageColorsToggleMain<T> extends StatelessWidget {
         orderedItems: <bool>[false, true],
         onSelect: (multi){
           if(multi){
-            colors.enableMainPagedColors();
+            colors!.enableMainPagedColors();
           } else {
-            colors.disableMainPagedColors();
+            colors!.disableMainPagedColors();
           }
         },
         selectedItem: pageColors != null,

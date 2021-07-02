@@ -8,9 +8,9 @@ class _BoxedExtendedPanel<T,S> extends StatelessWidget {
   final _StageDerivedDimensions derived;
 
   _BoxedExtendedPanel(this.content, {
-    @required this.data,
-    @required this.dimensions,
-    @required this.derived,
+    required this.data,
+    required this.dimensions,
+    required this.derived,
   });
 
   @override

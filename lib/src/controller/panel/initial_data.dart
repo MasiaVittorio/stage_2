@@ -4,8 +4,8 @@ class StagePanelData {
   
   //==================================
   // Values
-  final VoidCallback onPanelClose; /// Could be null
-  final VoidCallback onPanelOpen; /// Could be null
+  final VoidCallback? onPanelClose; /// Could be null
+  final VoidCallback? onPanelOpen; /// Could be null
   final double openedThreshold;
   final double closedThreshold;
 
@@ -14,8 +14,8 @@ class StagePanelData {
   StagePanelData({
     this.onPanelClose, /// Could be null
     this.onPanelOpen, /// Could be null
-    double openedThreshold,
-    double closedThreshold,
+    double? openedThreshold,
+    double? closedThreshold,
   }): 
     openedThreshold = openedThreshold ?? defaultOpenedThreshold,
     closedThreshold = math.min(

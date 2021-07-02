@@ -6,17 +6,17 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
   // Getters
   double get position {
     assert(this._getSnackPosition != null, _StagePanelData._warning);
-    return this._getSnackPosition();
+    return this._getSnackPosition!();
   }
 
   double get velocity {
     assert(this._getSnackVelocity != null, _StagePanelData._warning);
-    return this._getSnackVelocity();
+    return this._getSnackVelocity!();
   }
 
   bool get isAnimating {
     assert(this._getSnackIsAnimating != null, _StagePanelData._warning);
-    return this._getSnackIsAnimating();
+    return this._getSnackIsAnimating!();
   }
 
   SidereusScrollPhysics snackBarScrollPhysics({
@@ -47,7 +47,7 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
     Duration duration = kSnackBarDuration, 
     bool rightAligned = false,
     bool pagePersistent = false,
-    VoidCallback onManualClose,
+    VoidCallback? onManualClose,
   }) async {
     assert(_openSnackInternal != null, _StagePanelData._warning);
     
@@ -73,7 +73,7 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
     snackBarRightAligned = rightAligned ?? false; /// Changing this before showing snackbar so the build methods get it right
 
     this.child.set(newChild);
-    await _openSnackInternal();
+    await _openSnackInternal!();
     _delaySnackBarClosure(duration, snackBarId);
   }
   
@@ -84,7 +84,7 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
 
     if(position != 0.0){
       if(!isAnimating || velocity > 0){
-        await _closeSnackInternal();
+        await _closeSnackInternal!();
         _onNextSnackClose.forEach((f) => f?.call());
         _onNextSnackClose.clear();
         _onNextManualClose.clear();

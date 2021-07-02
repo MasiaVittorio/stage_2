@@ -9,7 +9,7 @@ class PanelTitle extends StatelessWidget {
   final bool centered;
   final bool animated;
   final bool autoClose;
-  final Color customColor;
+  final Color? customColor;
 
   const PanelTitle(this.title, {
     this.centered = true, 
@@ -17,7 +17,7 @@ class PanelTitle extends StatelessWidget {
     this.animated = false,
     this.autoClose = true,
     this.customColor,
-  }): assert(centered != null);
+  });
 
   static const double _minHeight = 30.0;
   static const double _minHeightTwoLines = 55.0;
@@ -34,7 +34,7 @@ class PanelTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final TextStyle style = DefaultTextStyle.of(context).style;
-    final StageData/*!*/ stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
 
     final color = customColor ?? (RightContrast(
       theme, 
@@ -58,7 +58,7 @@ class PanelTitle extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: style.copyWith(
               color: color,
-              fontWeight: style.fontWeight.increment,
+              fontWeight: style.fontWeight!.increment,
             ),
           )
           : Text(
@@ -68,7 +68,7 @@ class PanelTitle extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: style.copyWith(
               color: color,
-              fontWeight: style.fontWeight.increment,
+              fontWeight: style.fontWeight!.increment,
             ),
           ),
       ),
@@ -77,8 +77,8 @@ class PanelTitle extends StatelessWidget {
     return Material(
       type: MaterialType.transparency,
       child: InkResponse(
-        onTap: (autoClose ?? false) 
-          ? () => stage.panelController.close()
+        onTap: autoClose 
+          ? () => stage.panelController!.close()
           : null,
         child: Container(
           alignment: Alignment.center,

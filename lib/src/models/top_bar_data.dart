@@ -6,7 +6,7 @@ class StageTopBarData {
   final Map<StageColorPlace,double> elevations;
 
   const StageTopBarData({
-    Map<StageColorPlace,double> elevations,
+    Map<StageColorPlace,double>? elevations,
   }):
     elevations = elevations ?? defaultElevations;
 

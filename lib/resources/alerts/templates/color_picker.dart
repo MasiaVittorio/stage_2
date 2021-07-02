@@ -11,10 +11,10 @@ import 'package:sid_ui/interactive/color_picker/models/palette.dart';
 class ColorPickerAlert extends StatefulWidget {
   ColorPickerAlert({
     this.initialColor,
-    @required this.onSubmitted,
+    required this.onSubmitted,
   });
 
-  final Color initialColor;
+  final Color? initialColor;
   final Function(Color) onSubmitted;
 
   @override
@@ -23,7 +23,7 @@ class ColorPickerAlert extends StatefulWidget {
 
 class _ColorPickerAlertState extends State<ColorPickerAlert> {
 
-  Color _color;
+  Color? _color;
   ColorPickerMode _initialMode = ColorPickerMode.custom;
 
   @override
@@ -40,7 +40,7 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
       this._initialMode = ColorPickerMode.manual;
   }
 
-  void _onColor(Color c) => setState(() {
+  void _onColor(Color? c) => setState(() {
     print("color selected: $c, previously $_color");
     this._color = c;
     print("now color: $_color");
@@ -49,7 +49,7 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
   @override
   Widget build(BuildContext context) {
 
-    final StageData stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
 
     return RadioHeaderedAlert<ColorPickerMode>(
       withoutHeader: true,
@@ -57,10 +57,12 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
       initialValue: _initialMode,
       bottomAction: FloatingActionButton(
         backgroundColor: _color,
-        child: Icon(Icons.save,color: _color.contrast),
+        child: Icon(Icons.save,color: _color!.contrast),
         onPressed: (){
-          widget.onSubmitted(_color);
-          stage.closePanel();
+          if(_color != null){
+            widget.onSubmitted(_color!);
+            stage.closePanel();
+          }
         },
       ),
       items: <ColorPickerMode, RadioHeaderedItem>{
@@ -68,7 +70,7 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
           longTitle: "Manual color",
           title: "Manual", 
           child: ManualColorPicker(
-            color: this._color,
+            color: this._color!,
             onChanged: this._onColor,
           ), 
           icon: Icons.format_color_fill,

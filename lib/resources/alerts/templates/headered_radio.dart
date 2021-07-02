@@ -16,13 +16,13 @@ class RadioHeaderedItem extends RadioNavBarItem {
   final bool alreadyScrollableChild;
 
   const RadioHeaderedItem({
-    @required this.longTitle,
-    @required this.child,
-    String title,
-    @required IconData icon,
-    IconData unselectedIcon,
-    Color color,
-    double iconSize,
+    required this.longTitle,
+    required this.child,
+    String? title,
+    required IconData icon,
+    IconData? unselectedIcon,
+    Color? color,
+    double? iconSize,
     this.alreadyScrollableChild = false,
   }): super(
     title: title ?? longTitle,
@@ -37,7 +37,7 @@ class RadioHeaderedAlert<T> extends StatefulWidget {
 
   const RadioHeaderedAlert({
     this.orderedValues,
-    @required this.items,
+    required this.items,
     this.initialValue,
     this.bottomAccentColor,
     bool accentSelected = false,
@@ -51,28 +51,28 @@ class RadioHeaderedAlert<T> extends StatefulWidget {
 
 
   final Map<T,RadioHeaderedItem> items;
-  final T initialValue;
-  final List<T> orderedValues;
-  final Color bottomAccentColor;
+  final T? initialValue;
+  final List<T>? orderedValues;
+  final Color? bottomAccentColor;
   final bool accentSelected;
   final bool canvasBackground;
   final RadioAnimation animationType;
-  final void Function(T) onPageChanged;
-  final Widget bottomAction;
+  final void Function(T)? onPageChanged;
+  final Widget? bottomAction;
   final bool withoutHeader;
 
   /// If we need to use this not as an alert in a panel but elsewhere
-  final ScrollPhysics customScrollPhysics;
+  final ScrollPhysics? customScrollPhysics;
 
   @override
   _RadioHeaderedAlertState<T> createState() => _RadioHeaderedAlertState<T>();
 }
 
-class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T>> {
+class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T?>> {
 
-  T page;
-  List<T>/*!*/ orderedPages;
-  T previous;
+  T? page;
+  late List<T?> orderedPages;
+  T? previous;
 
   @override
   void initState() {
@@ -83,22 +83,22 @@ class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return _RadioHeaderedAlertWidget<T>(
+    return _RadioHeaderedAlertWidget<T?>(
       page: page, 
       items: widget.items,
       orderedPages: orderedPages, 
-      onSelect: (T newVal) => this.setState((){
+      onSelect: (T? newVal) => this.setState((){
         widget.onPageChanged?.call(newVal);
         previous = page;
         page = newVal;
       }), 
       previous: previous,
-      canvasBackground: widget.canvasBackground ?? false,
-      animationType: widget.animationType ?? RadioAnimation.horizontalFade,
+      canvasBackground: widget.canvasBackground,
+      animationType: widget.animationType,
       bottomAccentColor: widget.bottomAccentColor,
-      accentSelected: widget.accentSelected ?? false,
+      accentSelected: widget.accentSelected,
       bottomAction: widget.bottomAction,
-      withoutHeader: widget.withoutHeader ?? false,
+      withoutHeader: widget.withoutHeader,
       customScrollPhysics: widget.customScrollPhysics,
     );
   }
@@ -108,38 +108,38 @@ class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T>> {
 class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
 
   const _RadioHeaderedAlertWidget({
-    @required this.page,
-    @required this.orderedPages,
-    @required this.onSelect,
-    @required this.animationType,
-    @required this.previous,
-    @required this.canvasBackground,
-    @required this.bottomAccentColor,
-    @required this.accentSelected,
-    @required this.items,
-    @required this.bottomAction,
-    @required this.withoutHeader,
-    @required this.customScrollPhysics,
+    required this.page,
+    required this.orderedPages,
+    required this.onSelect,
+    required this.animationType,
+    required this.previous,
+    required this.canvasBackground,
+    required this.bottomAccentColor,
+    required this.accentSelected,
+    required this.items,
+    required this.bottomAction,
+    required this.withoutHeader,
+    required this.customScrollPhysics,
   });
 
   final Map<T,RadioHeaderedItem> items;
   final T page;
   final List<T> orderedPages;
   final void Function(T) onSelect;
-  final Color bottomAccentColor;
+  final Color? bottomAccentColor;
   final bool accentSelected;
   final RadioAnimation animationType;
   final T previous;
   final bool canvasBackground;
-  final Widget bottomAction;
+  final Widget? bottomAction;
   final bool withoutHeader;
 
-  final ScrollPhysics customScrollPhysics;
+  final ScrollPhysics? customScrollPhysics;
 
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
+    final StageData? stage = Stage.of(context);
 
     final Widget navBar = RadioNavBar<T>(
       selectedValue: page,
@@ -174,7 +174,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
                   presented: item == page,
                   curve: Curves.fastOutSlowIn.flipped,
                   presentMode: PresentMode.slide,
-                  child: itemChild(items[item], stage),
+                  child: itemChild(items[item]!, stage),
                 ),
               )
           ],
@@ -187,13 +187,13 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
           orderedPages: orderedPages,
           children: <T,Widget>{
             for(final T p in orderedPages)
-              p: itemChild(items[p], stage),
+              p: itemChild(items[p]!, stage),
           }, 
           canvasBackground: canvasBackground,
         );
         break;
       case RadioAnimation.none:
-        child = SizedBox.expand(child: itemChild(items[page], stage));
+        child = SizedBox.expand(child: itemChild(items[page]!, stage));
         break;
       default:
         child = Container();
@@ -201,7 +201,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
 
 
     return HeaderedAlert(
-      this.items[page].longTitle,
+      this.items[page]!.longTitle,
       bottom:Row(children: <Widget>[
         Expanded(child: navBar),
         if(bottomAction != null)
@@ -213,15 +213,15 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
       child: child,
       alreadyScrollableChild: true, // every single child decide for himself
       canvasBackground: canvasBackground,
-      withoutHeader: withoutHeader ?? false,
+      withoutHeader: withoutHeader,
     );
   }
 
 
-  Widget itemChild(RadioHeaderedItem item, StageData stage) => item.alreadyScrollableChild 
+  Widget itemChild(RadioHeaderedItem item, StageData? stage) => item.alreadyScrollableChild 
     ? item.child 
     : SingleChildScrollView(
-      physics: this.customScrollPhysics ?? stage.panelController.panelScrollPhysics(),
+      physics: this.customScrollPhysics ?? stage!.panelController!.panelScrollPhysics(),
       padding: EdgeInsets.only(top: this.withoutHeader ? 0.0 : PanelTitle.height),
       child: item.child,
     );

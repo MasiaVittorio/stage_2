@@ -5,19 +5,18 @@ import 'package:sid_ui/sid_ui.dart';
 class HeaderedAlertCustom extends StatelessWidget {
   
   const HeaderedAlertCustom(this.title, {
-    @required this.titleSize,
-    @required this.child,
+    required this.titleSize,
+    required this.child,
     this.bottom,
     this.canvasBackground = false,
     this.alreadyScrollableChild = false,
     this.withoutHeader = false,
-  }): assert(alreadyScrollableChild != null),
-      assert(canvasBackground != null);
+  });
 
   final Widget title;
   final double titleSize;
   final Widget child;
-  final Widget bottom;
+  final Widget? bottom;
   final bool alreadyScrollableChild;
   final bool canvasBackground;
   final bool withoutHeader;
@@ -34,23 +33,23 @@ class HeaderedAlertCustom extends StatelessWidget {
       color: background,
        child: MediaQuery(
          data: MediaQuery.of(context).copyWith(
-           padding: (withoutHeader ?? false) ? null : EdgeInsets.only(top: titleSize),
+           padding: withoutHeader ? null : EdgeInsets.only(top: titleSize),
          ),
          child: Stack(children: <Widget>[
           Positioned.fill(child: Column(children: <Widget>[
 
             Expanded(child: alreadyScrollableChild ? child : SingleChildScrollView(
-              physics: Stage.of(context).panelController.panelScrollPhysics(),
-              padding: EdgeInsets.only(top: (withoutHeader ?? false) ? 0.0 : titleSize),
+              physics: Stage.of(context)!.panelController!.panelScrollPhysics(),
+              padding: EdgeInsets.only(top: withoutHeader ? 0.0 : titleSize),
               child: child,
             ),),
 
             if(bottom != null)
-              UpShadower(child: bottom,),
+              UpShadower(child: bottom!,),
 
           ],),),
 
-          if(!(withoutHeader ?? false))
+          if(!withoutHeader)
             Positioned(
               top: 0.0,
               height: titleSize,

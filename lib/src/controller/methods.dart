@@ -7,17 +7,17 @@ extension StageDataExt on StageData {
   //===============================================
   // Public
   void showAlert(Widget child, {
-    double size = StageAlertDataExt.kAlertSize, 
+    double size = StageAlertDataExt.defaultAlertSize, 
     bool replace = false,
-  }) => panelController.alertController.showAlert(
+  }) => panelController!.alertController!.showAlert(
     child,
-    size: size ?? StageAlertDataExt.kAlertSize,
+    size: size ?? StageAlertDataExt.defaultAlertSize,
     replace: replace ?? false,
   );
 
   void pickColor({
-    @required void Function(Color) onSubmitted,
-    Color initialColor, 
+    required void Function(Color) onSubmitted,
+    Color? initialColor, 
     double size = 500, 
   }) => showAlert(
     ColorPickerAlert(
@@ -27,22 +27,22 @@ extension StageDataExt on StageData {
     size: size ?? 500,
   );
 
-  SidereusScrollPhysics get panelScrollPhysics => panelController.panelScrollPhysics();
+  SidereusScrollPhysics get panelScrollPhysics => panelController!.panelScrollPhysics();
 
-  Future<void> closePanel() => panelController.close();
+  Future<void> closePanel() => panelController!.close();
 
-  Future<void> closePanelCompletely() => panelController.closeCompletely();
+  Future<void> closePanelCompletely() => panelController!.closeCompletely();
 
-  void openPanel() => panelController.open();
+  void openPanel() => panelController!.open();
 
   SidereusScrollPhysics snackBarScrollPhysics({
     bool bottom = false, 
     bool always = false,
     bool never = false,
-  }) => panelController.snackbarController.snackBarScrollPhysics(
-    bottom: bottom ?? false,
-    always: always ?? false,
-    never: never ?? false,
+  }) => panelController!.snackbarController!.snackBarScrollPhysics(
+    bottom: bottom,
+    always: always,
+    never: never,
   );
 
   /// duration null == it stays shown until pop
@@ -50,8 +50,8 @@ extension StageDataExt on StageData {
     Duration duration = _StageSnackBarDataExt.kSnackBarDuration, 
     bool rightAligned = false,
     bool pagePersistent = false,
-    VoidCallback onManualClose,
-  }) => panelController.snackbarController.show(
+    VoidCallback? onManualClose,
+  }) => panelController!.snackbarController!.show(
     child, 
     duration: duration,
     rightAligned: rightAligned ?? false,
@@ -59,36 +59,36 @@ extension StageDataExt on StageData {
     onManualClose: onManualClose,
   );
 
-  Future<void> closeSnackBar() => panelController.snackbarController.close();
+  Future<void> closeSnackBar() => panelController!.snackbarController!.close();
 
 
 
   //===============================================
   // Private
   void _attachListeners({
-    @required double Function() panelPosition,
-    @required double Function() panelVelocity,
-    @required bool Function() panelIsAnimating,
-    @required Future<void> Function() openPanel,
-    @required Future<void> Function() closePanel,
+    required double Function() panelPosition,
+    required double Function() panelVelocity,
+    required bool Function() panelIsAnimating,
+    required Future<void> Function() openPanel,
+    required Future<void> Function() closePanel,
 
-    @required double Function() snackBarPosition,
-    @required double Function() snackBarVelocity,
-    @required bool Function() snackBarIsAnimating,
-    @required Future<void> Function() openSnackBar,
-    @required Future<void> Function() closeSnackBar,
+    required double Function() snackBarPosition,
+    required double Function() snackBarVelocity,
+    required bool Function() snackBarIsAnimating,
+    required Future<void> Function() openSnackBar,
+    required Future<void> Function() closeSnackBar,
   }){
-    this.panelController._closeInternal = closePanel;
-    this.panelController._openInternal = openPanel;
-    this.panelController._getIsAnimating = panelIsAnimating;
-    this.panelController._getPosition = panelPosition;
-    this.panelController._getVelocity = panelVelocity;
+    this.panelController!._closeInternal = closePanel;
+    this.panelController!._openInternal = openPanel;
+    this.panelController!._getIsAnimating = panelIsAnimating;
+    this.panelController!._getPosition = panelPosition;
+    this.panelController!._getVelocity = panelVelocity;
 
-    this.panelController.snackbarController._closeSnackInternal = closeSnackBar;
-    this.panelController.snackbarController._openSnackInternal = openSnackBar;
-    this.panelController.snackbarController._getSnackIsAnimating = snackBarIsAnimating;
-    this.panelController.snackbarController._getSnackPosition = snackBarPosition;
-    this.panelController.snackbarController._getSnackVelocity = snackBarVelocity;
+    this.panelController!.snackbarController!._closeSnackInternal = closeSnackBar;
+    this.panelController!.snackbarController!._openSnackInternal = openSnackBar;
+    this.panelController!.snackbarController!._getSnackIsAnimating = snackBarIsAnimating;
+    this.panelController!.snackbarController!._getSnackPosition = snackBarPosition;
+    this.panelController!.snackbarController!._getSnackVelocity = snackBarVelocity;
   }
 
 

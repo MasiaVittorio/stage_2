@@ -46,8 +46,8 @@ extension StageBrightnessDataExt on _StageBrightnessData {
     _updateBrightness(context);
   }
 
-  void _updateBrightness(BuildContext context) => SchedulerBinding.instance.addPostFrameCallback((_){
-    if(!autoDark.value) return; // checking this first because it can happen more often than reading
+  void _updateBrightness(BuildContext? context) => SchedulerBinding.instance!.addPostFrameCallback((_){
+    if(!autoDark.value!) return; // checking this first because it can happen more often than reading
     if(autoDarkMode.modalReading) return;
     if(autoDark.modalReading) return;
 
@@ -61,7 +61,7 @@ extension StageBrightnessDataExt on _StageBrightnessData {
 
 }
 
-extension _ModalReading on BlocVar {
+extension _ModalReading on BlocVar? {
   bool get modalReading {
     if(this is PersistentVar){
       return (this as PersistentVar).reading;

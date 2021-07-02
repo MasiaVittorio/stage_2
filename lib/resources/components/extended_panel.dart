@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class StageExtendedPanel<S> extends StatelessWidget {
 
   const StageExtendedPanel({
-    @required this.children,
+    required this.children,
     this.canvasBackground = false, // If false, scaffold background is used
   });
 
@@ -16,16 +16,16 @@ class StageExtendedPanel<S> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final StageData<dynamic,S> stage = Stage.of<dynamic,S>(context);
+    final StageData<dynamic,S>? stage = Stage.of<dynamic,S>(context);
   
     return StageBuild.offPanelPagesData<S>((_, __, orderedPages, page){
-      final S previous = stage.panelPagesController.previousPage;
-      return RadioPageTransition<S>(
+      final S? previous = stage!.panelPagesController!.previousPage;
+      return RadioPageTransition<S?>(
         page: page, 
         previous: previous, 
         children: children, 
         orderedPages: orderedPages,
-        canvasBackground: canvasBackground ?? false,
+        canvasBackground: canvasBackground,
       );
     },);
 

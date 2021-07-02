@@ -6,17 +6,17 @@ extension StagePanelDataExt on _StagePanelData {
   // Getters
   double get position {
     assert(this._getPosition != null, _StagePanelData._warning);
-    return this._getPosition();
+    return this._getPosition!();
   }
 
   double get velocity {
     assert(this._getVelocity != null, _StagePanelData._warning);
-    return this._getVelocity();
+    return this._getVelocity!();
   }
   
   bool get isAnimating {
     assert(this._getIsAnimating != null, _StagePanelData._warning);
-    return this._getIsAnimating();
+    return this._getIsAnimating!();
   }
 
   SidereusScrollPhysics panelScrollPhysics() => SidereusScrollPhysics(
@@ -32,30 +32,28 @@ extension StagePanelDataExt on _StagePanelData {
   // Public
   Future<void> close() async {
     assert(_closeInternal != null, _StagePanelData._warning);
-    await _closeInternal();
+    await _closeInternal!();
     _closedRoutine();
     return;
   }
 
   Future<void> closeCompletely() async {
     assert(_closeInternal != null, _StagePanelData._warning);
-    await _closeInternal();
+    await _closeInternal!();
     _completelyClosedRoutine();
   }
 
   Future<void> open() async {
     assert(_openInternal != null, _StagePanelData._warning);
-    await _openInternal();
+    await _openInternal!();
     _openedRoutine();
   }
 
   void onNextSnackBarClose(VoidCallback callback)
-    => snackbarController.onNextSnackClose(callback);
+    => snackbarController!.onNextSnackClose(callback);
 
   void onNextPanelClose(VoidCallback callback){
-    if(callback != null){
-      _onNextClose.add(callback);
-    }
+    _onNextClose.add(callback);
   }
 
 
@@ -64,7 +62,7 @@ extension StagePanelDataExt on _StagePanelData {
   void _closedRoutine(){
     if(position == 0.0){
 
-      final bool reopened = alertController._closedAlertRoutine();
+      final bool reopened = alertController!._closedAlertRoutine();
 
       if(!reopened){
         _confirmClosed();
@@ -76,20 +74,20 @@ extension StagePanelDataExt on _StagePanelData {
 
   void _completelyClosedRoutine(){
     if(position == 0.0){
-      alertController._completelyCloseAlertRoutine();
+      alertController!._completelyCloseAlertRoutine();
       _confirmClosed();
     }
   }
 
   void _confirmClosed(){
-    alertController.savedStates.clear();
+    alertController!.savedStates.clear();
     _forgetPanelPage();
     onPanelClose?.call();
     for(final c in _onNextClose){
-      c?.call();
+      c.call();
     }
     _onNextClose.clear();
-    alertController.previouslyOpenedPanel = false;
+    alertController!.previouslyOpenedPanel = false;
   }
 
   void _forgetPanelPage(){

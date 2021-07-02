@@ -5,26 +5,25 @@ String _theUnchecker(String s) => "";
 
 class InsertAlert extends StatefulWidget {
   InsertAlert({
-    @required this.onConfirm,
+    required this.onConfirm,
     this.hintText,
-    @required this.labelText,
+    required this.labelText,
     this.inputType = TextInputType.text,
     this.checkErrors = _theUnchecker,
     this.maxLenght = 50,
     this.initialText,
     this.textCapitalization = TextCapitalization.sentences,
     this.twoLinesLabel = false,
-  }): assert(twoLinesLabel != null),
-      assert(labelText != null);
+  });
 
-  final String initialText;
-  final String hintText;
+  final String? initialText;
+  final String? hintText;
   final String labelText;
   final bool twoLinesLabel;
   //if confirm returns false, the panel is not closed
   final Function(String) onConfirm;
   final TextInputType inputType;
-  final String Function(String) checkErrors;
+  final String? Function(String) checkErrors;
   final int maxLenght;
   final TextCapitalization textCapitalization;
 
@@ -39,7 +38,7 @@ class InsertAlert extends StatefulWidget {
 
 class _InsertAlertState extends State<InsertAlert> {
 
-  TextEditingController _controller;
+  TextEditingController? _controller;
   bool _started = false;
 
   @override
@@ -53,20 +52,20 @@ class _InsertAlertState extends State<InsertAlert> {
 
   @override
   void dispose() {
-    this._controller.dispose();
+    this._controller!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final String _errorString = _started == false 
+    final String? _errorString = _started == false 
       ? ""
-      : this.widget.checkErrors(this._controller.text);
-    final String _seriousErrorString = this.widget.checkErrors(this._controller.text);
+      : this.widget.checkErrors(this._controller!.text);
+    final String? _seriousErrorString = this.widget.checkErrors(this._controller!.text);
     
     final bool _valid = _errorString == "" || _errorString == null;
     final bool _seriouslyValid = _seriousErrorString == "" || _seriousErrorString == null;
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
 
     return Material(
       child: Column(
@@ -86,7 +85,7 @@ class _InsertAlertState extends State<InsertAlert> {
               textAlign: TextAlign.center,
               maxLength: this.widget.maxLenght,
               controller: this._controller,
-              textCapitalization: widget.textCapitalization ?? TextCapitalization.words,
+              textCapitalization: widget.textCapitalization,
               style: const TextStyle(inherit:true, fontSize: 18.0),
               onChanged: (String ts) => this.setState((){
                 _started = true;
@@ -119,7 +118,7 @@ class _InsertAlertState extends State<InsertAlert> {
                         const EdgeInsets.symmetric(vertical: 16.0),
                       ),
                     ),
-                    onPressed: stage.panelController.close,
+                    onPressed: stage.panelController!.close,
                   ),
                 ),
                 Expanded(
@@ -138,9 +137,9 @@ class _InsertAlertState extends State<InsertAlert> {
                       ),
                     ),
                     onPressed: _seriouslyValid ? () {
-                      final result = this.widget.onConfirm(this._controller.text);
+                      final result = this.widget.onConfirm(this._controller!.text);
                       if(result != false){
-                        stage.panelController.close();
+                        stage.panelController!.close();
                       }
                     } : null,
                   ),

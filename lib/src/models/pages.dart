@@ -9,18 +9,19 @@ class StagePage {
   final IconData unselectedIcon;
 
   const StagePage({
-    @required this.name,
-    String longName,
-    @required this.icon,
-    IconData unselectedIcon,
-  }): assert(name != null), 
-      longName = longName ?? name,
+    required this.name,
+    String? longName,
+    required this.icon,
+    IconData? unselectedIcon,
+  }): longName = longName ?? name,
       unselectedIcon = unselectedIcon ?? icon;
 
   StagePage copyWith({
-    String name,
-    String longName,
-    Color primaryColor,
+    String? name,
+    String? longName,
+    Color? primaryColor,
+    IconData? icon,
+    IconData? unselectedIcon,
   })=> StagePage(
     name: name ?? this.name,
     longName: longName ?? this.longName,

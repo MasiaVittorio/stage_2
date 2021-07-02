@@ -6,17 +6,17 @@ part of stage;
 class StageProvider<T,S> extends StatefulWidget {
 
   StageProvider({
-    Key key,
-    @required this.child,
-    @required this.data,
+    Key? key,
+    required this.child,
+    required this.data,
   }): super(key: key);
 
   final Widget child;
-  final StageData<T,S> data;
+  final StageData<T,S>? data;
 
-  static StageData<A,B> of<A,B>(BuildContext context){
+  static StageData<A,B>? of<A,B>(BuildContext context){
     final inherited = context.dependOnInheritedWidgetOfExactType<_StageInherited>();
-    return inherited?.data;
+    return inherited?.data as StageData<A, B>?;
   }
 
   @override
@@ -37,12 +37,12 @@ class _StageProviderState extends State<StageProvider> {
 
 class _StageInherited<T,S> extends InheritedWidget {
   const _StageInherited({
-    Key key,
-    @required Widget child,
-    @required this.data,
+    Key? key,
+    required Widget child,
+    required this.data,
   }) : super(key: key, child: child);
 
-  final StageData<T,S> data;
+  final StageData<T,S>? data;
 
   @override
   bool updateShouldNotify(_StageInherited<T,S> oldWidget) => false;

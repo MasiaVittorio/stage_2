@@ -3,36 +3,36 @@ part of stage;
 class _Panel extends StatelessWidget {
 
   _Panel({
-    @required this.panelAnimation,
-    @required this.snackBarAnimation,
-    @required this.realDelta,
-    @required this.derived,
-    @required this.boxedCollapsed,
-    @required this.boxedExtended,
-    @required this.maxAlertHeight,
-    @required this.dimensions,
-    @required this.onPanelDrag,
-    @required this.onPanelDragEnd,
-    @required this.shadowBuilder,
-    @required this.singleShadow,
+    required this.panelAnimation,
+    required this.snackBarAnimation,
+    required this.realDelta,
+    required this.derived,
+    required this.boxedCollapsed,
+    required this.boxedExtended,
+    required this.maxAlertHeight,
+    required this.dimensions,
+    required this.onPanelDrag,
+    required this.onPanelDragEnd,
+    required this.shadowBuilder,
+    required this.singleShadow,
   });
 
-  final void Function(DragUpdateDetails, double) onPanelDrag;
+  final void Function(DragUpdateDetails, double?) onPanelDrag;
   final void Function(DragEndDetails)  onPanelDragEnd;
 
-  final Animation<double> panelAnimation;
-  final Animation<double> snackBarAnimation;
-  final double realDelta;
+  final Animation<double>? panelAnimation;
+  final Animation<double>? snackBarAnimation;
+  final double? realDelta;
   final _StageDerivedDimensions derived;
   final StageDimensions dimensions;
   // final bool thereIsCollapsed; 
-  final Widget boxedCollapsed; /// Could be null
+  final Widget? boxedCollapsed; /// Could be null
   final Widget boxedExtended;
 
   final double maxAlertHeight;
 
   final StageShadowBuilder shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
-  final BoxShadow singleShadow; // If you do not need to animate the shadow
+  final BoxShadow? singleShadow; // If you do not need to animate the shadow
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +51,13 @@ class _Panel extends StatelessWidget {
     final data = Stage.of(context);
 
     return AnimatedBuilder(
-      animation: panelAnimation,
+      animation: panelAnimation!,
       child: content,
       builder: (_, child){
 
         // final double clampedVal = panelAnimation.value; //Much faster without clamping, but not suitable if the animation overshoots
-        final double clampedVal = panelAnimation.value.clamp(0.0, 1.0);
-        final double radius = DoubleExt.mapToRangeLoose(clampedVal, dimensions.panelRadiusClosed, dimensions.panelRadiusOpened);
+        final double clampedVal = panelAnimation!.value.clamp(0.0, 1.0);
+        final double? radius = DoubleExt.mapToRangeLoose(clampedVal, dimensions.panelRadiusClosed, dimensions.panelRadiusOpened);
         final double padding = DoubleExt.mapToRangeLoose(clampedVal, dimensions.panelHorizontalPaddingClosed, dimensions.panelHorizontalPaddingOpened);
         
         return Padding(
@@ -65,14 +65,13 @@ class _Panel extends StatelessWidget {
           child: GestureDetector(
             onVerticalDragUpdate: (details) => onPanelDrag(details, realDelta),
             onVerticalDragEnd: onPanelDragEnd,
-            child:  data.themeController.colorPlace.build((context, place) 
+            child:  data!.themeController!.colorPlace.build(((context, place) 
               => Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(radius),
+                  borderRadius: BorderRadius.circular(radius!),
                   boxShadow: [
                     singleShadow 
-                    ?? shadowBuilder?.call(clampedVal, place) 
-                    ?? Stage._defaultSingleShadow
+                    ?? shadowBuilder(clampedVal, place),
                   ],
                 ),
                 child: ClipRRect(
@@ -81,7 +80,7 @@ class _Panel extends StatelessWidget {
                   borderRadius: BorderRadius.circular(radius),
                   child: child,
                 ),
-              ),
+              )),
             ),
           ),
         );

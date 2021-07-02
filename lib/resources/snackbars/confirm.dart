@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 class ConfirmSnackbar extends StatelessWidget {
 
   const ConfirmSnackbar({
-    @required this.action,
-    @required this.label,
+    required this.action,
+    required this.label,
   });
 
   final String label;

@@ -9,17 +9,17 @@ class StageAccentColor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final StageData stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
 
-    return stage.themeController.derived.accentColor.build((_, accentColor)
+    return stage.themeController!.derived!.accentColor!.build(((_, accentColor)
       => ListTile(
         title: const Text("Accent"),
         leading: ColorCircleDisplayer(accentColor),
         onTap: () => stage.pickColor(
-          onSubmitted: (Color color) => stage.themeController.currentColorsController.editAccent(color),
+          onSubmitted: (Color color) => stage.themeController!.currentColorsController!.editAccent(color),
           initialColor: accentColor,
         ),
-      ),
+      )),
     );
 
   }

@@ -8,12 +8,12 @@ class StageSinglePrimaryColor extends StatelessWidget {
     this.extraChildren,
   });
 
-  final List<Widget> extraChildren;
+  final List<Widget>? extraChildren;
 
   @override
   Widget build(BuildContext context) {
     
-    final StageData stage = Stage.of(context);
+    final StageData? stage = Stage.of(context);
 
     return StageBuild.offMainColors((_, singleMain, __){
         
@@ -24,11 +24,11 @@ class StageSinglePrimaryColor extends StatelessWidget {
         ListTile(
           title: const Text("Primary"),
           leading: ColorCircleDisplayer(singleMain),
-          onTap: () => stage.pickColor(
+          onTap: () => stage!.pickColor(
             initialColor: singleMain,
             onSubmitted: (Color color){
-              stage.themeController.currentColorsController.editMainPrimary(color);
-              stage.themeController.currentColorsController.editPanelPrimary(color);
+              stage.themeController!.currentColorsController!.editMainPrimary(color);
+              stage.themeController!.currentColorsController!.editPanelPrimary(color);
             },
           ),
         ),
@@ -38,9 +38,9 @@ class StageSinglePrimaryColor extends StatelessWidget {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          for(final List<Widget> couple in children.part(2))
+          for(final List<Widget>? couple in children.part(2))
             Row(children: <Widget>[
-              for(final child in couple)
+              for(final child in couple!)
                 Expanded(child: child),
             ],),
         ],

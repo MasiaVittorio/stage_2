@@ -8,8 +8,8 @@ class _StageBuildOffPanelPage<S> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StageData<dynamic,S> stage = Stage.of<dynamic,S>(context);
+    final StageData<dynamic,S> stage = Stage.of<dynamic,S>(context)!;
 
-    return stage.panelPagesController?._page?.build(builder) ?? Container();
+    return stage.panelPagesController?._page?.build(builder as Widget Function(BuildContext, S?)) ?? Container();
   }
 }

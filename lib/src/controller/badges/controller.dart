@@ -30,7 +30,7 @@ class _StageBadgesData<T,S> {
           page: false,
       },
       key: parent._getStoreKey("stage_badges_controller_mainPages"), 
-      toJson: (map) => <String,dynamic>{
+      toJson: (map) => <String?,dynamic>{
         for(final e in map.entries)
           parent._writeMainPage(e.key): e.value,
       },
@@ -42,11 +42,11 @@ class _StageBadgesData<T,S> {
     ),
     panelPages = BlocVar.modal<Map<S,bool>>(
       initVal: {
-        for(S page in parent.panelPagesController?.pagesData?.keys ?? [])
+        for(S page in parent.panelPagesController?.pagesData.keys ?? [])
           page: false,
       },
       key: parent._getStoreKey("stage_badges_controller_panelPages"), 
-      toJson: (map) => <String,dynamic>{
+      toJson: (map) => <String?,dynamic>{
         for(final e in map.entries)
           parent._writePanelPage(e.key): e.value,
       },

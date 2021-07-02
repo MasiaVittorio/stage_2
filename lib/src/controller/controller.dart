@@ -11,9 +11,9 @@ class StageData<T,S> {
   //================================
   // Disposer
   void dispose(){
-    isReadingFromDisk?.dispose();
+    isReadingFromDisk.dispose();
     panelPagesController?.dispose();
-    mainPagesController?.dispose();
+    mainPagesController.dispose();
     panelController?.dispose();
     dimensionsController?.dispose();
     themeController?.dispose();
@@ -28,47 +28,47 @@ class StageData<T,S> {
 
   /// the key used by this stage controller to store variables on disk
   /// (if not provided, those values will not be written or read)
-  final String storeKey;
+  final String? storeKey;
 
   /// Persistence
-  final T Function(dynamic) _jsonToMainPage; /// Reading the main page from disk
-  final dynamic Function(T) _mainPageToJson; /// Writing a main page to disk (useless if T is an already jsonable type like String or int)
-  final S Function(dynamic) _jsonToPanelPage;
-  final dynamic Function(S) _panelPageToJson;
+  final T Function(dynamic)? _jsonToMainPage; /// Reading the main page from disk
+  final dynamic Function(T?)? _mainPageToJson; /// Writing a main page to disk (useless if T is an already jsonable type like String or int)
+  final S Function(dynamic)? _jsonToPanelPage;
+  final dynamic Function(S?)? _panelPageToJson;
 
   /// wether this controller is still reading the 
   /// saved values from disk for at least one variable
   final BlocVar<bool> isReadingFromDisk = BlocVar<bool>(true);
 
   /// Controllers
-  _StageDimensionsData dimensionsController; /// Panel / Scaffold dimensions and stuff
-  _StagePagesData<T> mainPagesController; /// Main screen navigation
-  _StagePagesData<S> panelPagesController; /// In-panel navigation: This whole controller may be null if the panel does not have different pages
-  _StagePanelData panelController; /// Opening and closing the panel
-  _StageThemeData<T,S> themeController; /// Theming options (Colors / Brightnesses...)
+  _StageDimensionsData? dimensionsController; /// Panel / Scaffold dimensions and stuff
+  late _StagePagesData<T> mainPagesController; /// Main screen navigation
+  _StagePagesData<S>? panelPagesController; /// In-panel navigation: This whole controller may be null if the panel does not have different pages
+  _StagePanelData? panelController; /// Opening and closing the panel
+  _StageThemeData<T,S>? themeController; /// Theming options (Colors / Brightnesses...)
   final StagePopBehavior popBehavior; /// Cannot be customize by the user or change over time
-  _StageBadgesData<T,S> badgesController; /// Putting badges to alert the user about going to a certain page
+  _StageBadgesData<T,S>? badgesController; /// Putting badges to alert the user about going to a certain page
 
 
   //================================
   // Constructor
   StageData({
     // Persistence
-    @required this.storeKey,
-    @required T Function(dynamic) jsonToMainPage,
-    @required dynamic Function(T) mainPageToJson,
-    @required S Function(dynamic) jsonToPanelPage,
-    @required dynamic Function(S) panelPageToJson,
+    required this.storeKey,
+    required T Function(dynamic)? jsonToMainPage,
+    required dynamic Function(T?)? mainPageToJson,
+    required S Function(dynamic)? jsonToPanelPage,
+    required dynamic Function(S?)? panelPageToJson,
 
     // Initial data
-    @required StageThemeData<T,S> initialThemeData,
-    @required StagePagesData<T> initialMainPagesData,
-    @required StagePagesData<S> initialPanelPagesData, /// Could be null
-    @required StageDimensions initialDimensions, /// Could be null
-    @required StagePanelData panelData, /// Could be null
-    @required void Function(T) onMainPageChanged,
+    required StageThemeData<T,S> initialThemeData,
+    required StagePagesData<T> initialMainPagesData,
+    required StagePagesData<S>? initialPanelPagesData, /// Could be null
+    required StageDimensions? initialDimensions, /// Could be null
+    required StagePanelData? panelData, /// Could be null
+    required void Function(T?)? onMainPageChanged,
 
-    @required StagePopBehavior popBehavior, /// Could be null
+    required StagePopBehavior? popBehavior, /// Could be null
   }) :
       _jsonToMainPage = jsonToMainPage,
       _jsonToPanelPage = jsonToPanelPage,
@@ -92,7 +92,7 @@ class StageData<T,S> {
       uniqueKey: "MAIN",
       onPageChanged: onMainPageChanged,
       initialData: initialMainPagesData,
-      pageToJson: (T p) => _writeMainPage(p), 
+      pageToJson: (T? p) => _writeMainPage(p), 
       jsonToPage: (j) => _readMainPage(j),
       /// ^ Needed explicitly as it is different if the pages controller is dedicated to the panel or the main pages
     );
@@ -103,7 +103,7 @@ class StageData<T,S> {
       uniqueKey: "PANEL",
       onPageChanged: null,
       initialData: initialPanelPagesData,
-      pageToJson: (S p) => _writePanelPage(p),
+      pageToJson: (S? p) => _writePanelPage(p),
       jsonToPage: (j) => _readPanelPage(j),
       /// ^ Needed explicitly as it is different if the pages controller is dedicated to the panel or the main pages
     );
@@ -132,7 +132,7 @@ class StageData<T,S> {
 
   //====================================
   // Private Stuff
-  String _getStoreKey(String end) => storeKey == null ? null : "$_defKey // $storeKey // $end";
+  String? _getStoreKey(String end) => storeKey == null ? null : "$_defKey // $storeKey // $end";
   static const String _defKey = "MVSidereus Art, Package: Stage, unique default Store Key";
 
   void _readCallback(String note) async {
@@ -142,34 +142,34 @@ class StageData<T,S> {
 
   bool get _isCurrentlyReading => this.storeKey != null && (
     (this.dimensionsController?._isCurrentlyReading ?? true) ||
-    (this.mainPagesController?._isCurrentlyReading ?? true) ||
+    (this.mainPagesController._isCurrentlyReading) ||
     (this.themeController?._isCurrentlyReading ?? true) || // if these and  up are null it means that those controllers are not initialised yet
     (this.panelPagesController?._isCurrentlyReading ?? false) ||
     (this.badgesController?._isCurrentlyReading ?? false)
   );
 
-  S _readPanelPage(dynamic j) => this._jsonToPanelPage?.call(j) ?? j as T;
-  dynamic _writePanelPage(S p) => this._panelPageToJson?.call(p) ?? p;
+  S _readPanelPage(dynamic j) => this._jsonToPanelPage?.call(j) ?? j as S;
+  dynamic _writePanelPage(S? p) => this._panelPageToJson?.call(p) ?? p;
   T _readMainPage(dynamic j) => this._jsonToMainPage?.call(j) ?? j as T;
-  dynamic _writeMainPage(T p) => this._mainPageToJson?.call(p) ?? p;
+  dynamic _writeMainPage(T? p) => this._mainPageToJson?.call(p) ?? p;
 
 
   Future<bool> _decidePop() async {
     
-    final _StageSnackBarData snackBarData = panelController.snackbarController;
-    final _StageAlertData alertData = panelController.alertController;
+    final _StageSnackBarData snackBarData = panelController!.snackbarController!;
+    final _StageAlertData? alertData = panelController!.alertController;
 
 
-    if(snackBarData.isShowing.value){
+    if(snackBarData.isShowing!.value!){
       snackBarData.close();
       return false;
-    } else if(alertData.isShowing.value){
-      if(panelController.isMostlyOpened.value){
-        panelController.close();
+    } else if(alertData!.isShowing!.value){
+      if(panelController!.isMostlyOpened.value){
+        panelController!.close();
         return false;
       }
     } else {
-      if(panelController.isMostlyOpened.value){
+      if(panelController!.isMostlyOpened.value){
         if(popBehavior.backToPreviousPanelPage){
           /// The entire panel pages controller may be null if the panel does not have pages
           if(panelPagesController?._backToPreviousPage() ?? false){
@@ -183,7 +183,7 @@ class StageData<T,S> {
           }
         }
         if(popBehavior.backToClosePanel){
-          panelController.close();
+          panelController!.close();
           return false;
         }
       } else {

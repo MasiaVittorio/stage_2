@@ -5,17 +5,17 @@ typedef StageBackgroundGetter = Color Function(ThemeData, StageColorPlace);
 
 class Stage<T,S> extends StatelessWidget {
 
-  static StageData<A,B> of<A,B>(BuildContext context) => StageProvider.of<A,B>(context);
+  static StageData<A,B>? of<A,B>(BuildContext context) => StageProvider.of<A,B>(context);
 
   const Stage({
-    Key key,
+    Key? key,
 
     //content
-    @required this.body,
-    @required this.collapsedPanel,
-    @required this.extendedPanel,
+    required this.body,
+    required this.collapsedPanel,
+    required this.extendedPanel,
     this.extendedPanelBuilder, //can use this and set the regular one to null
-    @required this.topBarContent,
+    required this.topBarContent,
 
     /// Optional external controller
     this.controller, /// Either you put this, or you set the initial controller values
@@ -46,16 +46,14 @@ class Stage<T,S> extends StatelessWidget {
     this.wholeScreen = true,
   }): 
     assert(mainPages != null || controller != null),
-    assert(body != null),
-    assert(topBarContent != null),
     assert(extendedPanel != null || extendedPanelBuilder != null),
     super(key: key);
 
   // Content
   final Widget body;
   final Widget collapsedPanel; //could be null, but why should it?
-  final Widget extendedPanel; //could be null if the builder is there
-  final Widget Function(BuildContext, Animation) extendedPanelBuilder;
+  final Widget? extendedPanel; //could be null if the builder is there
+  final Widget Function(BuildContext, Animation)? extendedPanelBuilder;
   final StageTopBarContent topBarContent;
 
   //performance optimization
@@ -63,31 +61,31 @@ class Stage<T,S> extends StatelessWidget {
   // if true, the size of the mediaQuery is used instead of layout builder, which should greatly improve performance
 
   // Optional disk persistence
-  final String storeKey; /// Set if you want to save user changes to disk
-  final T Function(dynamic) jsonToMainPage; /// All these are optional if the pages are of an already jsonable type
-  final S Function(dynamic) jsonToPanelPage;
-  final dynamic Function(T) mainPageToJson;
-  final dynamic Function(S) panelPageToJson;
+  final String? storeKey; /// Set if you want to save user changes to disk
+  final T Function(dynamic)? jsonToMainPage; /// All these are optional if the pages are of an already jsonable type
+  final S Function(dynamic)? jsonToPanelPage;
+  final dynamic Function(T)? mainPageToJson;
+  final dynamic Function(S)? panelPageToJson;
 
   /// Optional external controller
-  final StageData<T,S> controller;
+  final StageData<T,S>? controller;
 
   // Initial controller values (if not external controller)
-  final StageThemeData<T,S> stageTheme;
-  final StagePagesData<T> mainPages;
-  final StagePagesData<S> panelPages;
-  final StageDimensions dimensions;
-  final StagePanelData panelData; /// Could be null
-  final StagePopBehavior popBehavior; /// Could be null
-  final void Function(T) onMainPageChanged; /// Could be null
+  final StageThemeData<T,S>? stageTheme;
+  final StagePagesData<T>? mainPages;
+  final StagePagesData<S>? panelPages;
+  final StageDimensions? dimensions;
+  final StagePanelData? panelData; /// Could be null
+  final StagePopBehavior? popBehavior; /// Could be null
+  final void Function(T)? onMainPageChanged; /// Could be null
 
   // Appearance stuff
-  final StageBackgroundGetter backgroundColor;
-  final double backgroundOpacity;
+  final StageBackgroundGetter? backgroundColor;
+  final double? backgroundOpacity;
   final StageShadowBuilder shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
-  final BoxShadow singleShadow; // If you do not need to animate the shadow
+  final BoxShadow? singleShadow; // If you do not need to animate the shadow
 
-  final Widget splashScreen;
+  final Widget? splashScreen;
 
 
 
@@ -104,11 +102,11 @@ class Stage<T,S> extends StatelessWidget {
     color: const Color(0x39000000),
     offset: const Offset(0,0.5),
   );
-  static const BoxShadow _defaultSingleShadow = BoxShadow(
-    blurRadius: 6.0,
-    color: Color(0x39000000),
-    offset: Offset(0,0.5),
-  );
+  // static const BoxShadow _defaultSingleShadow = BoxShadow(
+  //   blurRadius: 6.0,
+  //   color: Color(0x39000000),
+  //   offset: Offset(0,0.5),
+  // );
 
 
 
@@ -117,7 +115,7 @@ class Stage<T,S> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData startingThemeData = Theme.of(context);
-    final StageData externalStageData = Stage.of(context);
+    final StageData? externalStageData = Stage.of(context);
 
     return _StageWithThemeAndExternalData<T,S>(
       startingThemeData: startingThemeData,
@@ -149,7 +147,7 @@ class Stage<T,S> extends StatelessWidget {
 
       splashScreen: splashScreen,
 
-      wholeScreen: wholeScreen ?? true,
+      wholeScreen: wholeScreen,
     );
   }
 

@@ -2,14 +2,14 @@ part of stage;
 
 class _TopBar<T,S> extends StatelessWidget {
   _TopBar({
-    @required this.animation,
-    @required this.openedPanelSubtitle,
-    @required this.alignment,
-    @required this.appBarTitle,
+    required this.animation,
+    required this.openedPanelSubtitle,
+    required this.alignment,
+    required this.appBarTitle,
   });
 
   final Widget appBarTitle;
-  final Widget openedPanelSubtitle;
+  final Widget? openedPanelSubtitle;
 
   final Alignment alignment;
 
@@ -18,7 +18,7 @@ class _TopBar<T,S> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final StageData<T,S> data = Stage.of<T,S>(context);
+    final StageData<T,S> data = Stage.of<T,S>(context)!;
     final ThemeData theme = Theme.of(context);
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double topPadding = mediaQuery.padding.top;
@@ -37,33 +37,33 @@ class _TopBar<T,S> extends StatelessWidget {
 
     Widget child = Padding(
       padding: EdgeInsets.only(top: topPadding),
-      child: data.dimensionsController.dimensions.build((_, dimensions)
+      child: data.dimensionsController!.dimensions.build(((_, dimensions)
         => _RowOfContent(
           dimensions: dimensions,
           alignedTitles: alignedTitles,
-        ),
+        )),
       ),
     );
 
     return StageBuild.offPrimaryColorAndItsBrightness((_, currentColor, brightness)
-      => data.themeController.colorPlace.build((context, place) 
-      => data.themeController.topBarElevations.build((context,elevations) {
+      => data.themeController!.colorPlace.build(((context, place) 
+      => data.themeController!.topBarElevations.build((context,elevations) {
         final Color color = place.isTexts 
-          ? theme.canvasColor : currentColor;
+          ? theme.canvasColor : (currentColor ?? Colors.blue);
         final Color textColor = place.isTexts 
           ? theme.colorScheme.onSurface : brightness.contrast;
 
         return Material(
           color: color,
-          elevation: elevations[place] 
-            ?? StageThemeData.defaultTopBarElevations[place],
+          elevation: elevations![place] 
+            ?? StageThemeData.defaultTopBarElevations[place]!,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             color: color,
             child: Material(
               type: MaterialType.transparency,
               child: DefaultTextStyle.merge(
-                style: theme.primaryTextTheme.headline6.copyWith(
+                style: theme.primaryTextTheme.headline6!.copyWith(
                   color: textColor,
                   fontWeight: FontWeight.w600,
                 ),
@@ -80,7 +80,7 @@ class _TopBar<T,S> extends StatelessWidget {
           ),
         );
       },
-      ),),);
+      )),),);
 
   }
 
@@ -90,8 +90,8 @@ class _TopBar<T,S> extends StatelessWidget {
 class _RowOfContent extends StatelessWidget {
 
   _RowOfContent({
-    @required this.dimensions,
-    @required this.alignedTitles,
+    required this.dimensions,
+    required this.alignedTitles,
   });
 
   final Widget alignedTitles;
@@ -138,10 +138,10 @@ class _MenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    final StageData data = Stage.of(context);
+    final StageData data = Stage.of(context)!;
 
-    return data.badgesController.panelPages.build((_, panelBadges) 
-      => data.panelController.isMostlyOpenedNonAlert.build((_, openNonAlert) 
+    return data.badgesController!.panelPages.build(((_, panelBadges) 
+      => data.panelController!.isMostlyOpenedNonAlert.build(((_, openNonAlert) 
       => Badge(
         showBadge: !(openNonAlert) && panelBadges.values.any((v) => v == true),
         badgeContent: null,
@@ -153,10 +153,10 @@ class _MenuButton extends StatelessWidget {
         ignorePointer: true,
         child: IconButton(
           onPressed: (){
-            if(data.panelController.isMostlyOpenedNonAlert.value){
-              data.panelController.close();
+            if(data.panelController!.isMostlyOpenedNonAlert.value){
+              data.panelController!.close();
             } else {
-              data.panelController.open();
+              data.panelController!.open();
             }
           },
           icon: ImplicitlySwitchingIcon(
@@ -166,8 +166,8 @@ class _MenuButton extends StatelessWidget {
             progress: openNonAlert ? 1.0 : 0.0, 
           ),
         ),
-      ),),
-    );
+      )),
+    )));
   }
 }
 
@@ -175,16 +175,16 @@ class _MenuButton extends StatelessWidget {
 class _AlignedTitles extends StatelessWidget {
 
   _AlignedTitles({
-    @required this.alignment,
-    @required this.animation,
-    @required this.appBarTitle,
-    @required this.subtitle,
+    required this.alignment,
+    required this.animation,
+    required this.appBarTitle,
+    required this.subtitle,
   });
 
   final Alignment alignment;
   final Animation animation;
   final Widget appBarTitle;
-  final Widget subtitle;
+  final Widget? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -211,21 +211,21 @@ class _AlignedTitles extends StatelessWidget {
 class _AnimateSubtitle extends StatelessWidget {
 
   _AnimateSubtitle({
-    @required this.animation,
-    @required this.subtitle,
-    @required this.alignment,
+    required this.animation,
+    required this.subtitle,
+    required this.alignment,
   });
 
   final Animation animation;
   final Alignment alignment;
-  final Widget subtitle;
+  final Widget? subtitle;
 
   @override
   Widget build(BuildContext context) {
     
-    final StageData data = Stage.of(context);
+    final StageData data = Stage.of(context)!;
 
-    return data.panelController.alertController.isShowing.build((context, alert){
+    return data.panelController!.alertController!.isShowing!.build((context, alert){
       if(alert){
         return Container();
       } else {
@@ -261,7 +261,7 @@ class _Subtitle extends StatelessWidget {
 
   const _Subtitle(this.child);
   
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -271,10 +271,10 @@ class _Subtitle extends StatelessWidget {
 
     return DefaultTextStyle.merge(
       style: TextStyle(
-        fontSize: def.fontSize - 4,
-        fontWeight: def.fontWeight.thinner,
+        fontSize: def.fontSize! - 4,
+        fontWeight: def.fontWeight!.thinner,
       ),
-      child: child,
+      child: child!,
     );
 
   }

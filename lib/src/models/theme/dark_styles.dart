@@ -7,16 +7,16 @@ enum DarkStyle {
   nightBlue,
 }
 
-extension DarkStyleExtensions on DarkStyle {
-  Color get defaultAccent => StageDefaultColors.darkAccents[this];
-  Color get defaultPrimary => StageDefaultColors.darkPrimaries[this];
+extension DarkStyleExtensions on DarkStyle? {
+  Color? get defaultAccent => StageDefaultColors.darkAccents[this!];
+  Color? get defaultPrimary => StageDefaultColors.darkPrimaries[this!];
 
-  String get name => DarkStyles.names[this];
+  String? get name => DarkStyles.names[this!];
 }
 
 class DarkStyles {
 
-  static DarkStyle fromName(String string) => namesReverse[string];
+  static DarkStyle? fromName(String? string) => namesReverse[string!];
 
   static const Map<DarkStyle, String> names = <DarkStyle, String>{
     DarkStyle.dark: "Dark",
@@ -30,12 +30,14 @@ class DarkStyles {
     "Amoled": DarkStyle.amoled,
     "Night Blue": DarkStyle.nightBlue,
   };
-  static const Map<DarkStyle,DarkStyle> next = {
+  static const Map<DarkStyle,DarkStyle> _next = {
     DarkStyle.dark: DarkStyle.nightBlack,
     DarkStyle.nightBlack: DarkStyle.amoled,
     DarkStyle.amoled: DarkStyle.nightBlue,
     DarkStyle.nightBlue: DarkStyle.dark,
   };
+
+  static DarkStyle next(DarkStyle start) => _next[start]!;
 
   static Map<DarkStyle,T> mapWithSingleValue<T>(T value) => <DarkStyle,T>{
     for(final style in DarkStyle.values)

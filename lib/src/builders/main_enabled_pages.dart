@@ -8,8 +8,8 @@ class _StageBuildOffMainEnabledPages<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StageData<T,dynamic> stage = Stage.of<T,dynamic>(context);
+    final StageData<T,dynamic> stage = Stage.of<T,dynamic>(context)!;
 
-    return stage.mainPagesController._enabledPages.build(builder);
+    return stage.mainPagesController!._enabledPages!.build(builder as Widget Function(BuildContext, Map<T?, bool>?));
   }
 }

@@ -4,8 +4,8 @@ part of stage;
 class StageSplashScreen extends StatelessWidget {
 
   const StageSplashScreen({
-    @required this.background,
-    @required this.icon,
+    required this.background,
+    required this.icon,
   });
 
   final Color background;

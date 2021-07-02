@@ -16,14 +16,14 @@ class StageDimensions{
   //=============================
   // Constructor
   const StageDimensions({
-    double barSize,
-    double collapsedPanelSize,
-    double panelRadiusClosed,
-    double panelRadiusOpened,
-    double panelHorizontalPaddingClosed,
-    double panelHorizontalPaddingOpened,
-    double parallax,
-    bool forceOpenedPanelOverNavBar = true,
+    double? barSize,
+    double? collapsedPanelSize,
+    double? panelRadiusClosed,
+    double? panelRadiusOpened,
+    double? panelHorizontalPaddingClosed,
+    double? panelHorizontalPaddingOpened,
+    double? parallax,
+    bool? forceOpenedPanelOverNavBar = true,
   }):
     barSize = barSize ?? defaultBarSize,
     collapsedPanelSize = collapsedPanelSize ?? defaultCollapsedPanelSize,
@@ -39,14 +39,14 @@ class StageDimensions{
   // Copier
 
   StageDimensions copyWith({
-    double barSize,
-    double collapsedPanelSize,
-    double panelRadiusClosed,
-    double panelRadiusOpened,
-    double panelHorizontalPaddingClosed,
-    double panelHorizontalPaddingOpened,
-    bool forceOpenedPanelOverNavBar,
-    bool parallax,
+    double? barSize,
+    double? collapsedPanelSize,
+    double? panelRadiusClosed,
+    double? panelRadiusOpened,
+    double? panelHorizontalPaddingClosed,
+    double? panelHorizontalPaddingOpened,
+    bool? forceOpenedPanelOverNavBar,
+    bool? parallax,
   }) => StageDimensions(
     barSize: barSize ?? this.barSize,
     collapsedPanelSize: collapsedPanelSize ?? this.collapsedPanelSize,
@@ -55,7 +55,7 @@ class StageDimensions{
     panelRadiusClosed: panelRadiusClosed ?? this.panelRadiusClosed,
     panelRadiusOpened: panelRadiusOpened ?? this.panelRadiusOpened,
     forceOpenedPanelOverNavBar: forceOpenedPanelOverNavBar ?? this.forceOpenedPanelOverNavBar,
-    parallax: parallax ?? this.parallax,
+    parallax: parallax as double? ?? this.parallax,
   );
 
 
@@ -109,10 +109,10 @@ extension _BoxConstraintsSize on BoxConstraints {
 
 class _StageDerivedDimensions {
   _StageDerivedDimensions({
-    @required StageDimensions base,
-    @required bool panelPages,
-    @required BoxConstraints constraints,
-    @required MediaQueryData mediaQuery,
+    required StageDimensions base,
+    required bool panelPages,
+    required BoxConstraints constraints,
+    required MediaQueryData mediaQuery,
   }){
     final bool landscape = constraints.size.aspectRatio >= 1.0;
 
@@ -131,7 +131,7 @@ class _StageDerivedDimensions {
       : 0.0;
 
     panelMinBottomPosition
-        = bottomBarSize // away from bottom
+        = bottomBarSize! // away from bottom
         - base.collapsedPanelSize/2 // but a bit of overlap
         - maxDownExpansion; // and more overlap if needed
 
@@ -141,7 +141,7 @@ class _StageDerivedDimensions {
       - maxTopBarSize // away from top
       + base.collapsedPanelSize/2; // but a bit of overlap
 
-    panelDelta = totalPanelHeight - base.collapsedPanelSize;
+    panelDelta = totalPanelHeight! - base.collapsedPanelSize;
 
     panelMinBottomPositionKeyboard
         = panelMinBottomPosition
@@ -158,27 +158,27 @@ class _StageDerivedDimensions {
 
   }
 
-  double panelWidthOpened; /// in general it can be opened and use this value even if it is just for an alert!
-  double panelWidthClosed;
+  double? panelWidthOpened; /// in general it can be opened and use this value even if it is just for an alert!
+  double? panelWidthClosed;
 
-  double topPadding; /// System notification bar
-  double bottomBarSize; /// Colored part from the bottom of the screen
-  double minTopBarSize; /// Accounting for top padding when panel is closed
-  double extendedAppBarSize; /// When panel is opened (without accounting for top padding)
-  double maxTopBarSize; /// Accounting for top padding when panel is opened 
-  double maxDownExpansion; /// How much the panel goes down if it does
+  late double topPadding; /// System notification bar
+  double? bottomBarSize; /// Colored part from the bottom of the screen
+  late double minTopBarSize; /// Accounting for top padding when panel is closed
+  late double extendedAppBarSize; /// When panel is opened (without accounting for top padding)
+  late double maxTopBarSize; /// Accounting for top padding when panel is opened 
+  late double maxDownExpansion; /// How much the panel goes down if it does
 
   // static const double minimumBottomPadding = 16.0; /// If expanding the panel down, leave this space from the bottom
   double minimumBottomPadding(StageDimensions base) 
     => base.panelHorizontalPaddingOpened; // If expanding the panel down, leave this space from the bottom
 
 
-  double panelMinBottomPosition; /// Accounts for the base position of the panel and the expansion ONLY (use it for the regular panel)
-  double totalPanelHeight; /// NOT in case of alert
-  double panelDelta; /// Difference between max and minimum dimension of the panel (NOT in case of alert)
+  late double panelMinBottomPosition; /// Accounts for the base position of the panel and the expansion ONLY (use it for the regular panel)
+  double? totalPanelHeight; /// NOT in case of alert
+  double? panelDelta; /// Difference between max and minimum dimension of the panel (NOT in case of alert)
 
-  double panelMinBottomPositionKeyboard; /// Accounts for the base position of the panel and the expansion AND THE KEYBOARD (use it only if alert is shown)
-  double alertHeightClamp; /// Maximum extent of an alert (accounts for keyboard) 
+  late double panelMinBottomPositionKeyboard; /// Accounts for the base position of the panel and the expansion AND THE KEYBOARD (use it only if alert is shown)
+  late double alertHeightClamp; /// Maximum extent of an alert (accounts for keyboard) 
   /// IMPORTANT: this is agnostic of the desired height of the alert being shown, which may be smaller
 
 }

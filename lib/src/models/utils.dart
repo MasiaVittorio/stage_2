@@ -3,9 +3,9 @@ part of stage;
 class _StageUtils {
 
   static bool _compareMaps<T,S>(
-    Map<T,S> first, 
-    Map<T,S> second, [
-      bool compareValue(S one,S two)
+    Map<T,S>? first, 
+    Map<T,S>? second, [
+      bool compareValue(S one,S? two)?
     ]
   ){
     if(first == null && second == null)
