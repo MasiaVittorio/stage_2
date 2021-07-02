@@ -11,7 +11,7 @@ class StageBrightnessToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StageData stage = Stage.of(context)!;
-    final controller = stage.themeController!.brightness!;
+    final controller = stage.themeController.brightness;
 
     return BlocVar.build2<Brightness?,bool?>(
       controller.brightness, 
@@ -53,7 +53,7 @@ class _LightDarkAuto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StageData stage = Stage.of(context)!;
-    final controller = stage.themeController!.brightness;
+    final controller = stage.themeController.brightness;
 
     return RadioSlider(
       selectedIndex: autoDark! ? 1 : brightness!.isLight ? 0 : 2,
@@ -74,13 +74,13 @@ class _LightDarkAuto extends StatelessWidget {
       onTap: (i){
         switch (i) {
           case 0:
-            controller!.disableAutoDark(Brightness.light);
+            controller.disableAutoDark(Brightness.light);
             break;
           case 1:
-            controller!.enableAutoDark(context);
+            controller.enableAutoDark(context);
             break;
           case 2:
-            controller!.disableAutoDark(Brightness.dark);
+            controller.disableAutoDark(Brightness.dark);
             break;
           default:
         }
@@ -98,7 +98,7 @@ class _TimeOfDayVSSystem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StageData stage = Stage.of(context)!;
-    final controller = stage.themeController!.brightness!;
+    final controller = stage.themeController.brightness;
 
     return controller.autoDarkMode.build(((_, mode)
       => RadioSlider(
@@ -135,7 +135,7 @@ class _DarkStyleSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StageData stage = Stage.of(context)!;
-    final controller = stage.themeController!.brightness!;
+    final controller = stage.themeController.brightness;
 
     return controller.darkStyle.build(((_, darkStyle)
       => ListTile(

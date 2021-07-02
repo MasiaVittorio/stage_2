@@ -54,9 +54,9 @@ class AlternativesAlert extends StatelessWidget {
               ListTile(
                 onTap: (){
                   if(alt.completelyAutoClose){
-                    stage!.panelController!.closeCompletely();
+                    stage!.panelController.closeCompletely();
                   } else if(alt.autoClose){
-                    stage!.panelController!.close();
+                    stage!.panelController.close();
                   }
                   alt.action();
                 },

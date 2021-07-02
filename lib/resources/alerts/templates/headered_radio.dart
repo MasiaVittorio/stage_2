@@ -221,7 +221,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
   Widget itemChild(RadioHeaderedItem item, StageData? stage) => item.alreadyScrollableChild 
     ? item.child 
     : SingleChildScrollView(
-      physics: this.customScrollPhysics ?? stage!.panelController!.panelScrollPhysics(),
+      physics: this.customScrollPhysics ?? stage!.panelController.panelScrollPhysics(),
       padding: EdgeInsets.only(top: this.withoutHeader ? 0.0 : PanelTitle.height),
       child: item.child,
     );

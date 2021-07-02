@@ -10,6 +10,6 @@ class _StageBuildOffMainPage<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final StageData<T,dynamic> stage = Stage.of<T,dynamic>(context)!;
 
-    return stage.mainPagesController!._page.build(builder as Widget Function(BuildContext, T?));
+    return stage.mainPagesController._page.build(builder);
   }
 }

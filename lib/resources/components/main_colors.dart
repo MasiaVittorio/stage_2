@@ -47,7 +47,7 @@ class StageMainColorsPerPage<T> extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final StageData<T,dynamic> stage = Stage.of<T,dynamic>(context)!;
-    final Map<T?,StagePage?>? pagesData = stage.mainPagesController!.pagesData;
+    final Map<T?,StagePage?>? pagesData = stage.mainPagesController.pagesData;
 
     return StageBuild.offMainColors<T>((_,__, pageColors){
 
@@ -79,7 +79,7 @@ class StageMainColorsPerPage<T> extends StatelessWidget {
   void pickPageColor(StageData<T,dynamic> stage, T? page, Color? initialColor)
     => stage.pickColor(
       initialColor: initialColor,
-      onSubmitted: (color) => stage.themeController!.currentColorsController!.editMainPageToPrimary(page, color),
+      onSubmitted: (color) => stage.themeController.currentColorsController!.editMainPageToPrimary(page, color),
     );
 
 }
@@ -121,7 +121,7 @@ class StageMainSingleColor extends StatelessWidget {
   }
 
   void pickSingleColor(StageData stage, Color? initialColor) => stage.pickColor(
-    onSubmitted: (Color color) => stage.themeController!.currentColorsController!.editMainPrimary(color),
+    onSubmitted: (Color color) => stage.themeController.currentColorsController!.editMainPrimary(color),
     initialColor: initialColor,
   );
 
@@ -175,7 +175,7 @@ class _MultiPageColorsToggleMain<T> extends StatelessWidget {
 
     return StageBuild.offMainColors((_, singleColor, pageColors){
 
-      final colors = stage!.themeController!.currentColorsController;
+      final colors = stage!.themeController.currentColorsController;
       return RadioSliderOf<bool>(
         items: <bool,RadioSliderItem>{
           false: RadioSliderItem(

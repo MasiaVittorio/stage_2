@@ -78,7 +78,7 @@ class PanelTitle extends StatelessWidget {
       type: MaterialType.transparency,
       child: InkResponse(
         onTap: autoClose 
-          ? () => stage.panelController!.close()
+          ? () => stage.panelController.close()
           : null,
         child: Container(
           alignment: Alignment.center,

@@ -170,8 +170,8 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
 
   //============================================
   // State Agnostic Color Editors
-  Brightness? get _currentBrightness => parent.brightness!.brightness.value;
-  DarkStyle? get _currentDarkStyle => parent.brightness!.darkStyle.value;
+  Brightness? get _currentBrightness => parent.brightness.brightness.value;
+  DarkStyle? get _currentDarkStyle => parent.brightness.darkStyle.value;
 
 
   bool editMainPageToPrimary(T? page, Color color){

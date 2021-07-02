@@ -23,17 +23,17 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
     bool bottom = false, 
     bool always = false,
     bool never = false,
-  }) => (bottom??false) 
+  }) => bottom 
     ? SidereusScrollPhysics(
       bottomBounce: true,
       bottomBounceCallback: this.close,
-      alwaysScrollable: always ?? false,
-      neverScrollable: never ?? false,
+      alwaysScrollable: always,
+      neverScrollable: never,
     ) : SidereusScrollPhysics(
       topBounce: true,
       topBounceCallback: this.close,
-      alwaysScrollable: always ?? false,
-      neverScrollable: never ?? false,
+      alwaysScrollable: always,
+      neverScrollable: never,
     );
 
 
@@ -52,7 +52,7 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
     assert(_openSnackInternal != null, _StagePanelData._warning);
     
     ++snackBarId;
-    if(pagePersistent ?? false) _pagePersistentSnackBarId = snackBarId;
+    if(pagePersistent) _pagePersistentSnackBarId = snackBarId;
     if(parent.isMostlyOpened.value){
       parent._onNextClose.add(() => _realShow(child, duration, rightAligned));
     } else {
@@ -70,7 +70,7 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
       await close();
     }
 
-    snackBarRightAligned = rightAligned ?? false; /// Changing this before showing snackbar so the build methods get it right
+    snackBarRightAligned = rightAligned; /// Changing this before showing snackbar so the build methods get it right
 
     this.child.set(newChild);
     await _openSnackInternal!();
@@ -85,7 +85,7 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
     if(position != 0.0){
       if(!isAnimating || velocity > 0){
         await _closeSnackInternal!();
-        _onNextSnackClose.forEach((f) => f?.call());
+        _onNextSnackClose.forEach((f) => f());
         _onNextSnackClose.clear();
         _onNextManualClose.clear();
       }
@@ -101,9 +101,7 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
   }
 
   void onNextSnackClose(VoidCallback callback){
-    if(callback != null){
-      _onNextSnackClose.add(callback);
-    }
+    _onNextSnackClose.add(callback);
   }
 
   //======================================
@@ -111,14 +109,12 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
 
 
   void _delaySnackBarClosure(Duration duration, int oldId) async {
-    if(duration != null){ 
-      /// Duration null == it stays shown until pop
-      await Future.delayed(duration);
-      
-      if(!isAnimating && oldId == snackBarId){
-        this.close();
-      }
-    } 
+    /// Duration null == it stays shown until pop
+    await Future.delayed(duration);
+    
+    if(!isAnimating && oldId == snackBarId){
+      this.close();
+    }
   }
 
 

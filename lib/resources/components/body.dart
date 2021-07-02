@@ -19,7 +19,7 @@ class StageBody<T> extends StatelessWidget {
   
     return StageBuild.offMainPagesData<T>((_, __, orderedPages, page)
       => RadioPageTransition<T?>(
-        previous: stage!.mainPagesController!.previousPage,
+        previous: stage!.mainPagesController.previousPage,
         page: page, 
         children: children, 
         orderedPages: orderedPages!, 

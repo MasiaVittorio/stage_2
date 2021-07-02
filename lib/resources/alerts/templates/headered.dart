@@ -29,7 +29,7 @@ class HeaderedAlert extends StatelessWidget {
       bottom: this.bottom,
       alreadyScrollableChild: this.alreadyScrollableChild,
       canvasBackground: this.canvasBackground,
-      withoutHeader: this.withoutHeader ?? false,
+      withoutHeader: this.withoutHeader,
     );
   }
 }

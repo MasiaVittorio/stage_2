@@ -118,7 +118,7 @@ class _InsertAlertState extends State<InsertAlert> {
                         const EdgeInsets.symmetric(vertical: 16.0),
                       ),
                     ),
-                    onPressed: stage.panelController!.close,
+                    onPressed: stage.panelController.close,
                   ),
                 ),
                 Expanded(
@@ -139,7 +139,7 @@ class _InsertAlertState extends State<InsertAlert> {
                     onPressed: _seriouslyValid ? () {
                       final result = this.widget.onConfirm(this._controller!.text);
                       if(result != false){
-                        stage.panelController!.close();
+                        stage.panelController.close();
                       }
                     } : null,
                   ),

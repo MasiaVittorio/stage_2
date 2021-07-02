@@ -5,7 +5,7 @@ extension StagePagesDataExt<T> on _StagePagesData<T?> {
   ///========================================
   /// Public
   
-  Map<T?,bool>? get currentlyEnabledPages => _enabledPages!.value;
+  Map<T?,bool>? get currentlyEnabledPages => _enabledPages.value;
 
 
   /// ==> Ordered Pages 
@@ -21,31 +21,31 @@ extension StagePagesDataExt<T> on _StagePagesData<T?> {
   bool enablePage(T enablablePage){
     // Check if useful
     if(!pagesData.containsKey(enablablePage)) return false;
-    if(_enabledPages!.value![enablablePage] == true) return false;
+    if(_enabledPages.value[enablablePage] == true) return false;
 
     // Actually enable
-    _enabledPages!.value![enablablePage] = true;
-    _enabledPages!.refresh();
+    _enabledPages.value[enablablePage] = true;
+    _enabledPages.refresh();
     return true;
   }
 
   bool disablePage(T disablablePage){
     // Check if useful
     if(!pagesData.containsKey(disablablePage)) return false;
-    if(_enabledPages!.value![disablablePage] == false) return false;
+    if(_enabledPages.value[disablablePage] == false) return false;
 
     // Avoid that page if it is the current one
     if(!_avoidPage(disablablePage)) return false; // There was no other page to get back to!
 
     // Actually disable
     _previousPages.remove(disablablePage);
-    _enabledPages!.value![disablablePage] = false;
-    _enabledPages!.refresh();
+    _enabledPages.value[disablablePage] = false;
+    _enabledPages.refresh();
     return true; // All went well
   }
 
   bool togglePage(T toggleablePage){
-    if(_enabledPages!.value![toggleablePage] ?? true){
+    if(_enabledPages.value[toggleablePage] ?? true){
       return disablePage(toggleablePage);
     } else {
       return enablePage(toggleablePage);
@@ -55,22 +55,22 @@ extension StagePagesDataExt<T> on _StagePagesData<T?> {
   bool enableAllPages(){
     bool changed = false;
 
-    for(final p in _enabledPages!.value!.keys){
-      if(!_enabledPages!.value![p]!){
-        _enabledPages!.value![p] = true;
+    for(final p in _enabledPages.value.keys){
+      if(!_enabledPages.value[p]!){
+        _enabledPages.value[p] = true;
         changed = true;
       }
     }
 
     if(changed){
-      _enabledPages!.refresh();
+      _enabledPages.refresh();
       return true;
     } else {
       return false;
     }
   }
 
-  bool isEnabled(T page) => this._enabledPages!.value![page] ?? false;
+  bool isEnabled(T page) => this._enabledPages.value[page] ?? false;
 
   T? get currentPage => this._page.value;
 

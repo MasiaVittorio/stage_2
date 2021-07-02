@@ -21,15 +21,13 @@ class _StageDimensionsData {
   // Constructor
   _StageDimensionsData(this.parent, {
     required StageDimensions initialDimensions,
-  }):
-    assert(initialDimensions != null), 
-    dimensions = BlocVar.modal<StageDimensions>(
-      initVal: initialDimensions,
-      key: parent._getStoreKey("stage_dimensions"), 
-      toJson: (dim) => dim.json,
-      fromJson: (json) => StageDimensions.fromJson(json),
-      readCallback: (_) => parent._readCallback("stage_dimensions"),
-    );
+  }): dimensions = BlocVar.modal<StageDimensions>(
+    initVal: initialDimensions,
+    key: parent._getStoreKey("stage_dimensions"), 
+    toJson: (dim) => dim.json,
+    fromJson: (json) => StageDimensions.fromJson(json),
+    readCallback: (_) => parent._readCallback("stage_dimensions"),
+  );
 
 
   //===========================================

@@ -17,12 +17,12 @@ class _Panel extends StatelessWidget {
     required this.singleShadow,
   });
 
-  final void Function(DragUpdateDetails, double?) onPanelDrag;
+  final void Function(DragUpdateDetails, double) onPanelDrag;
   final void Function(DragEndDetails)  onPanelDragEnd;
 
   final Animation<double>? panelAnimation;
   final Animation<double>? snackBarAnimation;
-  final double? realDelta;
+  final double realDelta;
   final _StageDerivedDimensions derived;
   final StageDimensions dimensions;
   // final bool thereIsCollapsed; 
@@ -65,7 +65,7 @@ class _Panel extends StatelessWidget {
           child: GestureDetector(
             onVerticalDragUpdate: (details) => onPanelDrag(details, realDelta),
             onVerticalDragEnd: onPanelDragEnd,
-            child:  data!.themeController!.colorPlace.build(((context, place) 
+            child:  data!.themeController.colorPlace.build(((context, place) 
               => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(radius!),

@@ -20,14 +20,14 @@ class _AlertBackground extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final themeController = stage.themeController;
 
-    return stage.panelController!.alertController!.isShowing!.build(((_, alert)
+    return stage.panelController.alertController!.isShowing!.build(((_, alert)
       => IgnorePointer(
         ignoring: !alert,
         child: GestureDetector(
-          onTap: stage.panelController!.close,
+          onTap: stage.panelController.close,
           onVerticalDragUpdate: onPanelDrag,
           onVerticalDragEnd: onPanelDragEnd,
-          child: themeController!.colorPlace.build(((context, place) 
+          child: themeController.colorPlace.build(((context, place) 
             => AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               color: (backgroundColor?.call(theme, place) ?? Color(0xFF000000))

@@ -9,8 +9,8 @@ class StageTopBarSubtitle<S> extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return StageBuild.offPanelPage<S>((_, S panelPage){
-      return AnimatedText(getSubTitle(panelPage) ?? "Not specified!!");
-    });
+    return StageBuild.offPanelPage<S>((_, S panelPage)
+      => AnimatedText(getSubTitle(panelPage)),
+    );
   }
 }

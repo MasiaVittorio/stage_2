@@ -11,8 +11,8 @@ class _StageBuildOffPrimaryColorBrightness extends StatelessWidget {
     final StageData stage = Stage.of(context)!;
 
     return BlocVar.build2<Brightness?,Color?>(
-      stage.themeController!.derived!.forcedPrimaryColorBrightness!,
-      stage.themeController!.derived!.currentPrimaryColor!,
+      stage.themeController.derived.forcedPrimaryColorBrightness!,
+      stage.themeController.derived.currentPrimaryColor!,
       builder: (context, forced, color){
         return builder(context, forced ?? ThemeData.estimateBrightnessForColor(color!));
       }

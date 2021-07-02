@@ -11,7 +11,7 @@ class _StageBuildOffPanelPagesData<S> extends StatelessWidget {
     final StageData<dynamic,S> stage = Stage.of<dynamic,S>(context)!;
 
     return BlocVar.build3<Map<S?,bool>?, List<S?>?,S?>(
-      stage.panelPagesController!._enabledPages!,
+      stage.panelPagesController!._enabledPages,
       stage.panelPagesController!._orderedPages,
       stage.panelPagesController!._page,
       builder: builder,

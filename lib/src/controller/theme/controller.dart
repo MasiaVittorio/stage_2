@@ -6,10 +6,10 @@ class _StageThemeData<T,S> {
   //================================
   // Disposer
   void dispose(){
-    backgroundColors?.dispose();
-    textsColors?.dispose();
-    brightness?.dispose();
-    derived?.dispose();
+    backgroundColors.dispose();
+    textsColors.dispose();
+    brightness.dispose();
+    derived.dispose();
   }
 
 
@@ -18,11 +18,11 @@ class _StageThemeData<T,S> {
 
   final StageData<T,S> parent;
 
-  _StageColorsData<T,S>? backgroundColors;
-  _StageColorsData<T,S>? textsColors;
-  _StageBrightnessData? brightness;
+  late _StageColorsData<T,S> backgroundColors;
+  late _StageColorsData<T,S> textsColors;
+  late _StageBrightnessData brightness;
   
-  _StageDerivedThemeData<T,S>? derived;
+  late _StageDerivedThemeData<T,S> derived;
 
   //==> Type of theme
   final BlocVar<StageColorPlace> colorPlace;
@@ -53,7 +53,7 @@ class _StageThemeData<T,S> {
       toJson: (type) => type.name,
       fromJson: (name) => StageColorPlaces.fromName(name),
       readCallback: (_) => parent._readCallback("stage_theme_controller_themeType"),
-      onChanged: (_) => parent.themeController!.updateSystemNavBarStyle(),
+      onChanged: (_) => parent.themeController.updateSystemNavBarStyle(),
     ),
     bottomBarShadow = BlocVar.modal<bool>(
       initVal: initialData.bottomBarShadow ?? StageThemeData.defaultBottomBarShadow,
@@ -95,9 +95,9 @@ class _StageThemeData<T,S> {
   //===============================
   // Getters
   bool get _isCurrentlyReading => this.parent.storeKey != null && (
-    (this.backgroundColors?._isCurrentlyReading ?? true) ||
-    (this.textsColors?._isCurrentlyReading ?? true) ||
-    (this.brightness?._isCurrentlyReading ?? true) ||
+    this.backgroundColors._isCurrentlyReading ||
+    this.textsColors._isCurrentlyReading ||
+    this.brightness._isCurrentlyReading ||
     this.colorPlace.modalReading ||
     this.topBarElevations.modalReading ||
     this.bottomBarShadow.modalReading 
@@ -111,9 +111,9 @@ class _StageThemeData<T,S> {
   StageThemeData<T?,S?> get extractData => StageThemeData<T?,S?>._(
     colorPlace: this.colorPlace.value,
     topBarElevations: this.topBarElevations.value,
-    backgroundColors: this.backgroundColors!.extractData,
-    textsColors: this.textsColors!.extractData,
-    brightness: this.brightness!.extractData,
+    backgroundColors: this.backgroundColors.extractData,
+    textsColors: this.textsColors.extractData,
+    brightness: this.brightness.extractData,
     forceSystemNavBarStyle: this.forceSystemNavBarStyle,
     accentSelectedPage: this.accentSelectedPage,
     forcedPrimaryColorBrightnessOnDarkTheme: this.forcedPrimaryColorBrightnessOnDarkTheme,

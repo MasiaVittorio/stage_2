@@ -13,7 +13,7 @@ class StageTopBarTitle<T,S> extends StatelessWidget {
   Widget build(BuildContext context) {
     final StageData<T,S> stage = Stage.of<T,S>(context)!;
     final Map<S?,StagePage?>? panelPagesData = stage.panelPagesController?.pagesData;
-    final Map<T?,StagePage?>? mainPagesData = stage.mainPagesController!.pagesData;
+    final Map<T?,StagePage?>? mainPagesData = stage.mainPagesController.pagesData;
 
     return StageBuild.offOpenNonAlertAndPages((_, openNonAlert, dynamic mainPage, dynamic panelPage){
       return AnimatedText(

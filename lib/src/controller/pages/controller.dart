@@ -7,7 +7,7 @@ class _StagePagesData<T> {
   /// Dispose the resources
   void dispose(){
     _page.dispose();
-    _enabledPages!.dispose();
+    _enabledPages.dispose();
     _orderedPages.dispose();
   }
 
@@ -25,7 +25,7 @@ class _StagePagesData<T> {
 
   final Map<T,StagePage?> pagesData; /// Names, icons and stuff
 
-  BlocVar<Map<T,bool>>? _enabledPages;
+  late BlocVar<Map<T,bool>> _enabledPages;
   /// not final because after reading the saved data it must call a 
   /// specific function to adjust the first page appearing on screen
 
@@ -88,7 +88,7 @@ class _StagePagesData<T> {
   StagePagesData<T?> get extractData => StagePagesData<T?>._(
     defaultPage: this.defaultPage,
     pagesData: this.pagesData,
-    enabledPages: this._enabledPages!.value,
+    enabledPages: this._enabledPages.value,
     orderedPages: this._orderedPages.value,
   );
 
@@ -110,7 +110,7 @@ class _StagePagesData<T> {
   }
   bool _backToDefaultPage(){
     if(defaultPage != null && _page.value!= defaultPage){
-      if(_enabledPages!.value[defaultPage!]!){
+      if(_enabledPages.value[defaultPage!]!){
         _page.set(defaultPage!);
         return true;
       }
@@ -134,8 +134,8 @@ class _StagePagesData<T> {
 
     // Close snackbar if shown
     if(
-      parent.panelController!.snackbarController!._pagePersistentSnackBarId
-      != parent.panelController!.snackbarController!.snackBarId
+      parent.panelController.snackbarController!._pagePersistentSnackBarId
+      != parent.panelController.snackbarController!.snackBarId
     ){
       parent.closeSnackBar();
     }

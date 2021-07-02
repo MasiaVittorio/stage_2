@@ -33,17 +33,17 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
         ),
         // the paged colors map cannot be used in batch because could be null
         child: pages._orderedPages.build(((_, orderedPages) 
-          => pages._enabledPages!.build(((_, enabled) 
-          => thCon!.derived!.panelPageToPrimaryColor!.build(((_, primaryColorsMap) 
-          => thCon.derived!._panelPrimaryColor!.build(((_, currentColor) 
+          => pages._enabledPages.build(((_, enabled) 
+          => thCon.derived.panelPageToPrimaryColor!.build(((_, primaryColorsMap) 
+          => thCon.derived._panelPrimaryColor!.build(((_, currentColor) 
           => thCon.colorPlace.build(((_, place) 
           => pages._page.build(((_, panelPage) 
-          => data.badgesController!.panelPages.build((_, badges) {
+          => data.badgesController.panelPages.build((_, badges) {
 
             final bool googleLike = place.isTexts;
 
             final bool single = primaryColorsMap == null;
-            final Color singleBackground = currentColor;
+            final Color? singleBackground = currentColor;
 
             final Color finalColor = thCon.pandaOpenedPanelNavBar == true 
               ? (singleBackground ?? theme.primaryColor)
@@ -57,7 +57,7 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
                     page,
               ],
               items: {
-                for(final entry in data.panelPagesController!.pagesData!.entries)
+                for(final entry in data.panelPagesController!.pagesData.entries)
                   entry.key: RadioNavBarItem(
                     title: entry.value!.name,
                     icon: entry.value!.icon,
@@ -81,8 +81,8 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
               badges: badges,
             );
 
-          } )))))),
-        ),
+          })))))),
+        ))))))),
       ),
     );
   }

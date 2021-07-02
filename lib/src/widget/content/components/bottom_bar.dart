@@ -10,18 +10,18 @@ class _BottomBar<T,S> extends StatelessWidget {
 
     final StageData<T,S> data = Stage.of<T,S>(context)!;
     final ThemeData theme = Theme.of(context);
-    final bool? _useAccent = data.themeController!.accentSelectedPage;
+    final bool? _useAccent = data.themeController.accentSelectedPage;
     final Map<T,StagePage?>? pagesData = data.mainPagesController.pagesData;
 
     /// [primaryColorsMap] can be null, so cannot be used in batch with .build6!!
     return data.mainPagesController._orderedPages.build(((_, orderedPages) 
-      => data.dimensionsController!.dimensions.build(((_, dimensions) 
-      => data.themeController!.derived!.mainPageToPrimaryColor!.build(((_, primaryColorsMap) 
-      => data.themeController!.derived!._mainPrimaryColor!.build(((_, color) 
-      => data.mainPagesController._enabledPages!.build(((_, enabled) 
-      => data.themeController!.colorPlace.build(((_, place)
+      => data.dimensionsController.dimensions.build(((_, dimensions) 
+      => data.themeController.derived.mainPageToPrimaryColor!.build(((_, primaryColorsMap) 
+      => data.themeController.derived._mainPrimaryColor!.build(((_, color) 
+      => data.mainPagesController._enabledPages.build(((_, enabled) 
+      => data.themeController.colorPlace.build(((_, place)
       => data.mainPagesController._page.build(((_, page) 
-      => data.badgesController!.mainPages.build((_, badges) {
+      => data.badgesController.mainPages.build((_, badges) {
 
         final bool googleLike = place.isTexts;
 
@@ -57,12 +57,12 @@ class _BottomBar<T,S> extends StatelessWidget {
 
           forceSingleColor: single,
           singleBackgroundColor: singleBackground,
-          forceBrightness: data.themeController!
+          forceBrightness: data.themeController
               ._currentForcedPrimaryColorBrightness,
           accentTextColor: singleAccent,
         );
 
-        return data.themeController!.bottomBarShadow.build((context, val){
+        return data.themeController.bottomBarShadow.build((context, val){
           if(val){
             return UpShadower(
               child: child,

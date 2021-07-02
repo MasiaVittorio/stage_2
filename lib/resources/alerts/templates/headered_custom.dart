@@ -39,7 +39,7 @@ class HeaderedAlertCustom extends StatelessWidget {
           Positioned.fill(child: Column(children: <Widget>[
 
             Expanded(child: alreadyScrollableChild ? child : SingleChildScrollView(
-              physics: Stage.of(context)!.panelController!.panelScrollPhysics(),
+              physics: Stage.of(context)!.panelController.panelScrollPhysics(),
               padding: EdgeInsets.only(top: withoutHeader ? 0.0 : titleSize),
               child: child,
             ),),

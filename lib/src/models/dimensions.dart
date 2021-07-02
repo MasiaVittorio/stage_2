@@ -131,7 +131,7 @@ class _StageDerivedDimensions {
       : 0.0;
 
     panelMinBottomPosition
-        = bottomBarSize! // away from bottom
+        = bottomBarSize // away from bottom
         - base.collapsedPanelSize/2 // but a bit of overlap
         - maxDownExpansion; // and more overlap if needed
 
@@ -141,7 +141,7 @@ class _StageDerivedDimensions {
       - maxTopBarSize // away from top
       + base.collapsedPanelSize/2; // but a bit of overlap
 
-    panelDelta = totalPanelHeight! - base.collapsedPanelSize;
+    panelDelta = totalPanelHeight - base.collapsedPanelSize;
 
     panelMinBottomPositionKeyboard
         = panelMinBottomPosition
@@ -158,11 +158,11 @@ class _StageDerivedDimensions {
 
   }
 
-  double? panelWidthOpened; /// in general it can be opened and use this value even if it is just for an alert!
-  double? panelWidthClosed;
+  late double panelWidthOpened; /// in general it can be opened and use this value even if it is just for an alert!
+  late double panelWidthClosed;
 
   late double topPadding; /// System notification bar
-  double? bottomBarSize; /// Colored part from the bottom of the screen
+  late double bottomBarSize; /// Colored part from the bottom of the screen
   late double minTopBarSize; /// Accounting for top padding when panel is closed
   late double extendedAppBarSize; /// When panel is opened (without accounting for top padding)
   late double maxTopBarSize; /// Accounting for top padding when panel is opened 
@@ -174,8 +174,8 @@ class _StageDerivedDimensions {
 
 
   late double panelMinBottomPosition; /// Accounts for the base position of the panel and the expansion ONLY (use it for the regular panel)
-  double? totalPanelHeight; /// NOT in case of alert
-  double? panelDelta; /// Difference between max and minimum dimension of the panel (NOT in case of alert)
+  late double totalPanelHeight; /// NOT in case of alert
+  late double panelDelta; /// Difference between max and minimum dimension of the panel (NOT in case of alert)
 
   late double panelMinBottomPositionKeyboard; /// Accounts for the base position of the panel and the expansion AND THE KEYBOARD (use it only if alert is shown)
   late double alertHeightClamp; /// Maximum extent of an alert (accounts for keyboard) 

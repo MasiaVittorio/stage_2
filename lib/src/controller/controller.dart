@@ -14,10 +14,10 @@ class StageData<T,S> {
     isReadingFromDisk.dispose();
     panelPagesController?.dispose();
     mainPagesController.dispose();
-    panelController?.dispose();
-    dimensionsController?.dispose();
-    themeController?.dispose();
-    badgesController?.dispose();
+    panelController.dispose();
+    dimensionsController.dispose();
+    themeController.dispose();
+    badgesController.dispose();
   }
 
 
@@ -41,13 +41,13 @@ class StageData<T,S> {
   final BlocVar<bool> isReadingFromDisk = BlocVar<bool>(true);
 
   /// Controllers
-  _StageDimensionsData? dimensionsController; /// Panel / Scaffold dimensions and stuff
+  late _StageDimensionsData dimensionsController; /// Panel / Scaffold dimensions and stuff
   late _StagePagesData<T> mainPagesController; /// Main screen navigation
   _StagePagesData<S>? panelPagesController; /// In-panel navigation: This whole controller may be null if the panel does not have different pages
-  _StagePanelData? panelController; /// Opening and closing the panel
-  _StageThemeData<T,S>? themeController; /// Theming options (Colors / Brightnesses...)
+  late _StagePanelData panelController; /// Opening and closing the panel
+  late _StageThemeData<T,S> themeController; /// Theming options (Colors / Brightnesses...)
   final StagePopBehavior popBehavior; /// Cannot be customize by the user or change over time
-  _StageBadgesData<T,S>? badgesController; /// Putting badges to alert the user about going to a certain page
+  late _StageBadgesData<T,S> badgesController; /// Putting badges to alert the user about going to a certain page
 
 
   //================================
@@ -141,11 +141,11 @@ class StageData<T,S> {
   }
 
   bool get _isCurrentlyReading => this.storeKey != null && (
-    (this.dimensionsController?._isCurrentlyReading ?? true) ||
+    (this.dimensionsController._isCurrentlyReading) ||
     (this.mainPagesController._isCurrentlyReading) ||
-    (this.themeController?._isCurrentlyReading ?? true) || // if these and  up are null it means that those controllers are not initialised yet
+    (this.themeController._isCurrentlyReading) || // if these and  up are null it means that those controllers are not initialised yet
     (this.panelPagesController?._isCurrentlyReading ?? false) ||
-    (this.badgesController?._isCurrentlyReading ?? false)
+    (this.badgesController._isCurrentlyReading)
   );
 
   S _readPanelPage(dynamic j) => this._jsonToPanelPage?.call(j) ?? j as S;
@@ -156,20 +156,20 @@ class StageData<T,S> {
 
   Future<bool> _decidePop() async {
     
-    final _StageSnackBarData snackBarData = panelController!.snackbarController!;
-    final _StageAlertData? alertData = panelController!.alertController;
+    final _StageSnackBarData snackBarData = panelController.snackbarController!;
+    final _StageAlertData? alertData = panelController.alertController;
 
 
     if(snackBarData.isShowing!.value!){
       snackBarData.close();
       return false;
     } else if(alertData!.isShowing!.value){
-      if(panelController!.isMostlyOpened.value){
-        panelController!.close();
+      if(panelController.isMostlyOpened.value){
+        panelController.close();
         return false;
       }
     } else {
-      if(panelController!.isMostlyOpened.value){
+      if(panelController.isMostlyOpened.value){
         if(popBehavior.backToPreviousPanelPage){
           /// The entire panel pages controller may be null if the panel does not have pages
           if(panelPagesController?._backToPreviousPage() ?? false){
@@ -183,7 +183,7 @@ class StageData<T,S> {
           }
         }
         if(popBehavior.backToClosePanel){
-          panelController!.close();
+          panelController.close();
           return false;
         }
       } else {

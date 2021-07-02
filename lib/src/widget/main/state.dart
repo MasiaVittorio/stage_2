@@ -12,7 +12,7 @@ class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndE
       controller = widget.controller;
     } else {
       final StageData<T?,S?>? inherited = widget.externalStageData;
-      final StageThemeData<T?,S?>? externalTheme = inherited?.themeController?.extractData;
+      final StageThemeData<T?,S?>? externalTheme = inherited?.themeController.extractData;
 
       final StagePagesData<T?> mainPages = StagePagesData._create<T?>(
         manualNullable: widget.mainPages,
@@ -30,7 +30,7 @@ class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndE
         panelPageToJson: widget.panelPageToJson,
         jsonToPanelPage: widget.jsonToPanelPage,
 
-        initialDimensions: widget.dimensions ?? inherited?.dimensionsController?.dimensions?.value, // Could be null
+        initialDimensions: widget.dimensions ?? inherited?.dimensionsController.dimensions.value, // Could be null
         initialMainPagesData: mainPages,
         initialPanelPagesData: panelPages, /// Can be null
         initialThemeData: StageThemeData._create<T?,S?>(

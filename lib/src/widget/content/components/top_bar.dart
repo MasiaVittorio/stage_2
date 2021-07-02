@@ -37,7 +37,7 @@ class _TopBar<T,S> extends StatelessWidget {
 
     Widget child = Padding(
       padding: EdgeInsets.only(top: topPadding),
-      child: data.dimensionsController!.dimensions.build(((_, dimensions)
+      child: data.dimensionsController.dimensions.build(((_, dimensions)
         => _RowOfContent(
           dimensions: dimensions,
           alignedTitles: alignedTitles,
@@ -46,8 +46,8 @@ class _TopBar<T,S> extends StatelessWidget {
     );
 
     return StageBuild.offPrimaryColorAndItsBrightness((_, currentColor, brightness)
-      => data.themeController!.colorPlace.build(((context, place) 
-      => data.themeController!.topBarElevations.build((context,elevations) {
+      => data.themeController.colorPlace.build(((context, place) 
+      => data.themeController.topBarElevations.build((context,elevations) {
         final Color color = place.isTexts 
           ? theme.canvasColor : (currentColor ?? Colors.blue);
         final Color textColor = place.isTexts 
@@ -140,8 +140,8 @@ class _MenuButton extends StatelessWidget {
     
     final StageData data = Stage.of(context)!;
 
-    return data.badgesController!.panelPages.build(((_, panelBadges) 
-      => data.panelController!.isMostlyOpenedNonAlert.build(((_, openNonAlert) 
+    return data.badgesController.panelPages.build(((_, panelBadges) 
+      => data.panelController.isMostlyOpenedNonAlert.build(((_, openNonAlert) 
       => Badge(
         showBadge: !(openNonAlert) && panelBadges.values.any((v) => v == true),
         badgeContent: null,
@@ -153,10 +153,10 @@ class _MenuButton extends StatelessWidget {
         ignorePointer: true,
         child: IconButton(
           onPressed: (){
-            if(data.panelController!.isMostlyOpenedNonAlert.value){
-              data.panelController!.close();
+            if(data.panelController.isMostlyOpenedNonAlert.value){
+              data.panelController.close();
             } else {
-              data.panelController!.open();
+              data.panelController.open();
             }
           },
           icon: ImplicitlySwitchingIcon(
@@ -225,7 +225,7 @@ class _AnimateSubtitle extends StatelessWidget {
     
     final StageData data = Stage.of(context)!;
 
-    return data.panelController!.alertController!.isShowing!.build((context, alert){
+    return data.panelController.alertController!.isShowing!.build((context, alert){
       if(alert){
         return Container();
       } else {

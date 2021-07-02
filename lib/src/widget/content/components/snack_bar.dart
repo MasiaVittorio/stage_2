@@ -24,13 +24,13 @@ class StageSnackBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StageData stage = Stage.of(context)!;
-    final StageDimensions dimensions = stage.dimensionsController!.dimensions.value;
+    final StageDimensions dimensions = stage.dimensionsController.dimensions.value;
     // Ok to access to it like that because the snackbars are temporary
     final double height = dimensions.collapsedPanelSize;
 
     final double xAlignment = alignment ?? (secondary != null 
       ? 0 
-      : stage.panelController!.snackbarController!.snackBarRightAligned
+      : stage.panelController.snackbarController!.snackBarRightAligned
         ? 1
         : -1);
 
@@ -78,7 +78,7 @@ class StageSnackBar extends StatelessWidget {
       ],
     );
 
-    final bool right = stage.panelController!.snackbarController!.snackBarRightAligned;
+    final bool right = stage.panelController.snackbarController!.snackBarRightAligned;
 
     final Widget result = InkWell(
       onTap: onTap,
@@ -121,8 +121,8 @@ class SnackBarClosingScrollable extends StatelessWidget {
         constraints: constraints,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          physics: stage!.panelController!.snackbarController!.snackBarScrollPhysics(
-            bottom: !(stage.panelController!.snackbarController!.snackBarRightAligned),
+          physics: stage!.panelController.snackbarController!.snackBarScrollPhysics(
+            bottom: !(stage.panelController.snackbarController!.snackBarRightAligned),
             always: true,
           ),
           child: ConstrainedBox(
@@ -168,8 +168,8 @@ class StageSnackButton extends StatelessWidget {
     final StageData stage = Stage.of(context)!;
 
     return BlocVar.build2<StageDimensions,Color?>( 
-      stage.dimensionsController!.dimensions,
-      stage.themeController!.derived!.currentPrimaryColor!,
+      stage.dimensionsController.dimensions,
+      stage.themeController.derived.currentPrimaryColor!,
       builder:(_, dimensions, color){
         
         final double height = dimensions!.collapsedPanelSize;
@@ -232,9 +232,9 @@ class _StageSnackBar extends StatelessWidget {
     
     final Widget closeButton = StageSnackButton(
       onTap: (){
-        stage.panelController!.snackbarController!._onNextManualClose
+        stage.panelController.snackbarController!._onNextManualClose
           .forEach((f) => f());
-        stage.panelController!.snackbarController!._onNextManualClose
+        stage.panelController.snackbarController!._onNextManualClose
           .clear();
       },
       autoClose: true,
@@ -242,11 +242,11 @@ class _StageSnackBar extends StatelessWidget {
       accent: true,
     );
 
-    final bool right = stage.panelController!.snackbarController!.snackBarRightAligned;
+    final bool right = stage.panelController.snackbarController!.snackBarRightAligned;
 
     return BlocVar.build2(
-      stage.themeController!.derived!.currentPrimaryColor!,
-      stage.themeController!.derived!.forcedPrimaryColorBrightness!,
+      stage.themeController.derived.currentPrimaryColor!,
+      stage.themeController.derived.forcedPrimaryColorBrightness!,
       builder: (_,dynamic color, dynamic forcedPrimaryColorBrightness) {
         final Brightness colorBrightness 
             = forcedPrimaryColorBrightness
@@ -263,7 +263,7 @@ class _StageSnackBar extends StatelessWidget {
               bodyColor: iconColor.withOpacity(textOpacity), 
             ),
           ),
-          child: stage.dimensionsController!.dimensions.build((_, dimensions) {
+          child: stage.dimensionsController.dimensions.build((_, dimensions) {
             
             final double height = dimensions.collapsedPanelSize;
             final Offset center = Offset(height / 2, height / 2);

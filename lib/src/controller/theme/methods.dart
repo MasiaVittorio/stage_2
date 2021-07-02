@@ -2,7 +2,7 @@ part of stage;
 
 extension _StageThemeDataExt<T,S> on _StageThemeData<T,S> {
 
-  Brightness? get _currentBrightness => brightness!.brightness.value;
+  Brightness? get _currentBrightness => brightness.brightness.value;
 
   Brightness? get _currentForcedPrimaryColorBrightness => _currentBrightness!.isLight 
     ? forcedPrimaryColorBrightnessOnLightTheme
@@ -13,8 +13,8 @@ extension _StageThemeDataExt<T,S> on _StageThemeData<T,S> {
   void updateSystemNavBarStyle(){
     if(forceSystemNavBarStyle ?? false){
       final Color? color =  colorPlace.value.isTexts 
-        ? derived!.themeData!.value!.canvasColor 
-        : derived!.currentPrimaryColor!.value;
+        ? derived.themeData!.value!.canvasColor 
+        : derived.currentPrimaryColor!.value;
       final Brightness colorBrightness = _currentForcedPrimaryColorBrightness 
         ?? ThemeData.estimateBrightnessForColor(color!);
 

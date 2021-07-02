@@ -36,8 +36,8 @@ class _StageContent<T,S> extends StatefulWidget {
   final Widget body;
   final Widget? collapsedPanel; //could be null, but why should it?
   final Widget? extendedPanel; //could be null if the builder is there
-  final Widget Function(BuildContext, Animation?)? extendedPanelBuilder;
-  final Widget Function(Animation?) topBarBuilder;
+  final Widget Function(BuildContext, Animation)? extendedPanelBuilder;
+  final Widget Function(Animation) topBarBuilder;
 
 
   //theming
