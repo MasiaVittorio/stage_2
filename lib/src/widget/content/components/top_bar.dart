@@ -6,10 +6,13 @@ class _TopBar<T,S> extends StatelessWidget {
     required this.openedPanelSubtitle,
     required this.alignment,
     required this.appBarTitle,
+    required this.secondary,
   });
 
   final Widget appBarTitle;
   final Widget? openedPanelSubtitle;
+
+  final Widget? secondary;
 
   final Alignment alignment;
 
@@ -41,6 +44,7 @@ class _TopBar<T,S> extends StatelessWidget {
         => _RowOfContent(
           dimensions: dimensions,
           alignedTitles: alignedTitles,
+          secondary: secondary,
         )),
       ),
     );
@@ -92,10 +96,12 @@ class _RowOfContent extends StatelessWidget {
   _RowOfContent({
     required this.dimensions,
     required this.alignedTitles,
+    required this.secondary,
   });
 
   final Widget alignedTitles;
   final StageDimensions dimensions;
+  final Widget? secondary;
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +126,13 @@ class _RowOfContent extends StatelessWidget {
             Expanded(
               child: alignedTitles,
             ),
-            SizedBox(
+            if(secondary != null) Container(
+              width: dimensions.barSize,
+              height: dimensions.barSize,
+              alignment: Alignment.center,
+              child: secondary,
+            )
+            else SizedBox(
               width: dimensions.barSize,
             ),
           ],
