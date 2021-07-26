@@ -30,9 +30,7 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
   void initState() {
     super.initState();
 
-
     this._color = widget.initialColor ??  Colors.red.shade500;
-    print("init state with color: $_color");
     
     if(PaletteTab.allColors.contains(this._color))
       this._initialMode = ColorPickerMode.palette;
@@ -41,9 +39,7 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
   }
 
   void _onColor(Color? c) => setState(() {
-    print("color selected: $c, previously $_color");
     this._color = c;
-    print("now color: $_color");
   });
 
   @override

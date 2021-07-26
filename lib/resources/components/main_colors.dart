@@ -18,7 +18,7 @@ class StageMainColors<T> extends StatelessWidget {
       
       final Widget child = pageColors != null
         ? StageMainColorsPerPage<T>(extraChildren: extraChildren)
-        : StageMainSingleColor(extraChildren: extraChildren!);
+        : StageMainSingleColor(extraChildren: extraChildren!); //TODO: fix
 
       if(switchPagesVsSingle){
         return Column(

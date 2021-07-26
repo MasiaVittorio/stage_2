@@ -33,7 +33,7 @@ class _StageDerivedThemeData<T,S> {
 
   BlocVar<ThemeData>? _lightThemeData;
   BlocVar<Map<DarkStyle,ThemeData>>? _darkThemeDatas;
-  BlocVar<ThemeData?>? themeData;
+  BlocVar<ThemeData>? themeData;
 
   BlocVar<Brightness?>? forcedPrimaryColorBrightness;
 
@@ -190,7 +190,7 @@ class _StageDerivedThemeData<T,S> {
     );
 
     themeData = BlocVar.fromCorrelateLatest4<
-      ThemeData?,  Brightness?, DarkStyle, ThemeData, Map<DarkStyle,ThemeData>
+      ThemeData,  Brightness?, DarkStyle, ThemeData, Map<DarkStyle,ThemeData>
     >(
       parent.brightness.brightness,
       parent.brightness.darkStyle,
@@ -235,12 +235,12 @@ class _StageDerivedThemeData<T,S> {
     }
   }
 
-  static A? _currentWithBrightness<A>(
+  static A _currentWithBrightness<A>(
     Brightness brightness, DarkStyle style, 
     A light, Map<DarkStyle,A> darks,
   ){
     if(brightness.isDark){
-      return darks[style];
+      return darks[style] ?? light;
     } else {
       return light;
     }

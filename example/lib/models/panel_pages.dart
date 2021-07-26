@@ -52,13 +52,13 @@ class PanelPages {
 
   static const Map<PanelPage,IconData> _iconsFilled = <PanelPage,IconData>{
     PanelPage.theme: McIcons.palette,
-    PanelPage.stateless: McIcons.settings,
+    PanelPage.stateless: McIcons.cog,
     PanelPage.dimensions: McIcons.ruler,
     PanelPage.pages: McIcons.cards,
   };
   static const Map<PanelPage,IconData> _iconsOutlined = <PanelPage,IconData>{
     PanelPage.theme: McIcons.palette_outline,
-    PanelPage.stateless: McIcons.settings_outline,
+    PanelPage.stateless: McIcons.cog_outline,
     PanelPage.dimensions: McIcons.ruler,
     PanelPage.pages: McIcons.cards_outline,
   };

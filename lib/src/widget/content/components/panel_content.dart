@@ -69,7 +69,10 @@ class _PanelContent extends StatelessWidget {
               top: 0.0,
               width: derived.panelWidthOpened,
               height: derived.totalPanelHeight,
-              child: boxedExtended
+              child: IgnorePointer(
+                ignoring: alertChild != null || snackBarChild != null,
+                child: boxedExtended,
+              ),
             ),
 
             if(alertChild != null) Positioned( 

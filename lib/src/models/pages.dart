@@ -6,15 +6,14 @@ class StagePage {
   final String name;
   final String longName;
   final IconData icon;
-  final IconData unselectedIcon;
+  final IconData? unselectedIcon;
 
   const StagePage({
     required this.name,
     String? longName,
     required this.icon,
-    IconData? unselectedIcon,
-  }): longName = longName ?? name,
-      unselectedIcon = unselectedIcon ?? icon;
+    this.unselectedIcon,
+  }): longName = longName ?? name;
 
   StagePage copyWith({
     String? name,
