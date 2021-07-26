@@ -17,6 +17,9 @@ class StageBuild {
   static Widget offOpenNonAlert(Widget Function(BuildContext, bool) builder) 
     => _StageBuildOffOpenNonAlert(builder);
 
+  static Widget offPanelMostlyOpened(Widget Function(BuildContext, bool) builder) 
+    => _StageBuildOffPanelMostlyOpened(builder);
+
   static Widget offOpenNonAlertAndPages<T,S>(Widget Function(BuildContext context, bool openNonAlert, T? mainPage, S? panelPage) builder)
     => _StageBuildOffOpenNonAlertAllPages<T,S>(builder);
 

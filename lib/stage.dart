@@ -72,6 +72,7 @@ part 'src/builders/all.dart';
 part 'src/builders/main_page.dart';
 part 'src/builders/panel_page.dart';
 part 'src/builders/open_non_alert.dart';
+part 'src/builders/open.dart';
 part 'src/builders/open_non_alert_all_pages.dart';
 part 'src/builders/primary_color_brightness.dart';
 part 'src/builders/current_color_and_its_brightness.dart';
