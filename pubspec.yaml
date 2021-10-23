@@ -10,8 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # sidereus:
-  #   path: ../sidereus 
   sid_ui:
     git: https://github.com/MasiaVittorio/sid_ui.git
   sid_bloc:
