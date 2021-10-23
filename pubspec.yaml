@@ -13,9 +13,9 @@ dependencies:
   # sidereus:
   #   path: ../sidereus 
   sid_ui:
-    path: ../sid_ui
+    git: https://github.com/MasiaVittorio/sid_ui.git
   sid_bloc:
-    path: ../sid_bloc
+    git: https://github.com/MasiaVittorio/sid_bloc.git
   flutter_vector_icons: ^1.0.0
   animations: ^2.0.0
   badges: ^2.0.1
