@@ -39,33 +39,49 @@ class StageThemeUtils {
   }) {
     
     final Color _toggleable = accent;
+    final Color _canvas = brightness.isLight
+      ? Colors.grey.shade50
+      : _darkCanvasColors[darkStyle!]!;
 
     return ThemeData(
       splashFactory: InkRipple.splashFactory,
       highlightColor: Colors.transparent,
 
       brightness: brightness,
+
+      primaryColor: primary,
       primaryColorBrightness: forcedPrimaryColorBrightness,
 
-      canvasColor: brightness.isLight
-        ? Colors.grey.shade50
-        : _darkCanvasColors[darkStyle!],
-      // colorScheme: , TODO: surface non riflette canvas?
+      canvasColor: _canvas,
+
       scaffoldBackgroundColor: brightness.isLight 
         ? Colors.grey.shade200 
         : _darkBackgroundColors[darkStyle!],
-      primaryColor: primary,
-      accentColor: accent,
+
+      // TODO: check if still surface doesn't reflect canvas?
+      colorScheme: (brightness.isLight 
+        ? ColorScheme.light()
+        : ColorScheme.dark()).copyWith(
+          secondary: accent,
+          brightness: brightness,
+          primary: primary,
+          surface: _canvas,
+          onPrimary: primary.contrast,
+          onSecondary: accent.contrast,
+        ),
+
       textTheme: _textTheme.apply(
         bodyColor: brightness.isLight ? _onLight : _onDark,
         displayColor: brightness.isLight ? _onLight : _onDark,
       ),
+
       primaryTextTheme: _textTheme,
-      accentTextTheme: _textTheme,
+
       iconTheme: IconThemeData(opacity: 0.75, color: brightness.contrast),
-      accentIconTheme: IconThemeData(opacity: 1.0, color: accent.contrast),
       primaryIconTheme: IconThemeData(opacity: 1.0, color: primary.contrast),
+
       toggleableActiveColor: _toggleable,
+
       sliderTheme: SliderThemeData(
         activeTickMarkColor: _toggleable,
         activeTrackColor: _toggleable,

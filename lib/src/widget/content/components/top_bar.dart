@@ -160,7 +160,7 @@ class _MenuButton extends StatelessWidget {
         toAnimate: false,
         shape: BadgeShape.circle,
         // alignment: Alignment.topRight,
-        badgeColor: Theme.of(context).accentColor,
+        badgeColor: Theme.of(context).colorScheme.secondary,
         position: BadgePosition.topEnd(top: 8, end: 8),
         ignorePointer: true,
         child: IconButton(

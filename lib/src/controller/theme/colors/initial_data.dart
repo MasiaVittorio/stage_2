@@ -113,13 +113,13 @@ class StageColorsData<T,S> {
   }) => StageColorsData<T,S>._(
     allMainPagesToFill: allMainPagesToFill,
     allPanelPagesToFill: allPanelPagesToFill,
-    lightAccent: lightAccent ?? ((theme == null) ? null : ((theme.isLight) ? theme.accentColor : null)), 
+    lightAccent: lightAccent ?? ((theme == null) ? null : ((theme.isLight) ? theme.colorScheme.secondary : null)), 
     lightMainPrimary: lightMainPrimary ?? ((theme == null) ? null : (theme.isLight ? theme.primaryColor : null)), 
     lightMainPageToPrimary: lightMainPageToPrimary ?? null, 
     lightPanelPrimary: lightPanelPrimary ?? (theme == null ? null : (theme.isLight ? theme.primaryColor : null)), 
     lightPanelPageToPrimary: lightPanelPageToPrimary ?? null, 
 
-    darkAccents: darkAccents ?? (theme == null ? null : (theme.isDark ? DarkStyles.mapWithSingleValue<Color>(theme.accentColor) : null)), 
+    darkAccents: darkAccents ?? (theme == null ? null : (theme.isDark ? DarkStyles.mapWithSingleValue<Color>(theme.colorScheme.secondary) : null)), 
     darkMainPrimaries: darkMainPrimaries ?? (theme == null ? null : (theme.isDark ? DarkStyles.mapWithSingleValue<Color>(theme.primaryColor) : null)), 
     darkMainPageToPrimaries: darkMainPageToPrimaries ?? null, 
     darkPanelPrimaries: darkPanelPrimaries ?? (theme == null ? null : (theme.isDark ? DarkStyles.mapWithSingleValue<Color>(theme.primaryColor) : null)), 

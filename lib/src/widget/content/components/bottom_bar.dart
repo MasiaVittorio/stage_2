@@ -28,7 +28,7 @@ class _BottomBar<T,S> extends StatelessWidget {
         final bool single = primaryColorsMap == null;
         final Color? singleBackground = color;
         final bool useAccent = single && _useAccent;
-        final Color? singleAccent = useAccent ? theme.accentColor : null;
+        final Color? singleAccent = useAccent ? theme.colorScheme.secondary : null;
         /// all that is ignored by radionavbar if googleLike
 
         final Widget child = RadioNavBar<T>(

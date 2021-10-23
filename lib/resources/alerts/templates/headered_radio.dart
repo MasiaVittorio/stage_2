@@ -156,7 +156,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
       },
       onSelect: this.onSelect,
       accentTextColor: this.accentSelected 
-        ? this.bottomAccentColor ?? Theme.of(context).accentColor
+        ? this.bottomAccentColor ?? Theme.of(context).colorScheme.secondary
         : null,
     );
 
