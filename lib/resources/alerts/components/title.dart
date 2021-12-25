@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sid_ui/sid_ui.dart';
-import 'all.dart';
 import 'package:stage/stage.dart';
 
 class PanelTitle extends StatelessWidget {

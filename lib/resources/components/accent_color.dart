@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stage/stage.dart';
-import 'main_colors.dart'; // For the circle color displayer
+// import 'main_colors.dart'; // For the circle color displayer
 
 class StageAccentColor extends StatelessWidget {
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sid_ui/sid_ui.dart';
 import 'package:stage/stage.dart';
 
 import 'package:sid_ui/interactive/color_picker/color_picker_manual.dart';

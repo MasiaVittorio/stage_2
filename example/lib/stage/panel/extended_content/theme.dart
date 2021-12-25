@@ -1,5 +1,4 @@
 import 'package:example/core.dart';
-import 'package:sid_ui/sid_ui.dart';
 
 class ThemeEx extends StatelessWidget {
   const ThemeEx();

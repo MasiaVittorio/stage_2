@@ -1,7 +1,6 @@
 import 'package:stage/stage.dart';
 import 'package:flutter/material.dart';
-import 'package:sid_ui/sid_ui.dart';
-import 'main_colors.dart'; // for the color circle displayer lol
+// import 'main_colors.dart'; // for the color circle displayer lol
 
 class StagePanelColors<S> extends StatelessWidget {
 

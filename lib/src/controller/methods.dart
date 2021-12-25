@@ -47,7 +47,7 @@ extension StageDataExt on StageData {
 
   /// duration null == it stays shown until pop
   void showSnackBar(Widget child, {
-    Duration duration = _StageSnackBarDataExt.kSnackBarDuration, 
+    Duration? duration = _StageSnackBarDataExt.kSnackBarDuration, 
     bool rightAligned = false,
     bool pagePersistent = false,
     VoidCallback? onManualClose,

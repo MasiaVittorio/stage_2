@@ -1,5 +1,4 @@
 import 'package:example/core.dart';
-import 'package:sid_ui/sid_ui.dart';
 
 class DimensionsEx extends StatelessWidget {
   const DimensionsEx();

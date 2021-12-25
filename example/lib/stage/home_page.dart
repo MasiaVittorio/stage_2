@@ -1,5 +1,4 @@
 import 'package:example/core.dart';
-import 'package:stage/resources/components/all.dart';
 
 import 'body.dart';
 import 'panel/all.dart';

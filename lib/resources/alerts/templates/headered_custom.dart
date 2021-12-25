@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stage/stage.dart';
-import 'package:sid_ui/sid_ui.dart';
 
 class HeaderedAlertCustom extends StatelessWidget {
   

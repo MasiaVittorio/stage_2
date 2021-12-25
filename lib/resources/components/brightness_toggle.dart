@@ -1,8 +1,5 @@
 import 'package:stage/stage.dart';
 import 'package:flutter/material.dart';
-import 'package:sid_ui/sid_ui.dart';
-import 'package:sid_bloc/sid_bloc.dart';
-
 
 class StageBrightnessToggle extends StatelessWidget {
 

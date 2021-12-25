@@ -44,7 +44,7 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
   
   /// duration null == it stays shown until pop
   void show(Widget child, {
-    Duration duration = kSnackBarDuration, 
+    Duration? duration = kSnackBarDuration, 
     bool rightAligned = false,
     bool pagePersistent = false,
     VoidCallback? onManualClose,
@@ -63,7 +63,7 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
     }
   }
 
-  void _realShow(Widget newChild, Duration duration, bool rightAligned) async {
+  void _realShow(Widget newChild, Duration? duration, bool rightAligned) async {
 
     if(this.position > 0.0){
       this.child.value = null; // so it is not set to null in close()
@@ -108,7 +108,8 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
   // Private
 
 
-  void _delaySnackBarClosure(Duration duration, int oldId) async {
+  void _delaySnackBarClosure(Duration? duration, int oldId) async {
+    if(duration == null) return;
     /// Duration null == it stays shown until pop
     await Future.delayed(duration);
     
