@@ -3,13 +3,13 @@ part of stage;
 
 
 class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndExternalData<T,S>> {
-  StageData<T,S>? controller;
+  late StageData<T,S> controller;
 
   @override
   void initState() {
     super.initState();
     if(widget.controller != null){
-      controller = widget.controller;
+      controller = widget.controller!;
     } else {
       final StageData<T,S>? inherited = widget.externalStageData;
       final StageThemeData<T,S>? externalTheme = inherited?.themeController.extractData;
@@ -17,7 +17,7 @@ class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndE
       final StagePagesData<T> mainPages = StagePagesData._create<T>(
         manualNullable: widget.mainPages,
         inheritedData: inherited?.mainPagesController.extractData, 
-      )!;
+      );
       final StagePagesData<S>? panelPages = StagePagesData._create<S>(
         manualNullable: widget.panelPages, /// Can be null
         inheritedData: inherited?.panelPagesController?.extractData, 
@@ -53,7 +53,7 @@ class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndE
   @override
   void dispose() {
     if(!externalController){
-      controller?.dispose();
+      controller.dispose();
     }
     super.dispose();
   }

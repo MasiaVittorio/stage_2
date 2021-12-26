@@ -7,7 +7,7 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
     required this.dimensions,
   });
 
-  final StageData<T,S?> data;
+  final StageData<T,S> data;
   final StageDimensions dimensions;
 
   @override

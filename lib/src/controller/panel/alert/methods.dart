@@ -18,8 +18,8 @@ extension StageAlertDataExt on _StageAlertData {
       await parent._closeInternal!();
     }
 
-    if(parent.snackbarController!.position != 0.0){
-      await parent.snackbarController!.close();
+    if(parent.snackbarController.position != 0.0){
+      await parent.snackbarController.close();
     }
 
     if(replace && this.sizes.value.isNotEmpty && this.children.value.isNotEmpty){

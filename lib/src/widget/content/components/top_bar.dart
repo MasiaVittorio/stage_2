@@ -237,7 +237,7 @@ class _AnimateSubtitle extends StatelessWidget {
     
     final StageData data = Stage.of(context)!;
 
-    return data.panelController.alertController!.isShowing!.build((context, alert){
+    return data.panelController.alertController.isShowing!.build((context, alert){
       if(alert){
         return Container();
       } else {

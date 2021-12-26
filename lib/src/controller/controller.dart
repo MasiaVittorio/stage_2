@@ -156,7 +156,7 @@ class StageData<T,S> {
 
   Future<bool> _decidePop() async {
     
-    final _StageSnackBarData snackBarData = panelController.snackbarController!;
+    final _StageSnackBarData snackBarData = panelController.snackbarController;
     final _StageAlertData? alertData = panelController.alertController;
 
 

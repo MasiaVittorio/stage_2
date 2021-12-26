@@ -1,6 +1,6 @@
 part of stage;
 
-extension StagePagesDataExt<T> on _StagePagesData<T?> {
+extension StagePagesDataExt<T> on _StagePagesData<T> {
 
   ///========================================
   /// Public

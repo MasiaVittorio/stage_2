@@ -50,7 +50,7 @@ extension StagePanelDataExt on _StagePanelData {
   }
 
   void onNextSnackBarClose(VoidCallback callback)
-    => snackbarController!.onNextSnackClose(callback);
+    => snackbarController.onNextSnackClose(callback);
 
   void onNextPanelClose(VoidCallback callback){
     _onNextClose.add(callback);
@@ -62,7 +62,7 @@ extension StagePanelDataExt on _StagePanelData {
   void _closedRoutine(){
     if(position == 0.0){
 
-      final bool reopened = alertController!._closedAlertRoutine();
+      final bool reopened = alertController._closedAlertRoutine();
 
       if(!reopened){
         _confirmClosed();
@@ -74,20 +74,20 @@ extension StagePanelDataExt on _StagePanelData {
 
   void _completelyClosedRoutine(){
     if(position == 0.0){
-      alertController!._completelyCloseAlertRoutine();
+      alertController._completelyCloseAlertRoutine();
       _confirmClosed();
     }
   }
 
   void _confirmClosed(){
-    alertController!.savedStates.clear();
+    alertController.savedStates.clear();
     _forgetPanelPage();
     onPanelClose?.call();
     for(final c in _onNextClose){
       c.call();
     }
     _onNextClose.clear();
-    alertController!.previouslyOpenedPanel = false;
+    alertController.previouslyOpenedPanel = false;
   }
 
   void _forgetPanelPage(){

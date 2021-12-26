@@ -67,26 +67,26 @@ class RadioHeaderedAlert<T> extends StatefulWidget {
   _RadioHeaderedAlertState<T> createState() => _RadioHeaderedAlertState<T>();
 }
 
-class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T?>> {
+class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T>> {
 
-  T? page;
-  late List<T?> orderedPages;
+  late T page;
+  late List<T> orderedPages;
   T? previous;
 
   @override
   void initState() {
     super.initState();
     orderedPages = widget.orderedValues ?? widget.items.keys.toList();
-    page = widget.initialValue ?? orderedPages.first;
+    page = (widget.initialValue ?? orderedPages.first)!;
   }
 
   @override
   Widget build(BuildContext context) {
-    return _RadioHeaderedAlertWidget<T?>(
+    return _RadioHeaderedAlertWidget<T>(
       page: page, 
       items: widget.items,
       orderedPages: orderedPages, 
-      onSelect: (T? newVal) => this.setState((){
+      onSelect: (T newVal) => this.setState((){
         widget.onPageChanged?.call(newVal);
         previous = page;
         page = newVal;
@@ -128,7 +128,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
   final Color? bottomAccentColor;
   final bool accentSelected;
   final RadioAnimation animationType;
-  final T previous;
+  final T? previous;
   final bool canvasBackground;
   final Widget? bottomAction;
   final bool withoutHeader;
@@ -182,7 +182,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
       case RadioAnimation.horizontalFade:
         child = RadioPageTransition<T>(
           page: page, 
-          previous: previous, 
+          previous: previous ?? page, 
           orderedPages: orderedPages,
           children: <T,Widget>{
             for(final T p in orderedPages)

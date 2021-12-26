@@ -22,7 +22,7 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
       final double _val = panelAnimation.value;
       if(_val >= widget.data!.panelController.openedThreshold){
         if(widget.data!.panelController.isMostlyOpened.setDistinct(true)) /// If just opened
-          widget.data!.panelController.snackbarController!.close();
+          widget.data!.panelController.snackbarController.close();
       } else if(_val < widget.data!.panelController.closedThreshold) {
         widget.data!.panelController.isMostlyOpened.setDistinct(false);
       }
@@ -209,8 +209,8 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
             width: constraints.maxWidth,
             height: constraints.maxHeight,
             child: BlocVar.build2<bool,double?>(
-              data.panelController.alertController!.isShowing!, 
-              data.panelController.alertController!.currentSize!, 
+              data.panelController.alertController.isShowing!, 
+              data.panelController.alertController.currentSize!, 
               builder: (_, bool? alert, double? alertSize){
                 
                 /// This depends on the current desired alert Size, so cannot be 

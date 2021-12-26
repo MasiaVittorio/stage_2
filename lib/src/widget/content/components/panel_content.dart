@@ -57,8 +57,8 @@ class _PanelContent extends StatelessWidget {
       removeRight: true,
       removeTop: true,
       child: BlocVar.build2<Widget?,Widget?>(
-        stage.panelController.snackbarController!.child,
-        stage.panelController.alertController!.currentChild!,
+        stage.panelController.snackbarController.child,
+        stage.panelController.alertController.currentChild!,
         builder: (_, Widget? snackBarChild, Widget? alertChild) => Stack(
           fit: StackFit.expand,
           alignment: Alignment.topCenter,

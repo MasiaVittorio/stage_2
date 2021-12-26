@@ -12,7 +12,7 @@ class StageProvider<T,S> extends StatefulWidget {
   }): super(key: key);
 
   final Widget child;
-  final StageData<T,S>? data;
+  final StageData<T,S> data;
 
   static StageData<A,B>? of<A,B>(BuildContext context){
     final inherited = context.dependOnInheritedWidgetOfExactType<_StageInherited>();
@@ -42,7 +42,7 @@ class _StageInherited<T,S> extends InheritedWidget {
     required this.data,
   }) : super(key: key, child: child);
 
-  final StageData<T,S>? data;
+  final StageData<T,S> data;
 
   @override
   bool updateShouldNotify(_StageInherited<T,S> oldWidget) => false;

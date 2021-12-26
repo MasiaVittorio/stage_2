@@ -9,7 +9,7 @@ extension StageDataExt on StageData {
   void showAlert(Widget child, {
     double? size = StageAlertDataExt.defaultAlertSize, 
     bool? replace = false,
-  }) => panelController.alertController!.showAlert(
+  }) => panelController.alertController.showAlert(
     child,
     size: size ?? StageAlertDataExt.defaultAlertSize,
     replace: replace ?? false,
@@ -39,7 +39,7 @@ extension StageDataExt on StageData {
     bool bottom = false, 
     bool always = false,
     bool never = false,
-  }) => panelController.snackbarController!.snackBarScrollPhysics(
+  }) => panelController.snackbarController.snackBarScrollPhysics(
     bottom: bottom,
     always: always,
     never: never,
@@ -51,7 +51,7 @@ extension StageDataExt on StageData {
     bool rightAligned = false,
     bool pagePersistent = false,
     VoidCallback? onManualClose,
-  }) => panelController.snackbarController!.show(
+  }) => panelController.snackbarController.show(
     child, 
     duration: duration,
     rightAligned: rightAligned,
@@ -59,7 +59,7 @@ extension StageDataExt on StageData {
     onManualClose: onManualClose,
   );
 
-  Future<void> closeSnackBar() => panelController.snackbarController!.close();
+  Future<void> closeSnackBar() => panelController.snackbarController.close();
 
 
 
@@ -84,11 +84,11 @@ extension StageDataExt on StageData {
     this.panelController._getPosition = panelPosition;
     this.panelController._getVelocity = panelVelocity;
 
-    this.panelController.snackbarController!._closeSnackInternal = closeSnackBar;
-    this.panelController.snackbarController!._openSnackInternal = openSnackBar;
-    this.panelController.snackbarController!._getSnackIsAnimating = snackBarIsAnimating;
-    this.panelController.snackbarController!._getSnackPosition = snackBarPosition;
-    this.panelController.snackbarController!._getSnackVelocity = snackBarVelocity;
+    this.panelController.snackbarController._closeSnackInternal = closeSnackBar;
+    this.panelController.snackbarController._openSnackInternal = openSnackBar;
+    this.panelController.snackbarController._getSnackIsAnimating = snackBarIsAnimating;
+    this.panelController.snackbarController._getSnackPosition = snackBarPosition;
+    this.panelController.snackbarController._getSnackVelocity = snackBarVelocity;
   }
 
 

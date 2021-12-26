@@ -7,8 +7,8 @@ class _StagePanelData {
   // Disposer
   void dispose(){
     isMostlyOpened.dispose();
-    alertController?.dispose();
-    snackbarController?.dispose();
+    alertController.dispose();
+    snackbarController.dispose();
   }
 
 
@@ -30,8 +30,8 @@ class _StagePanelData {
   double Function()? _getVelocity;
   bool Function()? _getIsAnimating;
 
-  _StageAlertData? alertController; /// Showing alerts and stuff
-  _StageSnackBarData? snackbarController; /// Showing snacbkars and stuff
+  late _StageAlertData alertController; /// Showing alerts and stuff
+  late _StageSnackBarData snackbarController; /// Showing snacbkars and stuff
 
   // Data
   final VoidCallback? onPanelClose;
@@ -54,7 +54,7 @@ class _StagePanelData {
     snackbarController = _StageSnackBarData(this);
 
     isMostlyOpenedNonAlert = BlocVar.fromCorrelateLatest2<bool, bool, bool>(
-      alertController!.isShowing!,
+      alertController.isShowing!,
       isMostlyOpened,
       map: (bool alert, bool open) => open && !alert,
     );

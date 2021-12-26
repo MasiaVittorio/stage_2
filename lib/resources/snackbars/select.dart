@@ -101,7 +101,7 @@ class _SnackbarSelectorState extends State<_SnackbarSelector> with SingleTickerP
   @override
   Widget build(BuildContext context) {
     final StageData stage = Stage.of(context)!;
-    final bool rightAligned = stage.panelController.snackbarController!.snackBarRightAligned;
+    final bool rightAligned = stage.panelController.snackbarController.snackBarRightAligned;
 
     List<Widget> children = <Widget>[
       for(int i=0; i<widget.children.length; ++i)

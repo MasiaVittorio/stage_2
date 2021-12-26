@@ -30,7 +30,7 @@ class StageSnackBar extends StatelessWidget {
 
     final double xAlignment = alignment ?? (secondary != null 
       ? 0 
-      : stage.panelController.snackbarController!.snackBarRightAligned
+      : stage.panelController.snackbarController.snackBarRightAligned
         ? 1
         : -1);
 
@@ -78,7 +78,7 @@ class StageSnackBar extends StatelessWidget {
       ],
     );
 
-    final bool right = stage.panelController.snackbarController!.snackBarRightAligned;
+    final bool right = stage.panelController.snackbarController.snackBarRightAligned;
 
     final Widget result = InkWell(
       onTap: onTap,
@@ -121,8 +121,8 @@ class SnackBarClosingScrollable extends StatelessWidget {
         constraints: constraints,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          physics: stage!.panelController.snackbarController!.snackBarScrollPhysics(
-            bottom: !(stage.panelController.snackbarController!.snackBarRightAligned),
+          physics: stage!.panelController.snackbarController.snackBarScrollPhysics(
+            bottom: !(stage.panelController.snackbarController.snackBarRightAligned),
             always: true,
           ),
           child: ConstrainedBox(
@@ -232,9 +232,9 @@ class _StageSnackBar extends StatelessWidget {
     
     final Widget closeButton = StageSnackButton(
       onTap: (){
-        stage.panelController.snackbarController!._onNextManualClose
+        stage.panelController.snackbarController._onNextManualClose
           .forEach((f) => f());
-        stage.panelController.snackbarController!._onNextManualClose
+        stage.panelController.snackbarController._onNextManualClose
           .clear();
       },
       autoClose: true,
@@ -242,7 +242,7 @@ class _StageSnackBar extends StatelessWidget {
       accent: true,
     );
 
-    final bool right = stage.panelController.snackbarController!.snackBarRightAligned;
+    final bool right = stage.panelController.snackbarController.snackBarRightAligned;
 
     return BlocVar.build2(
       stage.themeController.derived.currentPrimaryColor!,

@@ -126,7 +126,7 @@ class _StagePagesData<T> {
   /// but we need to do this terribleness
 
   /// ==> Current Page 
-  bool goToPage(T newPage) {
+  bool goToPage(T? newPage) {
     // Check if makes sense
     if(newPage == null) return false;
     if(_page.value == newPage) return false;
@@ -134,8 +134,8 @@ class _StagePagesData<T> {
 
     // Close snackbar if shown
     if(
-      parent.panelController.snackbarController!._pagePersistentSnackBarId
-      != parent.panelController.snackbarController!.snackBarId
+      parent.panelController.snackbarController._pagePersistentSnackBarId
+      != parent.panelController.snackbarController.snackBarId
     ){
       parent.closeSnackBar();
     }
