@@ -54,7 +54,7 @@ class _StagePanelData {
     snackbarController = _StageSnackBarData(this);
 
     isMostlyOpenedNonAlert = BlocVar.fromCorrelateLatest2<bool, bool, bool>(
-      alertController.isShowing!,
+      alertController.isShowing,
       isMostlyOpened,
       map: (bool alert, bool open) => open && !alert,
     );

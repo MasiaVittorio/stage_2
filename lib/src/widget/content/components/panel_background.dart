@@ -18,7 +18,7 @@ class _PanelBackground extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final themeController = stage.themeController;
 
-    return stage.panelController.alertController.isShowing!.build(((_, alert)
+    return stage.panelController.alertController.isShowing.build(((_, alert)
       => AnimatedBuilder(
         animation: animation!,
         builder: (_, __) {

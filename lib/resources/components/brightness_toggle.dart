@@ -10,7 +10,7 @@ class StageBrightnessToggle extends StatelessWidget {
     final StageData stage = Stage.of(context)!;
     final controller = stage.themeController.brightness;
 
-    return BlocVar.build2<Brightness?,bool?>(
+    return BlocVar.build2<Brightness,bool?>(
       controller.brightness, 
       controller.autoDark, 
       builder: (_, brightness, autoDark) => Column(

@@ -209,9 +209,9 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
             width: constraints.maxWidth,
             height: constraints.maxHeight,
             child: BlocVar.build2<bool,double?>(
-              data.panelController.alertController.isShowing!, 
-              data.panelController.alertController.currentSize!, 
-              builder: (_, bool? alert, double? alertSize){
+              data.panelController.alertController.isShowing, 
+              data.panelController.alertController.currentSize, 
+              builder: (_, bool alert, double? alertSize){
                 
                 /// This depends on the current desired alert Size, so cannot be 
                 /// done agnostically in the derived dimensions before 
@@ -220,7 +220,7 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
                   derived.alertHeightClamp,
                 );
 
-                final double realDelta = alert!
+                final double realDelta = alert
                   ? maxAlertHeight - dimensions.collapsedPanelSize // alert delta
                   : derived.panelDelta; // regular panel delta
 
@@ -342,7 +342,7 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
       })
     ));
 
-    return data.themeController.derived.themeData!.build(((_,theme) => Theme(
+    return data.themeController.derived.themeData.build(((_,theme) => Theme(
       data: theme,
       child: ListTileTheme.merge(
         iconColor: theme.textTheme.bodyText2?.color,

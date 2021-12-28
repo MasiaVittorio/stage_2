@@ -11,9 +11,9 @@ class _StageAlertData {
   void dispose(){
     children.dispose();
     sizes.dispose();
-    isShowing?.dispose();
-    currentChild?.dispose();
-    currentSize?.dispose();
+    isShowing.dispose();
+    currentChild.dispose();
+    currentSize.dispose();
     savedStates.clear();
   }
 
@@ -28,9 +28,9 @@ class _StageAlertData {
   final Map<String,dynamic> savedStates = <String,dynamic>{};
 
   // Derived 
-  BlocVar<bool>? isShowing;
-  BlocVar<Widget?>? currentChild;
-  BlocVar<double?>? currentSize;
+  late BlocVar<bool> isShowing;
+  late BlocVar<Widget?> currentChild;
+  late BlocVar<double?> currentSize;
 
   // Logic
   /// if the panel was opened already without displaying any alert before displaying the first
@@ -43,14 +43,14 @@ class _StageAlertData {
     currentChild = BlocVar.fromCorrelate<Widget?, List<Widget>>(
       from: children, 
       map: (l) => l.isEmpty ? null : l.last,
-    ) as BlocVar<Widget?>?;
+    );
     currentSize = BlocVar.fromCorrelate<double?, List<double>>(
       from: sizes, 
       map: (l) => l.isEmpty ? null : l.last,
-    ) as BlocVar<double?>?;
+    );
     isShowing = BlocVar.fromCorrelateLatest2<bool,Widget?,double?>(
-      currentChild!,
-      currentSize!, 
+      currentChild,
+      currentSize, 
       map: (c,s) => c != null && s != null,
       distinct: true,
     );

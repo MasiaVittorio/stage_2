@@ -48,7 +48,7 @@ class _StageSnackBarData {
     isShowing = BlocVar.fromCorrelate<bool,Widget?>(
       from: child, 
       map: (c) => c != null
-    ) as BlocVar<bool?>?;
+    );
   }
 
 

@@ -163,7 +163,7 @@ class StageData<T,S> {
     if(snackBarData.isShowing!.value!){
       snackBarData.close();
       return false;
-    } else if(alertData!.isShowing!.value){
+    } else if(alertData!.isShowing.value){
       if(panelController.isMostlyOpened.value){
         panelController.close();
         return false;

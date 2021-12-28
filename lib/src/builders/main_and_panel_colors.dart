@@ -12,8 +12,8 @@ class _StageBuildOffMainColors<T> extends StatelessWidget {
     final controller = stage.themeController.derived;
 
     return BlocVar.build2<Color?, Map<T?,Color?>?>(
-      controller._mainPrimaryColor!,
-      controller.mainPageToPrimaryColor!,
+      controller._mainPrimaryColor,
+      controller.mainPageToPrimaryColor,
       builder: builder,
     );
   }
@@ -32,8 +32,8 @@ class _StageBuildOffPanelColors<S> extends StatelessWidget {
     final controller = stage.themeController.derived;
 
     return BlocVar.build2<Color?, Map<S?,Color?>?>(
-      controller._panelPrimaryColor!,
-      controller.panelPageToPrimaryColor!,
+      controller._panelPrimaryColor,
+      controller.panelPageToPrimaryColor,
       builder: builder,
     );
   }

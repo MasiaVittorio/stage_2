@@ -169,10 +169,10 @@ class StageSnackButton extends StatelessWidget {
 
     return BlocVar.build2<StageDimensions,Color?>( 
       stage.dimensionsController.dimensions,
-      stage.themeController.derived.currentPrimaryColor!,
+      stage.themeController.derived.currentPrimaryColor,
       builder:(_, dimensions, color){
         
-        final double height = dimensions!.collapsedPanelSize;
+        final double height = dimensions.collapsedPanelSize;
 
         if(isPlaceHolder) return SizedBox(
           height: height, 
@@ -244,13 +244,13 @@ class _StageSnackBar extends StatelessWidget {
 
     final bool right = stage.panelController.snackbarController.snackBarRightAligned;
 
-    return BlocVar.build2(
-      stage.themeController.derived.currentPrimaryColor!,
-      stage.themeController.derived.forcedPrimaryColorBrightness!,
-      builder: (_,dynamic color, dynamic forcedPrimaryColorBrightness) {
+    return BlocVar.build2<Color?, Brightness?>(
+      stage.themeController.derived.currentPrimaryColor,
+      stage.themeController.derived.forcedPrimaryColorBrightness,
+      builder: (_, color, forcedPrimaryColorBrightness) {
         final Brightness colorBrightness 
             = forcedPrimaryColorBrightness
-            ?? ThemeData.estimateBrightnessForColor(color);
+            ?? ThemeData.estimateBrightnessForColor(color!);
         final Color iconColor = colorBrightness.contrast;
 
         return Theme(

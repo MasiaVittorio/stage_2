@@ -34,8 +34,8 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
         // the paged colors map cannot be used in batch because could be null
         child: pages._orderedPages.build(((_, orderedPages) 
           => pages._enabledPages.build(((_, enabled) 
-          => thCon.derived.panelPageToPrimaryColor!.build(((_, primaryColorsMap) 
-          => thCon.derived._panelPrimaryColor!.build(((_, currentColor) 
+          => thCon.derived.panelPageToPrimaryColor.build(((_, primaryColorsMap) 
+          => thCon.derived._panelPrimaryColor.build(((_, currentColor) 
           => thCon.colorPlace.build(((_, place) 
           => pages._page.build(((_, panelPage) 
           => data.badgesController.panelPages.build((_, badges) {

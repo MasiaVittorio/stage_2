@@ -5,16 +5,16 @@ class _StageDerivedThemeData<T,S> {
   //=========================================
   // Disposer
   void dispose(){
-    accentColor?.dispose();
-    mainPageToPrimaryColor?.dispose();
-    _mainPrimaryColor?.dispose();
-    panelPageToPrimaryColor?.dispose();
-    _panelPrimaryColor?.dispose();
-    currentPrimaryColor?.dispose();
-    _lightThemeData?.dispose();
-    _darkThemeDatas?.dispose();
-    themeData?.dispose();
-    forcedPrimaryColorBrightness?.dispose();
+    accentColor.dispose();
+    mainPageToPrimaryColor.dispose();
+    _mainPrimaryColor.dispose();
+    panelPageToPrimaryColor.dispose();
+    _panelPrimaryColor.dispose();
+    currentPrimaryColor.dispose();
+    _lightThemeData.dispose();
+    _darkThemeDatas.dispose();
+    themeData.dispose();
+    forcedPrimaryColorBrightness.dispose();
   }
   
 
@@ -22,20 +22,20 @@ class _StageDerivedThemeData<T,S> {
   // Values
   final _StageThemeData<T,S> parent;
 
-  BlocVar<Color?>? accentColor;
+  late BlocVar<Color?> accentColor;
 
-  BlocVar<Color?>? _mainPrimaryColor;
-  BlocVar<Map<T,Color?>?>? mainPageToPrimaryColor; /// Could be null
-  BlocVar<Color?>? _panelPrimaryColor;
-  BlocVar<Map<S,Color?>?>? panelPageToPrimaryColor; /// Could be null
+  late BlocVar<Color?> _mainPrimaryColor;
+  late BlocVar<Map<T,Color?>?> mainPageToPrimaryColor; /// Could be null
+  late BlocVar<Color?> _panelPrimaryColor;
+  late BlocVar<Map<S,Color?>?> panelPageToPrimaryColor; /// Could be null
 
-  BlocVar<Color?>? currentPrimaryColor;
+  late BlocVar<Color?> currentPrimaryColor;
 
-  BlocVar<ThemeData>? _lightThemeData;
-  BlocVar<Map<DarkStyle,ThemeData>>? _darkThemeDatas;
-  BlocVar<ThemeData>? themeData;
+  late BlocVar<ThemeData> _lightThemeData;
+  late BlocVar<Map<DarkStyle,ThemeData>> _darkThemeDatas;
+  late BlocVar<ThemeData> themeData;
 
-  BlocVar<Brightness?>? forcedPrimaryColorBrightness;
+  late BlocVar<Brightness?> forcedPrimaryColorBrightness;
 
 
   //=========================================
@@ -137,10 +137,10 @@ class _StageDerivedThemeData<T,S> {
       parent.parent.panelController.isMostlyOpenedNonAlert, 
       parent.parent.mainPagesController._page,
       parent.parent.panelPagesController?._page ?? BlocVar(null), /// The whole controller could be null 
-      _mainPrimaryColor!, 
-      mainPageToPrimaryColor!, 
-      _panelPrimaryColor!, 
-      panelPageToPrimaryColor!,     //panel page could be null
+      _mainPrimaryColor, 
+      mainPageToPrimaryColor, 
+      _panelPrimaryColor, 
+      panelPageToPrimaryColor,     //panel page could be null
       map: (openNonAlert, mainPage, panelPage, main, pagedMain, panel, pagedPanel)  
         => _currentWithPanelAndPages<Color?,T?,S?>(openNonAlert, mainPage, panelPage, main, pagedMain, panel, pagedPanel),
       onChanged: (newColor) => parent.updateSystemNavBarStyle(),
@@ -194,18 +194,18 @@ class _StageDerivedThemeData<T,S> {
     >(
       parent.brightness.brightness,
       parent.brightness.darkStyle,
-      this._lightThemeData!,
-      this._darkThemeDatas!,
+      this._lightThemeData,
+      this._darkThemeDatas,
       map: (brightness, style, light, darks) 
         => _currentWithBrightness<ThemeData>(brightness!, style, light, darks),
     );
 
-    forcedPrimaryColorBrightness = BlocVar.fromCorrelate<Brightness?,Brightness?>(
+    forcedPrimaryColorBrightness = BlocVar.fromCorrelate<Brightness?,Brightness>(
       from: parent.brightness.brightness, 
-      map: (b) => b!.isLight 
+      map: (b) => b.isLight 
         ? parent.forcedPrimaryColorBrightnessOnLightTheme 
         : parent.forcedPrimaryColorBrightnessOnDarkTheme,
-    ) as BlocVar<Brightness?>?;
+    );
 
   }
 

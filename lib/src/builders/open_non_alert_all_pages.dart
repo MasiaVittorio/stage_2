@@ -14,7 +14,7 @@ class _StageBuildOffOpenNonAlertAllPages<T,S> extends StatelessWidget {
       stage.panelController.isMostlyOpenedNonAlert,
       stage.mainPagesController._page,
       stage.panelPagesController?._page ?? BlocVar<S?>(null),
-      builder: (con, op, mpg, ppg) => builder(con, op!, mpg, ppg),
+      builder: (con, op, mpg, ppg) => builder(con, op, mpg, ppg),
     );
   }
 }

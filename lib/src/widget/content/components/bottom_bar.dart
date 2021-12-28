@@ -15,9 +15,9 @@ class _BottomBar<T,S> extends StatelessWidget {
     /// [primaryColorsMap] can be null, so cannot be used in batch with .build6!!
     return data.mainPagesController._orderedPages.build(((_, orderedPages) 
       => data.dimensionsController.dimensions.build(((_, dimensions) 
-      => data.themeController.derived.mainPageToPrimaryColor!.build(((_, primaryColorsMap) 
-      => data.themeController.derived._mainPrimaryColor!.build(((_, color) 
-      => data.themeController.derived.themeData!.build((_, theme)
+      => data.themeController.derived.mainPageToPrimaryColor.build(((_, primaryColorsMap) 
+      => data.themeController.derived._mainPrimaryColor.build(((_, color) 
+      => data.themeController.derived.themeData.build((_, theme)
       => data.mainPagesController._enabledPages.build(((_, enabled) 
       => data.themeController.colorPlace.build(((_, place)
       => data.mainPagesController._page.build(((_, page) 
