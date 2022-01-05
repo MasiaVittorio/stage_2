@@ -35,7 +35,6 @@ class StageThemeUtils {
     required DarkStyle? darkStyle,
     required Color primary,
     required Color accent, 
-    required Brightness? forcedPrimaryColorBrightness, /// Could be null
   }) {
     
     final Color _toggleable = accent;
@@ -50,7 +49,6 @@ class StageThemeUtils {
       brightness: brightness,
 
       primaryColor: primary,
-      primaryColorBrightness: forcedPrimaryColorBrightness,
 
       canvasColor: _canvas,
 

@@ -15,8 +15,6 @@ class StageThemeData<T,S> {
   // Optional settings
   final bool? forceSystemNavBarStyle;
   final bool? accentSelectedPage;
-  final Brightness? forcedPrimaryColorBrightnessOnLightTheme; /// Could be null
-  final Brightness? forcedPrimaryColorBrightnessOnDarkTheme; /// Could be null
   final bool? pandaOpenedPanelNavBar; /// If the opened panel's bottom bar should be of the same color of the top bar
 
   StageThemeData._({
@@ -28,8 +26,6 @@ class StageThemeData<T,S> {
     required this.brightness,
     required bool? forceSystemNavBarStyle,
     required bool? accentSelectedPage,
-    required this.forcedPrimaryColorBrightnessOnLightTheme, /// Could be null
-    required this.forcedPrimaryColorBrightnessOnDarkTheme, /// Could be null
     required bool? pandaOpenedPanelNavBar,
   }): forceSystemNavBarStyle = forceSystemNavBarStyle ?? _defaultForceSystemNavBarStyle,
       accentSelectedPage = accentSelectedPage ?? _defaultAccentSelectedPage,
@@ -45,8 +41,6 @@ class StageThemeData<T,S> {
     this.brightness,
     this.forceSystemNavBarStyle,
     this.accentSelectedPage,
-    this.forcedPrimaryColorBrightnessOnLightTheme,
-    this.forcedPrimaryColorBrightnessOnDarkTheme,
     this.pandaOpenedPanelNavBar,
     this.colorPlace, // if null, backgrounds
     this.topBarElevations, // if null, defaults
@@ -85,8 +79,6 @@ class StageThemeData<T,S> {
     pandaOpenedPanelNavBar: initialNullableData?.pandaOpenedPanelNavBar,
     forceSystemNavBarStyle: initialNullableData?.forceSystemNavBarStyle,
     accentSelectedPage: initialNullableData?.accentSelectedPage,
-    forcedPrimaryColorBrightnessOnDarkTheme: initialNullableData?.forcedPrimaryColorBrightnessOnDarkTheme,
-    forcedPrimaryColorBrightnessOnLightTheme: initialNullableData?.forcedPrimaryColorBrightnessOnLightTheme,
   ); 
 
   StageThemeData<T,S> get complete => _create<T,S>(
@@ -121,8 +113,6 @@ class StageThemeData<T,S> {
     textsColors: this.textsColors?.fillWith(other?.textsColors) ?? other?.textsColors, 
     brightness: this.brightness?.fillWith(other?.brightness) ?? other?.brightness,
     forceSystemNavBarStyle: this.forceSystemNavBarStyle ?? other?.forceSystemNavBarStyle,
-    forcedPrimaryColorBrightnessOnLightTheme: this.forcedPrimaryColorBrightnessOnLightTheme ?? other?.forcedPrimaryColorBrightnessOnLightTheme,
-    forcedPrimaryColorBrightnessOnDarkTheme: this.forcedPrimaryColorBrightnessOnDarkTheme ?? other?.forcedPrimaryColorBrightnessOnDarkTheme,
     accentSelectedPage: this.accentSelectedPage ?? other?.accentSelectedPage,
     pandaOpenedPanelNavBar: this.pandaOpenedPanelNavBar ?? other?.pandaOpenedPanelNavBar,
   );

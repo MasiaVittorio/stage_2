@@ -14,7 +14,6 @@ class _StageDerivedThemeData<T,S> {
     _lightThemeData.dispose();
     _darkThemeDatas.dispose();
     themeData.dispose();
-    forcedPrimaryColorBrightness.dispose();
   }
   
 
@@ -29,13 +28,11 @@ class _StageDerivedThemeData<T,S> {
   late BlocVar<Color?> _panelPrimaryColor;
   late BlocVar<Map<S,Color?>?> panelPageToPrimaryColor; /// Could be null
 
-  late BlocVar<Color?> currentPrimaryColor;
+  late BlocVar<Color> currentPrimaryColor;
 
   late BlocVar<ThemeData> _lightThemeData;
   late BlocVar<Map<DarkStyle,ThemeData>> _darkThemeDatas;
   late BlocVar<ThemeData> themeData;
-
-  late BlocVar<Brightness?> forcedPrimaryColorBrightness;
 
 
   //=========================================
@@ -132,7 +129,7 @@ class _StageDerivedThemeData<T,S> {
     );
 
     currentPrimaryColor = BlocVar.fromCorrelateLatest7<
-      Color?,   bool,T?,S?,Color?,Map<T?,Color?>?,Color?,Map<S?,Color?>?
+      Color,   bool,T?,S?,Color?,Map<T?,Color?>?,Color?,Map<S?,Color?>?
     >(
       parent.parent.panelController.isMostlyOpenedNonAlert, 
       parent.parent.mainPagesController._page,
@@ -142,7 +139,9 @@ class _StageDerivedThemeData<T,S> {
       _panelPrimaryColor, 
       panelPageToPrimaryColor,     //panel page could be null
       map: (openNonAlert, mainPage, panelPage, main, pagedMain, panel, pagedPanel)  
-        => _currentWithPanelAndPages<Color?,T?,S?>(openNonAlert, mainPage, panelPage, main, pagedMain, panel, pagedPanel),
+        => _currentWithPanelAndPages<Color?,T?,S?>(
+          openNonAlert, mainPage, panelPage, main, pagedMain, panel, pagedPanel
+        )!,
       onChanged: (newColor) => parent.updateSystemNavBarStyle(),
     );
 
@@ -164,7 +163,6 @@ class _StageDerivedThemeData<T,S> {
             darkStyle: style, 
             primary: colorPlace.isTexts ? textsPrimaries![style]! : backPrimaries![style]!, 
             accent: colorPlace.isTexts ? textsAccents![style]! : backAccents![style]!, 
-            forcedPrimaryColorBrightness: parent.forcedPrimaryColorBrightnessOnDarkTheme,
           ),
       }
     );
@@ -185,7 +183,6 @@ class _StageDerivedThemeData<T,S> {
         darkStyle: null, 
         primary: colorPlace.isTexts ? textsPrimary! : backPrimary!, 
         accent: colorPlace.isTexts ? textsAccent! : backAccent!, 
-        forcedPrimaryColorBrightness: parent.forcedPrimaryColorBrightnessOnLightTheme,
       ),
     );
 
@@ -200,12 +197,6 @@ class _StageDerivedThemeData<T,S> {
         => _currentWithBrightness<ThemeData>(brightness!, style, light, darks),
     );
 
-    forcedPrimaryColorBrightness = BlocVar.fromCorrelate<Brightness?,Brightness>(
-      from: parent.brightness.brightness, 
-      map: (b) => b.isLight 
-        ? parent.forcedPrimaryColorBrightnessOnLightTheme 
-        : parent.forcedPrimaryColorBrightnessOnDarkTheme,
-    );
 
   }
 

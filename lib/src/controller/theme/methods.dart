@@ -2,12 +2,6 @@ part of stage;
 
 extension _StageThemeDataExt<T,S> on _StageThemeData<T,S> {
 
-  Brightness? get _currentBrightness => brightness.brightness.value;
-
-  Brightness? get _currentForcedPrimaryColorBrightness => _currentBrightness!.isLight 
-    ? forcedPrimaryColorBrightnessOnLightTheme
-    : forcedPrimaryColorBrightnessOnDarkTheme;
-
   //===========================================
   // System UI Style
   void updateSystemNavBarStyle(){
@@ -15,8 +9,7 @@ extension _StageThemeDataExt<T,S> on _StageThemeData<T,S> {
       final Color? color =  colorPlace.value.isTexts 
         ? derived.themeData.value.canvasColor 
         : derived.currentPrimaryColor.value;
-      final Brightness colorBrightness = _currentForcedPrimaryColorBrightness 
-        ?? ThemeData.estimateBrightnessForColor(color!);
+      final Brightness colorBrightness = ThemeData.estimateBrightnessForColor(color!);
 
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: color,

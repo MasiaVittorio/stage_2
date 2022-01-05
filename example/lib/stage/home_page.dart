@@ -25,7 +25,6 @@ class HomePage extends StatelessWidget {
       stageTheme: StageThemeData.nullable(
         pandaOpenedPanelNavBar: true,
         // forceSystemNavBarStyle: true,
-        forcedPrimaryColorBrightnessOnLightTheme: Brightness.dark,
       ),
 
       mainPageToJson: (p) => p.name,

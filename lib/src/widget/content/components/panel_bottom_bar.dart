@@ -75,8 +75,6 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
 
               forceSingleColor: single,
               singleBackgroundColor: finalColor,
-              forceBrightness: thCon
-                  ._currentForcedPrimaryColorBrightness,
 
               badges: badges,
             );

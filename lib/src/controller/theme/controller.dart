@@ -30,8 +30,6 @@ class _StageThemeData<T,S> {
   final BlocVar<bool> bottomBarShadow;
 
   // Optional settings
-  final Brightness? forcedPrimaryColorBrightnessOnLightTheme; /// Could be null
-  final Brightness? forcedPrimaryColorBrightnessOnDarkTheme; /// Could be null
   final bool accentSelectedPage;
   final bool? pandaOpenedPanelNavBar; /// If the opened panel's bottom bar should be of the same color of the top bar
   final bool? forceSystemNavBarStyle; /// Wether the system nav bar should be colored as the stage's nav bar
@@ -42,8 +40,6 @@ class _StageThemeData<T,S> {
   _StageThemeData(this.parent, {
     required StageThemeData<T,S> initialData,
   }): 
-    forcedPrimaryColorBrightnessOnLightTheme = initialData.forcedPrimaryColorBrightnessOnLightTheme,
-    forcedPrimaryColorBrightnessOnDarkTheme = initialData.forcedPrimaryColorBrightnessOnDarkTheme,
     accentSelectedPage = initialData.accentSelectedPage!,
     pandaOpenedPanelNavBar = initialData.pandaOpenedPanelNavBar,
     forceSystemNavBarStyle = initialData.forceSystemNavBarStyle,
@@ -116,8 +112,6 @@ class _StageThemeData<T,S> {
     brightness: this.brightness.extractData,
     forceSystemNavBarStyle: this.forceSystemNavBarStyle,
     accentSelectedPage: this.accentSelectedPage,
-    forcedPrimaryColorBrightnessOnDarkTheme: this.forcedPrimaryColorBrightnessOnDarkTheme,
-    forcedPrimaryColorBrightnessOnLightTheme: this.forcedPrimaryColorBrightnessOnLightTheme,
     pandaOpenedPanelNavBar: this.pandaOpenedPanelNavBar,
     bottomBarShadow: this.bottomBarShadow.value,
   );

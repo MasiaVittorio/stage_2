@@ -51,7 +51,7 @@ class Stage<T,S> extends StatelessWidget {
 
   // Content
   final Widget body;
-  final Widget collapsedPanel; //could be null, but why should it?
+  final Widget? collapsedPanel; //could be null
   final Widget? extendedPanel; //could be null if the builder is there
   final Widget Function(BuildContext, Animation)? extendedPanelBuilder;
   final StageTopBarContent topBarContent;

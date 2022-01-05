@@ -63,8 +63,6 @@ class _BottomBar<T,S> extends StatelessWidget {
 
           forceSingleColor: single,
           singleBackgroundColor: singleBackground,
-          forceBrightness: data.themeController
-              ._currentForcedPrimaryColorBrightness,
           accentTextColor: singleAccent,
         );
 

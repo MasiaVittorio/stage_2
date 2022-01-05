@@ -244,108 +244,103 @@ class _StageSnackBar extends StatelessWidget {
 
     final bool right = stage.panelController.snackbarController.snackBarRightAligned;
 
-    return BlocVar.build2<Color?, Brightness?>(
-      stage.themeController.derived.currentPrimaryColor,
-      stage.themeController.derived.forcedPrimaryColorBrightness,
-      builder: (_, color, forcedPrimaryColorBrightness) {
-        final Brightness colorBrightness 
-            = forcedPrimaryColorBrightness
-            ?? ThemeData.estimateBrightnessForColor(color!);
-        final Color iconColor = colorBrightness.contrast;
+    return stage.themeController.derived.currentPrimaryColor.build((_, color) {
+      final Brightness colorBrightness 
+        = ThemeData.estimateBrightnessForColor(color);
+      final Color iconColor = colorBrightness.contrast;
 
-        return Theme(
-          data: theme.copyWith(
-            iconTheme: theme.primaryIconTheme.copyWith(
-              color: iconColor,
-              opacity: textOpacity,
-            ),
-            textTheme: theme.primaryTextTheme.apply(
-              bodyColor: iconColor.withOpacity(textOpacity), 
-            ),
+      return Theme(
+        data: theme.copyWith(
+          iconTheme: theme.primaryIconTheme.copyWith(
+            color: iconColor,
+            opacity: textOpacity,
           ),
-          child: stage.dimensionsController.dimensions.build((_, dimensions) {
-            
-            final double height = dimensions.collapsedPanelSize;
-            final Offset center = Offset(height / 2, height / 2);
+          textTheme: theme.primaryTextTheme.apply(
+            bodyColor: iconColor.withOpacity(textOpacity), 
+          ),
+        ),
+        child: stage.dimensionsController.dimensions.build((_, dimensions) {
+          
+          final double height = dimensions.collapsedPanelSize;
+          final Offset center = Offset(height / 2, height / 2);
 
-            final Widget alert = Container(
+          final Widget alert = Container(
+            // color: color,
+            child: Container(
               // color: color,
-              child: Container(
-                // color: color,
-                child: Material(
-                  color: color,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      // if(!right) SizedBox(width: height,),
-                      Expanded(child: this.child),
-                      // if(right) SizedBox(width: height,),
-                    ],
-                  ),
+              child: Material(
+                color: color,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    // if(!right) SizedBox(width: height,),
+                    Expanded(child: this.child),
+                    // if(right) SizedBox(width: height,),
+                  ],
                 ),
               ),
-            );
+            ),
+          );
 
-            return SizedBox(
-              height: height,
-              child: AnimatedBuilder(
-                animation: this.animation!,
-                child: alert, 
-                builder: (_, alert){
-                  final double val = animation!.value;
-                  // not clamped because they clamp it already in mapToRange
+          return SizedBox(
+            height: height,
+            child: AnimatedBuilder(
+              animation: this.animation!,
+              child: alert, 
+              builder: (_, alert){
+                final double val = animation!.value;
+                // not clamped because they clamp it already in mapToRange
 
-                  final double scale = Curves.easeOut.transform(
-                    DoubleExt.mapToRange(val, 0.0, 1.0, fromMin: 0.0, fromMax: 0.6)
-                  );
+                final double scale = Curves.easeOut.transform(
+                  DoubleExt.mapToRange(val, 0.0, 1.0, fromMin: 0.0, fromMax: 0.6)
+                );
 
-                  final double clip = Curves.easeOut.transform(
-                    DoubleExt.mapToRange(val, 0.0, 1.0, fromMin: 0.4, fromMax: 1.0)
-                  );
-                  final _CircleClipper clipper = _CircleClipper(
-                    center: center,
-                    radiusFraction: clip,
-                    offsetFromRight: right,
-                  );
+                final double clip = Curves.easeOut.transform(
+                  DoubleExt.mapToRange(val, 0.0, 1.0, fromMin: 0.4, fromMax: 1.0)
+                );
+                final _CircleClipper clipper = _CircleClipper(
+                  center: center,
+                  radiusFraction: clip,
+                  offsetFromRight: right,
+                );
 
-                  return Stack(
-                    fit: StackFit.expand,
-                    clipBehavior: Clip.hardEdge,
-                    children: <Widget>[
+                return Stack(
+                  fit: StackFit.expand,
+                  clipBehavior: Clip.hardEdge,
+                  children: <Widget>[
 
-                      Positioned(
-                        left: 0.0,
-                        right: 0.0,
-                        top: 0.0,
-                        height: height,
-                        child: ClipOval(
-                          clipper: clipper,
-                          child: alert,
-                        ),
+                    Positioned(
+                      left: 0.0,
+                      right: 0.0,
+                      top: 0.0,
+                      height: height,
+                      child: ClipOval(
+                        clipper: clipper,
+                        child: alert,
                       ),
+                    ),
 
-                      Positioned(
-                        left: !right ? 0.0 : null,
-                        right: right ? 0.0 : null,
-                        top: 0.0,
-                        height: height,
-                        width: height,
-                        child: Transform.scale(
-                          scale: scale,
-                          child: closeButton,
-                          alignment: Alignment.center,
-                        ),
+                    Positioned(
+                      left: !right ? 0.0 : null,
+                      right: right ? 0.0 : null,
+                      top: 0.0,
+                      height: height,
+                      width: height,
+                      child: Transform.scale(
+                        scale: scale,
+                        child: closeButton,
+                        alignment: Alignment.center,
                       ),
+                    ),
 
-                    ],
-                  );
-                },
-              ),
-            );
-          }),
-        );
-      },
-    );
+                  ],
+                );
+              },
+            ),
+          );
+        }),
+      );
+    },);
   }
 }
 
