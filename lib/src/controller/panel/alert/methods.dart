@@ -69,7 +69,7 @@ extension StageAlertDataExt on _StageAlertData {
         shouldReOpen = true;
       }
       if(shouldReOpen){
-        SchedulerBinding.instance!.addPostFrameCallback((_) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
           parent.open();
         });
         return true;

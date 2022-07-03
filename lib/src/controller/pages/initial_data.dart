@@ -36,15 +36,15 @@ class StagePagesData<T> {
     this.pagesData,
   });
 
-  StagePagesData<T> get complete => _create<T>(
+  StagePagesData<T>? get complete => _create<T>(
     inheritedData: null,
     manualNullable: this,
   );
 
-  static StagePagesData<T> _create<T>({
+  static StagePagesData<T>? _create<T>({
     required StagePagesData<T>? inheritedData,
     required StagePagesData<T>? manualNullable,
-  }) => (manualNullable?.fillWith(inheritedData) ?? inheritedData)!;
+  }) => (manualNullable?.fillWith(inheritedData) ?? inheritedData);
 
 
 

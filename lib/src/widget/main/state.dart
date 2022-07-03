@@ -17,7 +17,7 @@ class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndE
       final StagePagesData<T> mainPages = StagePagesData._create<T>(
         manualNullable: widget.mainPages,
         inheritedData: inherited?.mainPagesController.extractData, 
-      );
+      )!;
       final StagePagesData<S>? panelPages = StagePagesData._create<S>(
         manualNullable: widget.panelPages, /// Can be null
         inheritedData: inherited?.panelPagesController?.extractData, 

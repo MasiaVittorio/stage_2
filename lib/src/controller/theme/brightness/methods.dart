@@ -46,7 +46,7 @@ extension StageBrightnessDataExt on _StageBrightnessData {
     _updateBrightness(context);
   }
 
-  void _updateBrightness(BuildContext? context) => SchedulerBinding.instance!.addPostFrameCallback((_){
+  void _updateBrightness(BuildContext? context) => SchedulerBinding.instance.addPostFrameCallback((_){
     if(!autoDark.value!) return; // checking this first because it can happen more often than reading
     if(autoDarkMode.modalReading) return;
     if(autoDark.modalReading) return;
