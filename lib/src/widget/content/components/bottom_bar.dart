@@ -10,7 +10,7 @@ class _BottomBar<T,S> extends StatelessWidget {
 
     final StageData<T,S> data = Stage.of<T,S>(context)!;
     final bool _useAccent = data.themeController.accentSelectedPage;
-    final Map<T,StagePage?>? pagesData = data.mainPagesController.pagesData;
+    final Map<T,StagePage?> pagesData = data.mainPagesController.pagesData;
 
     /// [primaryColorsMap] can be null, so cannot be used in batch with .build6!!
     return data.mainPagesController._orderedPages.build(((_, orderedPages) 
@@ -32,13 +32,13 @@ class _BottomBar<T,S> extends StatelessWidget {
         /// all that is ignored by radionavbar if googleLike
 
         final Widget child = RadioNavBar<T>(
-          selectedValue: page!,
+          selectedValue: page,
           orderedValues: <T>[
             for(final page in orderedPages) 
               if(enabled[page]!) page,
           ],
           items: <T,RadioNavBarItem>{
-            for(final entry in pagesData!.entries)
+            for(final entry in pagesData.entries)
               entry.key: RadioNavBarItem(
                 title: entry.value!.name,
                 icon: entry.value!.icon,
@@ -47,13 +47,7 @@ class _BottomBar<T,S> extends StatelessWidget {
               ),
           },
           badges: badges,
-          onSelect: (p) {
-            try{
-              data.mainPagesController.goToPage(p);
-            } catch(e, stack){
-              dev.log(stack.toString());
-            }
-          },
+          onSelect: (p) => data.mainPagesController.goToPage(p),
           topPadding: dimensions.collapsedPanelSize/2,
           tileSize: dimensions.barSize,
           duration: const Duration(milliseconds: 250),

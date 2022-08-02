@@ -48,6 +48,12 @@ class HomePage extends StatelessWidget {
       panelPages: StagePagesData.nullable(
         defaultPage: PanelPage.theme,
         orderedPages: [PanelPage.pages, PanelPage.theme, PanelPage.dimensions, PanelPage.stateless],
+        enabledPages: {
+          PanelPage.pages: false,
+          PanelPage.theme: true,
+          PanelPage.dimensions: true,
+          PanelPage.stateless: false,
+        },
         pagesData: <PanelPage,StagePage>{
           for(final page in PanelPage.values)
             page: StagePage(

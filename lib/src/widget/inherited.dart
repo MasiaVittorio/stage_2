@@ -3,13 +3,15 @@ part of stage;
 //====================================
 // Inherited Logic
 
+
+
 class StageProvider<T,S> extends StatefulWidget {
 
   StageProvider({
-    Key? key,
     required this.child,
     required this.data,
-  }): super(key: key);
+    super.key,
+  });
 
   final Widget child;
   final StageData<T,S> data;
@@ -37,10 +39,10 @@ class _StageProviderState extends State<StageProvider> {
 
 class _StageInherited<T,S> extends InheritedWidget {
   const _StageInherited({
-    Key? key,
-    required Widget child,
+    required super.child,
     required this.data,
-  }) : super(key: key, child: child);
+    super.key,
+  });
 
   final StageData<T,S> data;
 

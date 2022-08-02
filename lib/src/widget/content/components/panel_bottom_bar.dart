@@ -33,9 +33,9 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
         ),
         // the paged colors map cannot be used in batch because could be null
         child: pages._orderedPages.build(((_, orderedPages) 
-          => pages._enabledPages.build(((_, enabled) 
           => thCon.derived.panelPageToPrimaryColor.build(((_, primaryColorsMap) 
           => thCon.derived._panelPrimaryColor.build(((_, currentColor) 
+          => pages._enabledPages.build(((_, enabled) 
           => thCon.colorPlace.build(((_, place) 
           => pages._page.build(((_, panelPage) 
           => data.badgesController.panelPages.build((_, badges) {
@@ -49,14 +49,13 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
               ? (singleBackground ?? theme.primaryColor)
               : theme.canvasColor;
 
-            return RadioNavBar(
+            return RadioNavBar<S>(
               selectedValue: panelPage,
-              orderedValues: [
+              orderedValues: <S>[
                 for(final page in orderedPages) 
-                  if(enabled[panelPage]!)
-                    page,
+                  if(enabled[page]!) page,
               ],
-              items: {
+              items: <S,RadioNavBarItem>{
                 for(final entry in data.panelPagesController!.pagesData.entries)
                   entry.key: RadioNavBarItem(
                     title: entry.value!.name,
@@ -65,7 +64,7 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
                     color: single ? null : primaryColorsMap[entry.key!],
                   ),
               },
-              onSelect: (dynamic page) => data.panelPagesController!.goToPage(page),
+              onSelect: (S page) => data.panelPagesController!.goToPage(page),
               duration: const Duration(milliseconds: 250),
               tileSize: dimensions.barSize,
               topPadding: 0.0,
