@@ -2,12 +2,12 @@ import 'package:example/core.dart';
 
 class Alerts extends StatelessWidget {
 
-  const Alerts({Key key}): super(key: key);
+  const Alerts({Key? key}): super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
 
     return ListView(children: <Widget>[
       
@@ -16,11 +16,11 @@ class Alerts extends StatelessWidget {
         Row(children: <Widget>[
           for(final child in <Widget>[
             ListTile(
-              title: Text("Big"),
+              title: const Text("Big"),
               onTap: () => stage.showAlert(headered, size: 500),
             ),
             ListTile(
-              title: Text("Small"),
+              title: const Text("Small"),
               onTap: () => stage.showAlert(headered, size: 300),
             ),
           ]) Expanded(child: child,),
@@ -32,9 +32,9 @@ class Alerts extends StatelessWidget {
         Row(children: <Widget>[
           for(final child in <Widget>[
             ListTile(
-              title: Text("Vert. swap"),
+              title: const Text("Vert. swap"),
               onTap: () => stage.showAlert(
-                RadioHeaderedAlert<int>(
+                const RadioHeaderedAlert<int>(
                   items: radioItems,
                   animationType: RadioAnimation.verticalSwap,
                 ),
@@ -42,9 +42,9 @@ class Alerts extends StatelessWidget {
               ),
             ),
             ListTile(
-              title: Text("Horiz. fade"),
+              title: const Text("Horiz. fade"),
               onTap: () => stage.showAlert(
-                RadioHeaderedAlert<int>(
+                const RadioHeaderedAlert<int>(
                   items: radioItems,
                   animationType: RadioAnimation.horizontalFade,
                 ),
@@ -75,7 +75,7 @@ class Alerts extends StatelessWidget {
       Section(<Widget>[
         const SectionTitle("Nested alerts"),
         ListTile(
-          title: Text("Show nested alerts"),
+          title: const Text("Show nested alerts"),
           onTap: () => stage.showAlert(NestedAlert(1)),
         ),
       ]),
@@ -83,7 +83,7 @@ class Alerts extends StatelessWidget {
     ],);
   }
 
-  static const Map<int,RadioHeaderedItem> radioItems = const <int,RadioHeaderedItem>{
+  static const Map<int,RadioHeaderedItem> radioItems = <int,RadioHeaderedItem>{
     1: RadioHeaderedItem(
       longTitle: "All favorites",
       title: "Favs", 
@@ -119,17 +119,17 @@ class _ConfirmInput extends StatefulWidget {
 
 class __ConfirmInputState extends State<_ConfirmInput> {
 
-  bool confirm;
+  bool? confirm;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("Confirm alert"),
-      leading: Icon(Icons.check),
+      title: const Text("Confirm alert"),
+      leading: const Icon(Icons.check),
       trailing: Text(confirm == true ? "confirmed": "-"),
-      onTap: () => Stage.of(context).showAlert(
+      onTap: () => Stage.of(context)!.showAlert(
         ConfirmAlert(
-          action: () => this.setState(() {
+          action: () => setState(() {
             confirm = true;
           }),
         ), 
@@ -147,20 +147,20 @@ class _ColorInput extends StatefulWidget {
 }
 
 class _ColorInputState extends State<_ColorInput> {
-  Color color;
+  Color? color;
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
 
     return ListTile(
-      leading: Icon(McIcons.palette_outline),
+      leading: const Icon(McIcons.palette_outline),
       trailing: color != null ? CircleAvatar(backgroundColor: color, child: Container(),) : null,
-      title: Text("Color pick Alert"),
+      title: const Text("Color pick Alert"),
       onTap: () => stage.pickColor(
         initialColor: color,
         onSubmitted: (Color value) {
-          this.setState((){
+          setState((){
             color = value;
           });
           stage.showSnackBar(
@@ -168,8 +168,8 @@ class _ColorInputState extends State<_ColorInput> {
               title: Text("Color: ${value.value.toRadixString(16).toUpperCase()}"), 
               secondary: StageSnackButton(
                 onTap: null, 
-                child: Icon(Icons.palette, color: value.contrast,), 
-                backgroundColor: value,
+                backgroundColor: value, 
+                child: Icon(Icons.palette, color: value.contrast,),
               ),
             ),
           );
@@ -188,15 +188,15 @@ class _TextInput extends StatefulWidget {
 
 class _TextInputState extends State<_TextInput> {
 
-  String text;
+  String? text;
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
     return ListTile(
-      title: Text("Input text"),
+      title: const Text("Input text"),
       subtitle: text != null ? Text(text ?? "") : null,
-      leading: Icon(Icons.short_text),
+      leading: const Icon(Icons.short_text),
       onTap: () => stage.showAlert(
         InsertAlert(
           initialText: text,
@@ -225,15 +225,15 @@ class _NumberInput extends StatefulWidget {
 
 class _NumberInputState extends State<_NumberInput> {
 
-  int number;
+  int? number;
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
     return ListTile(
-      title: Text("Input number"),
-      subtitle: number != null ? Text("$number" ?? "") : null,
-      leading: Icon(Icons.dialpad),
+      title: const Text("Input number"),
+      subtitle: number != null ? Text("$number") : null,
+      leading: const Icon(Icons.dialpad),
       onTap: () => stage.showAlert(
         InsertAlert(
           initialText: number != null ? "$number" : null,
@@ -262,21 +262,21 @@ class NestedAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     return HeaderedAlert(
       "Nested alert #$id",
-      child: Container(),
       bottom: Row(children: <Widget>[
         for(final child in <Widget>[
           ListTile(
-            title: Text("Show next"),
-            leading: Icon(Icons.keyboard_arrow_right),
-            onTap: () => Stage.of(context).showAlert(NestedAlert(id+1)),
+            title: const Text("Show next"),
+            leading: const Icon(Icons.keyboard_arrow_right),
+            onTap: () => Stage.of(context)!.showAlert(NestedAlert(id+1)),
           ),
           ListTile(
-            title: Text("Close completely"),
-            leading: Icon(Icons.close),
-            onTap: () => Stage.of(context).closePanelCompletely(),
+            title: const Text("Close completely"),
+            leading: const Icon(Icons.close),
+            onTap: () => Stage.of(context)!.closePanelCompletely(),
           ),
         ]) Expanded(child: child),
       ],),
+      child: Container(),
     );
   }
 }

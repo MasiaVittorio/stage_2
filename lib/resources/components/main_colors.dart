@@ -5,11 +5,11 @@ class StageMainColors<T> extends StatelessWidget {
 
   const StageMainColors({
     this.switchPagesVsSingle = false,
-    this.extraChildren,
+    this.extraChildren = const [],
   });
 
   final bool switchPagesVsSingle;
-  final List<Widget>? extraChildren;
+  final List<Widget> extraChildren;
 
   @override
   Widget build(BuildContext context) 
@@ -17,7 +17,7 @@ class StageMainColors<T> extends StatelessWidget {
       
       final Widget child = pageColors != null
         ? StageMainColorsPerPage<T>(extraChildren: extraChildren)
-        : StageMainSingleColor(extraChildren: extraChildren!); //TODO: fix
+        : StageMainSingleColor(extraChildren: extraChildren); //TODO: fix
 
       if(switchPagesVsSingle){
         return Column(
@@ -40,7 +40,7 @@ class StageMainColorsPerPage<T> extends StatelessWidget {
 
   const StageMainColorsPerPage({this.extraChildren = const <Widget>[]});
 
-  final List<Widget>? extraChildren;
+  final List<Widget> extraChildren;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class StageMainColorsPerPage<T> extends StatelessWidget {
             leading: ColorCircleDisplayer(pageColors[page!], icon: pagesData[page]!.icon,),
             onTap: () => pickPageColor(stage, page, pageColors[page]),
           ),
-        ...(extraChildren ?? const <Widget>[]),
+        ...(extraChildren),
       ];
 
       return Column(
@@ -78,7 +78,7 @@ class StageMainColorsPerPage<T> extends StatelessWidget {
   void pickPageColor(StageData<T,dynamic> stage, T page, Color? initialColor)
     => stage.pickColor(
       initialColor: initialColor,
-      onSubmitted: (color) => stage.themeController.currentColorsController!.editMainPageToPrimary(page, color),
+      onSubmitted: (color) => stage.themeController.currentColorsController.editMainPageToPrimary(page, color),
     );
 
 }
@@ -120,7 +120,7 @@ class StageMainSingleColor extends StatelessWidget {
   }
 
   void pickSingleColor(StageData stage, Color? initialColor) => stage.pickColor(
-    onSubmitted: (Color color) => stage.themeController.currentColorsController!.editMainPrimary(color),
+    onSubmitted: (Color color) => stage.themeController.currentColorsController.editMainPrimary(color),
     initialColor: initialColor,
   );
 
@@ -189,9 +189,9 @@ class _MultiPageColorsToggleMain<T> extends StatelessWidget {
         orderedItems: <bool>[false, true],
         onSelect: (multi){
           if(multi){
-            colors!.enableMainPagedColors();
+            colors.enableMainPagedColors();
           } else {
-            colors!.disableMainPagedColors();
+            colors.disableMainPagedColors();
           }
         },
         selectedItem: pageColors != null,

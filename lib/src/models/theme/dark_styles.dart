@@ -1,35 +1,41 @@
 part of stage;
 
 enum DarkStyle {
-  dark,
-  nightBlack,
-  amoled,
-  nightBlue,
-}
+  dark(
+    "Dark",
+    StageDefaultColors.darkPrimary,
+    StageDefaultColors.darkAccent,
+  ),
+  nightBlack(
+    "Night Black",
+    StageDefaultColors.nightBlackPrimary,
+    StageDefaultColors.nightBlackAccent,
+  ),
+  amoled(
+    "Amoled",
+    StageDefaultColors.amoledPrimary,
+    StageDefaultColors.amoledAccent,
+  ),
+  nightBlue(
+    "Night Blue",
+    StageDefaultColors.nightBluePrimary,
+    StageDefaultColors.nightBlueAccent,
+  );
 
-extension DarkStyleExtensions on DarkStyle? {
-  Color? get defaultAccent => StageDefaultColors.darkAccents[this!];
-  Color? get defaultPrimary => StageDefaultColors.darkPrimaries[this!];
+  final Color defaultPrimary;
+  final Color defaultAccent;
+  final String name;
 
-  String? get name => DarkStyles.names[this!];
-}
+  const DarkStyle(
+    this.name,
+    this.defaultPrimary,
+    this.defaultAccent,
+  );
 
-class DarkStyles {
-
-  static DarkStyle? fromName(String? string) => namesReverse[string!];
-
-  static const Map<DarkStyle, String> names = <DarkStyle, String>{
-    DarkStyle.dark: "Dark",
-    DarkStyle.nightBlack: "Night Black",
-    DarkStyle.amoled: "Amoled",
-    DarkStyle.nightBlue: "Night Blue",
-  };
-  static const namesReverse = {
-    "Dark": DarkStyle.dark,
-    "Night Black": DarkStyle.nightBlack,
-    "Amoled": DarkStyle.amoled,
-    "Night Blue": DarkStyle.nightBlue,
-  };
+  static DarkStyle fromName(String name) 
+    => values.firstWhere((e) => e.name == name);
+  
+  
   static const Map<DarkStyle,DarkStyle> _next = {
     DarkStyle.dark: DarkStyle.nightBlack,
     DarkStyle.nightBlack: DarkStyle.amoled,
@@ -37,11 +43,12 @@ class DarkStyles {
     DarkStyle.nightBlue: DarkStyle.dark,
   };
 
-  static DarkStyle next(DarkStyle start) => _next[start]!;
-
+  DarkStyle get  next => _next[this]!;
+  
   static Map<DarkStyle,T> mapWithSingleValue<T>(T value) => <DarkStyle,T>{
     for(final style in DarkStyle.values)
       style: value,
   };
-
 }
+
+

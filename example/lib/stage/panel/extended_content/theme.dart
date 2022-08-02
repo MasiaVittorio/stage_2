@@ -1,19 +1,21 @@
 import 'package:example/core.dart';
 
 class ThemeEx extends StatelessWidget {
-  const ThemeEx();
+  
+  const ThemeEx({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ListView(
-      physics: Stage.of(context).panelScrollPhysics,
-      children: <Widget>[
+      physics: Stage.of(context)!.panelScrollPhysics,
+      children: const <Widget>[
         Section(<Widget>[
-          const PanelTitle("Brightness", centered: false,),
+          PanelTitle("Brightness", centered: false,),
           StageBrightnessToggle(),
         ]),
 
         Section(<Widget>[
-          const SectionTitle("Main Colors"),
+          SectionTitle("Main Colors"),
           StageMainColors<MainPage>(switchPagesVsSingle: true),
         ]),
 

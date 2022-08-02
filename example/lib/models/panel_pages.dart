@@ -11,16 +11,16 @@ enum PanelPage {
 
 
 extension PanelPageExt on PanelPage {
-  String get name => PanelPages._names[this];
-  String get longName => PanelPages._longNames[this];
-  String get subTitle => PanelPages._subtitles[this];
-  IconData get iconFilled => PanelPages._iconsFilled[this];
-  IconData get iconOutline => PanelPages._iconsOutlined[this];
+  String get name => PanelPages._names[this]!;
+  String get longName => PanelPages._longNames[this]!;
+  String get subTitle => PanelPages._subtitles[this]!;
+  IconData get iconFilled => PanelPages._iconsFilled[this]!;
+  IconData get iconOutline => PanelPages._iconsOutlined[this]!;
 }
 
 class PanelPages {
 
-  static PanelPage fromName(String name)=> reversedNames[name];
+  static PanelPage fromName(String name)=> reversedNames[name]!;
 
   static const Map<PanelPage,String> _names = <PanelPage,String>{
     PanelPage.theme: "Theme",

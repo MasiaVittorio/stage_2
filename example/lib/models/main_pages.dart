@@ -10,15 +10,15 @@ enum MainPage {
 
 
 extension MainPageExt on MainPage {
-  String get name => MainPages._names[this];
-  String get longName => MainPages._longNames[this];
-  IconData get iconFilled => MainPages._iconsFilled[this];
-  IconData get iconOutline => MainPages._iconsOutlined[this];
+  String get name => MainPages._names[this]!;
+  String get longName => MainPages._longNames[this]!;
+  IconData get iconFilled => MainPages._iconsFilled[this]!;
+  IconData get iconOutline => MainPages._iconsOutlined[this]!;
 }
 
 class MainPages {
 
-  static MainPage fromName(String name)=> reversedNames[name];
+  static MainPage fromName(String name)=> reversedNames[name]!;
 
   static const Map<MainPage,String> _names = <MainPage,String>{
     MainPage.alerts: "Alerts",

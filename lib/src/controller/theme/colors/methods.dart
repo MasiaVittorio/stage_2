@@ -16,8 +16,8 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
   }
 
   bool _editDarkMainPrimary({required DarkStyle style, required Color color}){
-    if(darkMainPrimaries.value![style] == color) return false;
-    darkMainPrimaries.value![style] = color;
+    if(darkMainPrimaries.value[style] == color) return false;
+    darkMainPrimaries.value[style] = color;
     darkMainPrimaries.refresh();
     return true;
   }
@@ -35,8 +35,8 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
   }
 
   bool _editDarkPanelPrimary({required DarkStyle style, required Color color}){
-    if(darkPanelPrimaries.value![style] == color) return false;
-    darkPanelPrimaries.value![style] = color;
+    if(darkPanelPrimaries.value[style] == color) return false;
+    darkPanelPrimaries.value[style] = color;
     darkPanelPrimaries.refresh();
     return true;
   }
@@ -44,11 +44,11 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
   bool _enableDarkMainPagedColors(){
     if(darkMainPageToPrimaries.value != null) return false;
     this.darkMainPageToPrimaries.set(
-      this._cachedDarkMainPageToPrimaries.value ?? <DarkStyle,Map<T,Color?>>{
+      this._cachedDarkMainPageToPrimaries.value ?? <DarkStyle,Map<T,Color>>{
         for(final style in DarkStyle.values)
-          style: <T,Color?>{
+          style: <T,Color>{
             for(final key in parent.parent.mainPagesController.pagesData.keys)
-              key: this.darkMainPrimaries.value![style],
+              key: this.darkMainPrimaries.value[style]!,
           },
       },
     );
@@ -65,11 +65,11 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
   bool _enableDarkPanelPagedColors(){
     if(darkPanelPageToPrimaries.value != null) return false;
     this.darkPanelPageToPrimaries.set(
-      this._cachedDarkPanelPageToPrimaries.value ?? <DarkStyle,Map<S,Color?>>{
+      this._cachedDarkPanelPageToPrimaries.value ?? <DarkStyle,Map<S,Color>>{
         for(final style in DarkStyle.values)
-          style: <S,Color?>{
+          style: <S,Color>{
             for(final key in parent.parent.panelPagesController!.pagesData.keys)
-              key: this.darkPanelPrimaries.value![style],
+              key: this.darkPanelPrimaries.value[style]!,
           },
       },
     );
@@ -118,7 +118,7 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
   bool _enableLightMainPagedColors(){
     if(lightMainPageToPrimary.value != null) return false;
     this.lightMainPageToPrimary.set(
-      this._cachedLightMainPageToPrimary.value ?? <T,Color?>{
+      this._cachedLightMainPageToPrimary.value ?? <T,Color>{
         for(final T key in parent.parent.mainPagesController.pagesData.keys)
           key: this.lightMainPrimary.value,
       },
@@ -136,7 +136,7 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
   bool _enableLightPanelPagedColors(){
     if(lightPanelPageToPrimary.value != null) return false;
     this.lightPanelPageToPrimary.set(
-      this._cachedLightPanelPageToPrimary.value ?? <S,Color?>{
+      this._cachedLightPanelPageToPrimary.value ?? <S,Color>{
         for(final key in parent.parent.panelPagesController!.pagesData.keys)
           key: this.lightPanelPrimary.value,
       },
@@ -160,8 +160,8 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
   //============================================
   // Dark Accent Colors
   bool _editDarkAccent({required DarkStyle style, required Color color}) {
-    if(darkAccents.value![style] == color) return false;
-    darkAccents.value![style] = color;
+    if(darkAccents.value[style] == color) return false;
+    darkAccents.value[style] = color;
     darkAccents.refresh();
     return true;
   }

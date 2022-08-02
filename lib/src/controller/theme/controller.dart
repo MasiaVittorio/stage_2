@@ -99,7 +99,7 @@ class _StageThemeData<T,S> {
     this.bottomBarShadow.modalReading 
   );
 
-  _StageColorsData<T,S>? get currentColorsController => colorPlace.value.isTexts
+  _StageColorsData<T,S> get currentColorsController => colorPlace.value.isTexts
     ? this.textsColors
     : this.backgroundColors;
 

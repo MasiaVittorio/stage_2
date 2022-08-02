@@ -2,7 +2,7 @@ import 'package:example/core.dart';
 
 class Snacks extends StatelessWidget {
 
-  const Snacks({Key key}): super(key: key);
+  const Snacks({Key? key}): super(key: key);
 
   static const Widget simple = StageSnackBar(title: Text("This is a snackbar!")); 
   static const Widget scroll = StageSnackBar(title: Text("Swipe me away!"), scrollable: true,); 
@@ -12,7 +12,7 @@ class Snacks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
 
     return ListView(children: <Widget>[
 
@@ -64,12 +64,12 @@ class Snacks extends StatelessWidget {
           ),
         ),
 
-        Selector(),
+        const Selector(),
         
       ]),
 
       const Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Text("(Long press to show from right)"),
       ),
 
@@ -81,13 +81,16 @@ class Snacks extends StatelessWidget {
 
 
 class Selector extends StatefulWidget {
+  
+  const Selector({Key? key}) : super(key: key);
+
   @override
-  _SelectorState createState() => _SelectorState();
+  State<Selector> createState() => _SelectorState();
 }
 
 class _SelectorState extends State<Selector> {
 
-  int selected;
+  int? selected;
 
   static const List<IconData> icons = <IconData>[
     Icons.palette,
@@ -103,13 +106,13 @@ class _SelectorState extends State<Selector> {
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
 
     final Widget snack = SelectSnackbar(
       initialIndex: selected,
       children: <Widget>[for(final icon in icons) Icon(icon),],
       onTap: (i) {
-        this.setState((){selected = i;});
+        setState((){selected = i;});
         stage.showSnackBar(StageSnackBar(
           title: Text("Your choice: #${i+1}"),
           secondary: Icon(icons[i]),
@@ -120,7 +123,7 @@ class _SelectorState extends State<Selector> {
     return ListTile(
       leading: const Icon(Icons.radio_button_checked),
       title: const Text("Select snackbar"),
-      trailing: selected != null ? Icon(icons[selected]) : null,
+      trailing: selected != null ? Icon(icons[selected!]) : null,
       onTap: () => stage.showSnackBar(snack),
       onLongPress: () => stage.showSnackBar(snack, rightAligned: true)
     );

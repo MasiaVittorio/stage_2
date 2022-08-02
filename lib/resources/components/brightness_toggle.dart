@@ -138,12 +138,12 @@ class _DarkStyleSwitcher extends StatelessWidget {
       => ListTile(
         title: const Text("Dark Style:"),
         trailing: AnimatedText(
-          darkStyle.name!,
+          darkStyle.name,
           duration: const Duration(milliseconds: 220),
         ),
         leading: const Icon(Icons.format_color_fill),
         onTap: (){
-          controller.darkStyle.setDistinct(DarkStyles.next(darkStyle));
+          controller.darkStyle.setDistinct(darkStyle.next);
         },
       )),
     );

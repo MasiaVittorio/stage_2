@@ -6,11 +6,11 @@ class StagePanelColors<S> extends StatelessWidget {
 
   const StagePanelColors({
     this.switchPagesVsSingle = false,
-    this.extraChildren,
+    this.extraChildren = const [],
   });
 
   final bool switchPagesVsSingle;
-  final List<Widget>? extraChildren;
+  final List<Widget> extraChildren;
 
   @override
   Widget build(BuildContext context) 
@@ -18,7 +18,7 @@ class StagePanelColors<S> extends StatelessWidget {
       
       final Widget child = pageColors != null
         ? StagePanelColorsPerPage<S>(extraChildren: extraChildren)
-        : StagePanelSingleColor(extraChildren: extraChildren!);
+        : StagePanelSingleColor(extraChildren: extraChildren);
 
       if(switchPagesVsSingle){
         return Column(
@@ -79,7 +79,7 @@ class StagePanelColorsPerPage<S> extends StatelessWidget {
   void pickPageColor(StageData<dynamic,S> stage, S page, Color? initialColor)
     => stage.pickColor(
       initialColor: initialColor,
-      onSubmitted: (color) => stage.themeController.currentColorsController!.editPanelPageToPrimary(page, color),
+      onSubmitted: (color) => stage.themeController.currentColorsController.editPanelPageToPrimary(page, color),
     );
 
 }
@@ -121,7 +121,7 @@ class StagePanelSingleColor extends StatelessWidget {
   }
 
   void pickSingleColor(StageData stage, Color? initialColor) => stage.pickColor(
-    onSubmitted: (Color color) => stage.themeController.currentColorsController!.editPanelPrimary(color),
+    onSubmitted: (Color color) => stage.themeController.currentColorsController.editPanelPrimary(color),
     initialColor: initialColor,
   );
 
@@ -154,9 +154,9 @@ class _MultiPageColorsTogglePanel<S> extends StatelessWidget {
         orderedItems: <bool>[false, true],
         onSelect: (multi){
           if(multi){
-            colors!.enablePanelPagedColors();
+            colors.enablePanelPagedColors();
           } else {
-            colors!.disablePanelPagedColors();
+            colors.disablePanelPagedColors();
           }
         },
         selectedItem: pageColors != null,

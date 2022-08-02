@@ -1,11 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:example/core.dart';
 
 import 'stage/home_page.dart';
-import 'package:sid_ui/sid_ui.dart';
 
-void main() => runApp(StageExample());
+void main() => runApp(const StageExample());
 
 class StageExample extends StatelessWidget {
+  
+  const StageExample({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

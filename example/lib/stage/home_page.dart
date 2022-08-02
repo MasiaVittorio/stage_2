@@ -4,18 +4,18 @@ import 'body.dart';
 import 'panel/all.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stage<MainPage,PanelPage>(
       storeKey: "stage_example",
 
-      splashScreen: Container(color: Colors.blue, child: Center(child: Icon(Icons.favorite_border, size: 150)),),
+      splashScreen: Container(color: Colors.blue, child: const Center(child: Icon(Icons.favorite_border, size: 150)),),
 
       body: const Body(),
       topBarContent: StageTopBarContent(
-        title: StageTopBarTitle<MainPage,PanelPage>(),
+        title: const StageTopBarTitle<MainPage,PanelPage>(),
         subtitle: StageTopBarSubtitle<PanelPage>((page) => page.subTitle),
       ),
       collapsedPanel: const CollapsedPanel(),

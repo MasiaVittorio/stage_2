@@ -3,7 +3,7 @@ import 'body_children/all.dart';
 
 class Body extends StatelessWidget {
 
-  const Body();
+  const Body({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) 

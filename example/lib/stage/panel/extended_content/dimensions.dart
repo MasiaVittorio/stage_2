@@ -1,12 +1,14 @@
 import 'package:example/core.dart';
 
 class DimensionsEx extends StatelessWidget {
-  const DimensionsEx();
+
+  const DimensionsEx({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView(
-      physics: Stage.of(context).panelScrollPhysics,
-      children: <Widget>[
+      physics: Stage.of(context)!.panelScrollPhysics,
+      children: const <Widget>[
         DimensionsSwitcher(),
       ],
     );
@@ -15,17 +17,19 @@ class DimensionsEx extends StatelessWidget {
 
 
 class DimensionsSwitcher extends StatelessWidget {
+  const DimensionsSwitcher({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
 
-    final StageData stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
 
     return stage.dimensionsController.dimensions.build((_, dimensions){
       return Section(<Widget>[
         const PanelTitle("Dimensions"),
         RadioSliderOf<double>(
           hideOpenIcons: true,
-          title: Text("Collapsed"),
+          title: const Text("Collapsed"),
           items: <double,RadioSliderItem>{
             for(final v in <double>[StageDimensions.defaultCollapsedPanelSize, 56, 48])
               v: RadioSliderItem(
@@ -42,8 +46,8 @@ class DimensionsSwitcher extends StatelessWidget {
         ),
         RadioSliderOf<bool>(
           hideOpenIcons: true,
-          title: Text("Radius"),
-          items: <bool,RadioSliderItem>{
+          title: const Text("Radius"),
+          items: const <bool,RadioSliderItem>{
             true: RadioSliderItem(
               icon: Text("Round"),
               title: Text("Round"),

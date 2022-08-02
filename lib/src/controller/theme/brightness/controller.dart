@@ -60,7 +60,7 @@ class _StageBrightnessData {
       initVal: initialData.darkStyle ?? StageBrightnessData.defaultDarkStyle,
       key: parent.parent._getStoreKey("stage_brightness_darkStyle"), 
       toJson: (style) => style.name,
-      fromJson: (j) => DarkStyles.fromName(j as String?) ?? StageBrightnessData.defaultDarkStyle,
+      fromJson: (j) => DarkStyle.fromName(j as String),
       readCallback: (_) => parent.parent._readCallback("stage_brightness_darkStyle"),
     );
 

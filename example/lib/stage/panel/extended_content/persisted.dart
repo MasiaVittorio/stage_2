@@ -1,19 +1,19 @@
 import 'package:example/core.dart';
 
 class ThemeEx extends StatelessWidget {
-  const ThemeEx();
+  const ThemeEx({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ListView(
-      physics: Stage.of(context).panelScrollPhysics,
-      children: <Widget>[
+      physics: Stage.of(context)!.panelScrollPhysics,
+      children: const <Widget>[
         Section(<Widget>[
-          const PanelTitle("Brightness", centered: false,),
+          PanelTitle("Brightness", centered: false,),
           StageBrightnessToggle(),
         ]),
 
         Section(<Widget>[
-          const SectionTitle("Main Colors"),
+          SectionTitle("Main Colors"),
           StageMainColors<MainPage>(switchPagesVsSingle: true),
         ]),
 
@@ -36,17 +36,19 @@ class ThemeEx extends StatelessWidget {
 
 
 class DimensionsSwitcher extends StatelessWidget {
+  const DimensionsSwitcher({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
 
-    final StageData stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
 
     return stage.dimensionsController.dimensions.build((_, dimensions){
       return Section(<Widget>[
         const SectionTitle("Dimensions"),
         RadioSliderOf<double>(
           hideOpenIcons: true,
-          title: Text("Collapsed"),
+          title: const Text("Collapsed"),
           items: <double,RadioSliderItem>{
             for(final v in <double>[StageDimensions.defaultCollapsedPanelSize, 56, 48])
               v: RadioSliderItem(
@@ -63,8 +65,8 @@ class DimensionsSwitcher extends StatelessWidget {
         ),
         RadioSliderOf<bool>(
           hideOpenIcons: true,
-          title: Text("Radius"),
-          items: <bool,RadioSliderItem>{
+          title: const Text("Radius"),
+          items: const <bool,RadioSliderItem>{
             true: RadioSliderItem(
               icon: Text("Round"),
               title: Text("Round"),
