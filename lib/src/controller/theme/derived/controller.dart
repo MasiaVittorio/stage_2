@@ -21,12 +21,12 @@ class _StageDerivedThemeData<T,S> {
   // Values
   final _StageThemeData<T,S> parent;
 
-  late BlocVar<Color?> accentColor;
+  late BlocVar<Color> accentColor;
 
-  late BlocVar<Color?> _mainPrimaryColor;
-  late BlocVar<Map<T,Color?>?> mainPageToPrimaryColor; /// Could be null
-  late BlocVar<Color?> _panelPrimaryColor;
-  late BlocVar<Map<S,Color?>?> panelPageToPrimaryColor; /// Could be null
+  late BlocVar<Color> _mainPrimaryColor;
+  late BlocVar<Map<T,Color>?> mainPageToPrimaryColor; /// Could be null
+  late BlocVar<Color> _panelPrimaryColor;
+  late BlocVar<Map<S,Color>?> panelPageToPrimaryColor; /// Could be null
 
   late BlocVar<Color> currentPrimaryColor;
 
@@ -40,96 +40,96 @@ class _StageDerivedThemeData<T,S> {
   _StageDerivedThemeData(this.parent){
 
     accentColor = BlocVar.fromCorrelateLatest7<
-      Color?, 
+      Color, 
       Brightness, DarkStyle, 
-      Color?, Map<DarkStyle,Color?>?, 
-      Color?, Map<DarkStyle,Color?>?, 
-      StageColorPlace?
+      StageColorPlace,
+      Color, Map<DarkStyle,Color>, 
+      Color, Map<DarkStyle,Color>
     >(
       parent.brightness.brightness, 
       parent.brightness.darkStyle, 
+      parent.colorPlace,
       parent.backgroundColors.lightAccent, 
       parent.backgroundColors.darkAccents, 
       parent.textsColors.lightAccent, 
       parent.textsColors.darkAccents, 
-      parent.colorPlace,
-      map: _map(StageDefaultColors.accent),
+      map: _currentWithBrightnessAndPlace<Color>,
     );
 
     _mainPrimaryColor = BlocVar.fromCorrelateLatest7<
-      Color?, 
+      Color, 
       Brightness, DarkStyle, 
-      Color?, Map<DarkStyle,Color?>?, 
-      Color?, Map<DarkStyle,Color?>?, 
-      StageColorPlace?
+      StageColorPlace,
+      Color, Map<DarkStyle,Color>, 
+      Color, Map<DarkStyle,Color>
     >(
       parent.brightness.brightness, 
       parent.brightness.darkStyle, 
+      parent.colorPlace,
       parent.backgroundColors.lightMainPrimary, 
       parent.backgroundColors.darkMainPrimaries, 
       parent.textsColors.lightMainPrimary, 
       parent.textsColors.darkMainPrimaries, 
-      parent.colorPlace,
-      map: _map(StageDefaultColors.primary),
+      map: _currentWithBrightnessAndPlace<Color>,
     );
     
     _panelPrimaryColor = BlocVar.fromCorrelateLatest7<
-      Color?, 
+      Color, 
       Brightness, DarkStyle, 
-      Color?, Map<DarkStyle,Color?>?, 
-      Color?, Map<DarkStyle,Color?>?, 
-      StageColorPlace?
+      StageColorPlace,
+      Color, Map<DarkStyle,Color>, 
+      Color, Map<DarkStyle,Color> 
     >(
       parent.brightness.brightness, 
       parent.brightness.darkStyle, 
+      parent.colorPlace,
       parent.backgroundColors.lightPanelPrimary, 
       parent.backgroundColors.darkPanelPrimaries, 
       parent.textsColors.lightPanelPrimary, 
       parent.textsColors.darkPanelPrimaries, 
-      parent.colorPlace,
-      map: _map(StageDefaultColors.primary),
+      map: _currentWithBrightnessAndPlace<Color>,
     );
     
     mainPageToPrimaryColor = BlocVar.fromCorrelateLatest7<
-      Map<T,Color?>?, 
+      Map<T,Color>?, 
       Brightness, DarkStyle, 
-      Map<T,Color?>?, Map<DarkStyle,Map<T,Color?>>?, 
-      Map<T,Color?>?, Map<DarkStyle,Map<T,Color?>>?, 
-      StageColorPlace?
+      StageColorPlace,
+      Map<T,Color>?, Map<DarkStyle,Map<T,Color>>?, 
+      Map<T,Color>?, Map<DarkStyle,Map<T,Color>>? 
     >(
       parent.brightness.brightness, 
       parent.brightness.darkStyle, 
+      parent.colorPlace,
       parent.backgroundColors.lightMainPageToPrimary, 
       parent.backgroundColors.darkMainPageToPrimaries,
       parent.textsColors.lightMainPageToPrimary, 
       parent.textsColors.darkMainPageToPrimaries, 
-      parent.colorPlace,
-      map: _map<Map<T,Color?>?>(null),
-      equals: (f,s) => _StageUtils._compareMaps<T?,Color?>(f, s),
+      map: _currentWithBrightnessAndPlaceNullable<Map<T,Color>?>,
+      equals: (f,s) => _StageUtils._compareMaps<T,Color>(f, s),
       copier: (m) => m==null ? null : Map<T,Color>.from(m),
     );
 
     panelPageToPrimaryColor = BlocVar.fromCorrelateLatest7<
-      Map<S,Color?>?, 
+      Map<S,Color>?, 
       Brightness, DarkStyle, 
-      Map<S,Color?>?, Map<DarkStyle,Map<S,Color?>>?, 
-      Map<S,Color?>?, Map<DarkStyle,Map<S,Color?>>?, 
-      StageColorPlace?
+      StageColorPlace,
+      Map<S,Color>?, Map<DarkStyle,Map<S,Color>>?, 
+      Map<S,Color>?, Map<DarkStyle,Map<S,Color>>? 
     >(
       parent.brightness.brightness, 
       parent.brightness.darkStyle, 
+      parent.colorPlace,
       parent.backgroundColors.lightPanelPageToPrimary,
       parent.backgroundColors.darkPanelPageToPrimaries,
       parent.textsColors.lightPanelPageToPrimary, 
       parent.textsColors.darkPanelPageToPrimaries, 
-      parent.colorPlace,
-      map: _map<Map<S,Color?>?>(null),
+      map: _currentWithBrightnessAndPlaceNullable<Map<S,Color>?>,
       equals: (f,s) => _StageUtils._compareMaps<S?,Color?>(f, s),
       copier: (m) => m==null ? null : Map<S,Color>.from(m),
     );
 
     currentPrimaryColor = BlocVar.fromCorrelateLatest7<
-      Color,   bool,T?,S?,Color?,Map<T?,Color?>?,Color?,Map<S?,Color?>?
+      Color,   bool,T,S?,Color,Map<T,Color>?,Color,Map<S,Color>?
     >(
       parent.parent.panelController.isMostlyOpenedNonAlert, 
       parent.parent.mainPagesController._page,
@@ -204,18 +204,36 @@ class _StageDerivedThemeData<T,S> {
   //===========================================
   // Maps
 
-  static A? _currentWithBrightnessAndPlace<A>(
-    Brightness brightness, DarkStyle? style, StageColorPlace? place, 
-    A backgroundLight, Map<DarkStyle?,A>? backgroundDarks,
-    A textsLight, Map<DarkStyle?,A>? textsDarks,
+  static A _currentWithBrightnessAndPlace<A>(
+    Brightness brightness, DarkStyle style, StageColorPlace place, 
+    A backgroundLight, Map<DarkStyle,A> backgroundDarks,
+    A textsLight, Map<DarkStyle,A> textsDarks,
   ){
     if(brightness.isDark){
       if(place.isTexts){
-        if(textsDarks == null) return null;
-        else return textsDarks[style];
+        return textsDarks[style]!;
       } else {
-        if(backgroundDarks == null) return null;
-        else return backgroundDarks[style];
+        return backgroundDarks[style]!;
+      }
+    } else {
+      if(place.isTexts){
+        return textsLight;
+      } else {
+        return backgroundLight;
+      }
+    }
+  }
+
+  static A? _currentWithBrightnessAndPlaceNullable<A>(
+    Brightness brightness, DarkStyle style, StageColorPlace place, 
+    A? backgroundLight, Map<DarkStyle,A>? backgroundDarks,
+    A? textsLight, Map<DarkStyle,A>? textsDarks,
+  ){
+    if(brightness.isDark){
+      if(place.isTexts){
+        return textsDarks?[style]!;
+      } else {
+        return backgroundDarks?[style]!;
       }
     } else {
       if(place.isTexts){
@@ -237,25 +255,7 @@ class _StageDerivedThemeData<T,S> {
     }
   }
 
-  static A Function(
-    Brightness, DarkStyle, 
-    A, Map<DarkStyle,A>?, 
-    A, Map<DarkStyle,A>?, 
-    StageColorPlace?,
-  ) _map<A>(A defVal) => (
-      brightness, style, 
-      backgroundLight, backgroundDarks, 
-      textsLight, textsDarks, 
-      colorPlace,
-    ) => _currentWithBrightnessAndPlace<A>(
-      brightness, style, colorPlace,
-      backgroundLight, backgroundDarks,
-      textsLight, textsDarks,
-    ) ?? defVal;
-
-
-
-  static A? _currentWithPanelAndPages<A,T,S>(
+  static A _currentWithPanelAndPages<A,T,S>(
     bool openNonAlert, 
     T mainPage, 
     S panelPage, // Could be null if panel does not have pages 
@@ -263,10 +263,10 @@ class _StageDerivedThemeData<T,S> {
     A panel, Map<S,A>? pagedPanel
   ) => openNonAlert 
     ? pagedPanel != null && panelPage != null
-      ? pagedPanel[panelPage]
+      ? pagedPanel[panelPage] ?? panel
       : panel
     : pagedMain != null 
-      ? pagedMain[mainPage]
+      ? pagedMain[mainPage] ?? main
       : main;
 
 } 
