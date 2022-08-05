@@ -29,7 +29,7 @@ class InsertAlert extends StatefulWidget {
 
   static const double height = PanelTitle.height + _insert + _buttons;
   static const double twoLinesHeight = PanelTitle.twoLinesHeight + _insert + _buttons;
-  static const double _insert = 72.0;
+  static const double _insert = 78.0;
   static const double _buttons = 56.0;
 
   @override
@@ -38,119 +38,144 @@ class InsertAlert extends StatefulWidget {
 
 class _InsertAlertState extends State<InsertAlert> {
 
-  TextEditingController? _controller;
-  bool _started = false;
+  late TextEditingController controller;
+  late FocusNode focusNode;
+  bool started = false;
 
   @override
   void initState() {
     super.initState();
-    this._controller = TextEditingController(
+    controller = TextEditingController(
       text: widget.initialText ?? "",
     );
-
+    focusNode = FocusNode();
   }
 
   @override
   void dispose() {
-    this._controller!.dispose();
+    controller.dispose();
+    focusNode.dispose();
     super.dispose();
   }
 
+  String? get displayErrorString => started == false 
+    ? null
+    : widget.checkErrors(controller.text);
+  
+  String? get errorString => widget.checkErrors(controller.text);
+  bool get valid => (errorString ?? "").isEmpty;
+
   @override
   Widget build(BuildContext context) {
-    final String? _errorString = _started == false 
-      ? ""
-      : this.widget.checkErrors(this._controller!.text);
-    final String? _seriousErrorString = this.widget.checkErrors(this._controller!.text);
-    
-    final bool _valid = _errorString == "" || _errorString == null;
-    final bool _seriouslyValid = _seriousErrorString == "" || _seriousErrorString == null;
-    final stage = Stage.of(context)!;
-
     return Material(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-
-          PanelTitle(widget.labelText, twoLines: widget.twoLinesLabel,),
-
-          Container(
-            height: InsertAlert._insert,
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextField(
-              keyboardType: widget.inputType,
-              autofocus: true,
-              textAlign: TextAlign.center,
-              maxLength: this.widget.maxLenght,
-              controller: this._controller,
-              textCapitalization: widget.textCapitalization,
-              style: const TextStyle(inherit:true, fontSize: 18.0),
-              onChanged: (String ts) => this.setState((){
-                _started = true;
-              }),
-              decoration: InputDecoration(
-                errorText: !_valid ? _errorString : null,
-                hintText: this.widget.hintText,
-              ),
-            ),
-          ),
-
-          Container(
-            height: InsertAlert._buttons,
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextButton(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const Icon(Icons.close),
-                        const SizedBox(width: 8.0),
-                        const Text("Cancel"),
-                      ],
-                    ),
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.symmetric(vertical: 16.0),
-                      ),
-                    ),
-                    onPressed: stage.panelController.close,
-                  ),
-                ),
-                Expanded(
-                  child: TextButton(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const Icon(Icons.check),
-                        const SizedBox(width: 8.0),
-                        const Text("Confirm"),
-                      ],
-                    ),
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.symmetric(vertical: 16.0),
-                      ),
-                    ),
-                    onPressed: _seriouslyValid ? () {
-                      final result = this.widget.onConfirm(this._controller!.text);
-                      if(result != false){
-                        stage.panelController.close();
-                      }
-                    } : null,
-                  ),
-                )
-              ],
-            )
-          ),
-
+          title,
+          textField,
+          buttons,
         ],
       ),
     );
   }
+
+  PanelTitle get title => PanelTitle(
+    widget.labelText, 
+    twoLines: widget.twoLinesLabel,
+  );
+
+  Widget get textField {
+    final theme = Theme.of(context);
+    return SizedBox(
+      height: InsertAlert._insert,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 4, 10, 0),
+        child: Material(
+          clipBehavior: Clip.antiAlias,
+          color: SubSection.getColor(theme),
+          borderRadius: BorderRadius.circular(10),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: TextField(
+              focusNode: focusNode,
+              keyboardType: widget.inputType,
+              autofocus: true,
+              textAlign: TextAlign.center,
+              maxLength: widget.maxLenght,
+              controller: controller,
+              textCapitalization: widget.textCapitalization,
+              style: const TextStyle(fontSize: 17.0),
+              onChanged: (String ts) => setState((){
+                started = true;
+              }),
+              cursorColor: theme.textTheme.bodyMedium?.color,
+              decoration: InputDecoration(
+                errorText: displayErrorString?.nullIfEmpty,
+                hintText: widget.hintText,
+                border: InputBorder.none,
+                hoverColor: Colors.yellow,
+                focusColor: Colors.yellow,
+                fillColor: Colors.yellow,
+                iconColor: Colors.yellow,
+                prefixIconColor: Colors.yellow,
+                suffixIconColor: Colors.yellow,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget get buttons {
+    final stage = Stage.of(context)!;
+    return SizedBox(
+      height: InsertAlert._buttons,
+      child: Row(
+        children: <Widget>[
+          Expanded(child: button(
+            icon: const Icon(Icons.close), 
+            title: const Text("Cancel"), 
+            onTap: stage.panelController.close,
+          ),),
+          Expanded(child: button(
+            icon: const Icon(Icons.check), 
+            title: const Text("Confirm"), 
+            onTap: valid ? () {
+              final result = widget.onConfirm(controller.text);
+              if(result != false){
+                stage.panelController.close();
+              }
+            } : null,
+          ),),
+        ],
+      )
+    );
+  }
+
+  Widget button({
+    required Widget title, 
+    required Widget icon, 
+    required VoidCallback? onTap,
+  }) => InkWell(
+    onTap: onTap,
+    child: Center(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          icon,
+          const Space.horizontal(8),
+          title,
+        ],
+      ),
+    ),
+  );
+
 }
 
+
+
+extension _StringExt on String {
+  String? get nullIfEmpty => isEmpty ? null : this;
+}
