@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 
 class StageBrightnessToggle extends StatelessWidget {
 
-  const StageBrightnessToggle({Key? key}):super(key:key);
+  const StageBrightnessToggle({
+    this.showDarkStylesOnlyIfDark = false,
+    Key? key,
+  }):super(key:key);
+
+  final bool showDarkStylesOnlyIfDark;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +28,12 @@ class StageBrightnessToggle extends StatelessWidget {
             child: const _TimeOfDayVSSystem(),
           ),
           AnimatedListed(
-            listed: true,
-            // listed: brightness.isDark,
+            listed: (!showDarkStylesOnlyIfDark) || brightness.isDark,
             overlapSizeAndOpacity: 1.0,
-            child: const _DarkStyleSwitcher(),
+            child: const Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: _DarkStyleSwitcher(),
+            ),
           ),
         ],
       ),
