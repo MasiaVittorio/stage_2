@@ -5,7 +5,7 @@ extension _StageThemeDataExt<T,S> on _StageThemeData<T,S> {
   //===========================================
   // System UI Style
   void updateSystemNavBarStyle(){
-    if(forceSystemNavBarStyle ?? false){
+    if(forceSystemNavBarStyle){
       final Color? color =  colorPlace.value.isTexts 
         ? derived.themeData.value.canvasColor 
         : derived.currentPrimaryColor.value;

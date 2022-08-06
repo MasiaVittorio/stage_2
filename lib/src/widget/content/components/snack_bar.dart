@@ -149,14 +149,14 @@ class StageSnackButton extends StatelessWidget {
   final Widget? child;
   final Color? backgroundColor;
   final VoidCallback? onTap;
-  final bool? autoClose;
-  final bool? accent;
+  final bool autoClose;
+  final bool accent;
 
   const StageSnackButton.asPlaceHolder():
     onTap = null,
     child = null,
-    autoClose = null,
-    accent = null,
+    autoClose = true,
+    accent = false,
     isPlaceHolder = true,
     backgroundColor = null;
 
@@ -167,7 +167,7 @@ class StageSnackButton extends StatelessWidget {
 
     final StageData stage = Stage.of(context)!;
 
-    return BlocVar.build2<StageDimensions,Color?>( 
+    return BlocVar.build2<StageDimensions,Color>( 
       stage.dimensionsController.dimensions,
       stage.themeController.derived.currentPrimaryColor,
       builder:(_, dimensions, color){
@@ -180,15 +180,15 @@ class StageSnackButton extends StatelessWidget {
         );
         
         return Material(
-          color: backgroundColor ?? (accent! 
-            ? getColor(Theme.of(context), color!) 
+          color: backgroundColor ?? (accent 
+            ? getColor(Theme.of(context), color) 
             : color),
           borderRadius: BorderRadius.circular(dimensions.panelRadiusClosed),
           child: InkResponse(
-            radius: height/2,
+            radius: height/2.5,
             onTap: onTap == null ? null : (){
               this.onTap!();
-              if(this.autoClose ?? true){
+              if(this.autoClose){
                 stage.closeSnackBar();
               }
             },

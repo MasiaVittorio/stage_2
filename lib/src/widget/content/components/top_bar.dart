@@ -59,7 +59,7 @@ class _TopBar<T,S> extends StatelessWidget {
 
         return Material(
           color: color,
-          elevation: elevations![place] 
+          elevation: elevations[place] 
             ?? StageThemeData.defaultTopBarElevations[place]!,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),

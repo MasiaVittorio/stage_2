@@ -26,13 +26,13 @@ class _StageThemeData<T,S> {
 
   //==> Type of theme
   final BlocVar<StageColorPlace> colorPlace;
-  final BlocVar<Map<StageColorPlace,double>?> topBarElevations;
+  final BlocVar<Map<StageColorPlace,double>> topBarElevations;
   final BlocVar<bool> bottomBarShadow;
 
   // Optional settings
   final bool accentSelectedPage;
-  final bool? pandaOpenedPanelNavBar; /// If the opened panel's bottom bar should be of the same color of the top bar
-  final bool? forceSystemNavBarStyle; /// Wether the system nav bar should be colored as the stage's nav bar
+  final bool pandaOpenedPanelNavBar; /// If the opened panel's bottom bar should be of the same color of the top bar
+  final bool forceSystemNavBarStyle; /// Wether the system nav bar should be colored as the stage's nav bar
   
 
   //================================
@@ -41,8 +41,8 @@ class _StageThemeData<T,S> {
     required StageThemeData<T,S> initialData,
   }): 
     accentSelectedPage = initialData.accentSelectedPage!,
-    pandaOpenedPanelNavBar = initialData.pandaOpenedPanelNavBar,
-    forceSystemNavBarStyle = initialData.forceSystemNavBarStyle,
+    pandaOpenedPanelNavBar = initialData.pandaOpenedPanelNavBar!,
+    forceSystemNavBarStyle = initialData.forceSystemNavBarStyle!,
     colorPlace = BlocVar.modal<StageColorPlace>(
       initVal: initialData.colorPlace ?? StageColorPlace.background,
       key: parent._getStoreKey("stage_theme_controller_themeType"), 
@@ -56,11 +56,11 @@ class _StageThemeData<T,S> {
       key: parent._getStoreKey("stage_theme_controller_bottomBarShadow"), 
       readCallback: (_) => parent._readCallback("stage_theme_controller_BottomBarShadow"),
     ),
-    topBarElevations = BlocVar.modal<Map<StageColorPlace,double>?>(
-      initVal: initialData.topBarElevations,
+    topBarElevations = BlocVar.modal<Map<StageColorPlace,double>>(
+      initVal: initialData.topBarElevations!,
       key: parent._getStoreKey("stage_theme_controller_topBarElevations"), 
       toJson: (map) => <String?,double>{
-        for(final e in map!.entries)
+        for(final e in map.entries)
           e.key.name: e.value,
       },
       fromJson: (json) => <StageColorPlace,double>{

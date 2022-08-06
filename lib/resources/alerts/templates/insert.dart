@@ -160,14 +160,17 @@ class _InsertAlertState extends State<InsertAlert> {
     required VoidCallback? onTap,
   }) => InkWell(
     onTap: onTap,
-    child: Center(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          icon,
-          const Space.horizontal(8),
-          title,
-        ],
+    child: Opacity(
+      opacity: onTap == null ? 0.7 : 1.0,
+      child: Center(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            icon,
+            const Space.horizontal(8),
+            title,
+          ],
+        ),
       ),
     ),
   );
