@@ -90,30 +90,30 @@ class _StageThemeData<T,S> {
 
   //===============================
   // Getters
-  bool get _isCurrentlyReading => this.parent.storeKey != null && (
-    this.backgroundColors._isCurrentlyReading ||
-    this.textsColors._isCurrentlyReading ||
-    this.brightness._isCurrentlyReading ||
-    this.colorPlace.modalReading ||
-    this.topBarElevations.modalReading ||
-    this.bottomBarShadow.modalReading 
+  bool get _isCurrentlyReading => parent.storeKey != null && (
+    backgroundColors._isCurrentlyReading ||
+    textsColors._isCurrentlyReading ||
+    brightness._isCurrentlyReading ||
+    colorPlace.modalReading ||
+    topBarElevations.modalReading ||
+    bottomBarShadow.modalReading 
   );
 
   _StageColorsData<T,S> get currentColorsController => colorPlace.value.isTexts
-    ? this.textsColors
-    : this.backgroundColors;
+    ? textsColors
+    : backgroundColors;
 
 
   StageThemeData<T,S> get extractData => StageThemeData<T,S>._(
-    colorPlace: this.colorPlace.value,
-    topBarElevations: this.topBarElevations.value,
-    backgroundColors: this.backgroundColors.extractData,
-    textsColors: this.textsColors.extractData,
-    brightness: this.brightness.extractData,
-    forceSystemNavBarStyle: this.forceSystemNavBarStyle,
-    accentSelectedPage: this.accentSelectedPage,
-    pandaOpenedPanelNavBar: this.pandaOpenedPanelNavBar,
-    bottomBarShadow: this.bottomBarShadow.value,
+    colorPlace: colorPlace.value,
+    topBarElevations: topBarElevations.value,
+    backgroundColors: backgroundColors.extractData,
+    textsColors: textsColors.extractData,
+    brightness: brightness.extractData,
+    forceSystemNavBarStyle: forceSystemNavBarStyle,
+    accentSelectedPage: accentSelectedPage,
+    pandaOpenedPanelNavBar: pandaOpenedPanelNavBar,
+    bottomBarShadow: bottomBarShadow.value,
   );
 
 

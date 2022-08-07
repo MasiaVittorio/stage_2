@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 part of stage;
 
 ///This is the controller of a [Stage]. It contains all the logic of it.
@@ -120,7 +122,7 @@ class StageData<T,S> {
     
     _readCallback("controller initialized");
 
-    Future.delayed(Duration(milliseconds: 100)).then((_){
+    Future.delayed(const Duration(milliseconds: 100)).then((_){
       _readCallback("controller initialized delayed for safety");
     }); /// Some of the BlocVars callbacks are not called for some misterious fucking reason
 
@@ -137,33 +139,33 @@ class StageData<T,S> {
 
   void _readCallback(String note) async {
     final bool current = _isCurrentlyReading;
-    this.isReadingFromDisk.setDistinct(current);
+    isReadingFromDisk.setDistinct(current);
   }
 
-  bool get _isCurrentlyReading => this.storeKey != null && (
-    (this.dimensionsController._isCurrentlyReading) ||
-    (this.mainPagesController._isCurrentlyReading) ||
-    (this.themeController._isCurrentlyReading) || // if these and  up are null it means that those controllers are not initialised yet
-    (this.panelPagesController?._isCurrentlyReading ?? false) ||
-    (this.badgesController._isCurrentlyReading)
+  bool get _isCurrentlyReading => storeKey != null && (
+    (dimensionsController._isCurrentlyReading) ||
+    (mainPagesController._isCurrentlyReading) ||
+    (themeController._isCurrentlyReading) || // if these and  up are null it means that those controllers are not initialised yet
+    (panelPagesController?._isCurrentlyReading ?? false) ||
+    (badgesController._isCurrentlyReading)
   );
 
-  S _readPanelPage(dynamic j) => this._jsonToPanelPage?.call(j) ?? j as S;
-  dynamic _writePanelPage(S p) => this._panelPageToJson?.call(p) ?? p;
-  T _readMainPage(dynamic j) => this._jsonToMainPage?.call(j) ?? j as T;
-  dynamic _writeMainPage(T p) => this._mainPageToJson?.call(p) ?? p;
+  S _readPanelPage(dynamic j) => _jsonToPanelPage?.call(j) ?? j as S;
+  dynamic _writePanelPage(S p) => _panelPageToJson?.call(p) ?? p;
+  T _readMainPage(dynamic j) => _jsonToMainPage?.call(j) ?? j as T;
+  dynamic _writeMainPage(T p) => _mainPageToJson?.call(p) ?? p;
 
 
   Future<bool> _decidePop() async {
     
     final _StageSnackBarData snackBarData = panelController.snackbarController;
-    final _StageAlertData? alertData = panelController.alertController;
+    final _StageAlertData alertData = panelController.alertController;
 
 
     if(snackBarData.isShowing!.value!){
       snackBarData.close();
       return false;
-    } else if(alertData!.isShowing.value){
+    } else if(alertData.isShowing.value){
       if(panelController.isMostlyOpened.value){
         panelController.close();
         return false;

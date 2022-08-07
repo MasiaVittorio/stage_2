@@ -37,8 +37,8 @@ class StageThemeUtils {
     required Color accent, 
   }) {
     
-    final Color _toggleable = accent;
-    final Color _canvas = brightness.isLight
+    final Color toggleable = accent;
+    final Color canvas = brightness.isLight
       ? Colors.grey.shade50
       : _darkCanvasColors[darkStyle!]!;
 
@@ -50,7 +50,7 @@ class StageThemeUtils {
 
       primaryColor: primary,
 
-      canvasColor: _canvas,
+      canvasColor: canvas,
 
       scaffoldBackgroundColor: brightness.isLight 
         ? Colors.grey.shade200 
@@ -58,12 +58,12 @@ class StageThemeUtils {
 
       // TODO: check if still surface doesn't reflect canvas?
       colorScheme: (brightness.isLight 
-        ? ColorScheme.light()
-        : ColorScheme.dark()).copyWith(
+        ? const ColorScheme.light()
+        : const ColorScheme.dark()).copyWith(
           secondary: accent,
           brightness: brightness,
           primary: primary,
-          surface: _canvas,
+          surface: canvas,
           onPrimary: primary.contrast,
           onSecondary: accent.contrast,
         ),
@@ -78,15 +78,15 @@ class StageThemeUtils {
       iconTheme: IconThemeData(opacity: 0.75, color: brightness.contrast),
       primaryIconTheme: IconThemeData(opacity: 1.0, color: primary.contrast),
 
-      toggleableActiveColor: _toggleable,
+      toggleableActiveColor: toggleable,
 
       sliderTheme: SliderThemeData(
-        activeTickMarkColor: _toggleable,
-        activeTrackColor: _toggleable,
-        thumbColor: _toggleable,
-        overlayColor: _toggleable.withAlpha(0x1f),
-        inactiveTickMarkColor: _toggleable.withAlpha(0x3d),
-        inactiveTrackColor: _toggleable.withAlpha(0x3d),
+        activeTickMarkColor: toggleable,
+        activeTrackColor: toggleable,
+        thumbColor: toggleable,
+        overlayColor: toggleable.withAlpha(0x1f),
+        inactiveTickMarkColor: toggleable.withAlpha(0x3d),
+        inactiveTrackColor: toggleable.withAlpha(0x3d),
         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 9.0),
         showValueIndicator: ShowValueIndicator.always,
       ),

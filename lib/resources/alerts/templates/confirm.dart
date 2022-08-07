@@ -29,7 +29,7 @@ class ConfirmAlert extends StatelessWidget {
   static const double height = AlternativesAlert.tileSize * 2 + PanelTitle.height; 
   static const double twoLinesheight = AlternativesAlert.tileSize * 2 + PanelTitle.twoLinesHeight; 
 
-  ConfirmAlert({
+  const ConfirmAlert({
     required this.action,
     String? warningText,
     String? confirmText,
@@ -40,35 +40,34 @@ class ConfirmAlert extends StatelessWidget {
     this.cancelColor, //defaults to the text color provided by the context
     this.autoCloseAfterConfirm = true,
     this.completelyCloseAfterConfirm = false,
-    bool twoLinesWarning = false,
+    this.twoLinesWarning = false,
   }):
-    this.cancelText = cancelText ?? "Cancel",
-    this.confirmText = confirmText ?? "Confirm",
-    this.confirmIcon = confirmIcon ??  _kConfirmIcon,
-    this.cancelIcon = cancelIcon ??  _kCancelIcon,
-    this.warningText = warningText ?? "Are you sure? This action may not be reversible.",
-    this.twoLinesWarning = twoLinesWarning;
+    cancelText = cancelText ?? "Cancel",
+    confirmText = confirmText ?? "Confirm",
+    confirmIcon = confirmIcon ??  _kConfirmIcon,
+    cancelIcon = cancelIcon ??  _kCancelIcon,
+    warningText = warningText ?? "Are you sure? This action may not be reversible.";
 
   @override
   Widget build(BuildContext context) {
 
     return AlternativesAlert(
-      twoLinesLabel: this.twoLinesWarning,
-      label: this.warningText,
+      twoLinesLabel: twoLinesWarning,
+      label: warningText,
       alternatives: [
         Alternative(
-          action: this.action,
-          color: this.confirmColor,
-          title: this.confirmText,
-          icon: this.confirmIcon,
-          autoClose: this.autoCloseAfterConfirm,
-          completelyAutoClose: this.completelyCloseAfterConfirm,
+          action: action,
+          color: confirmColor,
+          title: confirmText,
+          icon: confirmIcon,
+          autoClose: autoCloseAfterConfirm,
+          completelyAutoClose: completelyCloseAfterConfirm,
         ),
         Alternative(
           action: (){},
-          color: this.cancelColor,
-          title: this.cancelText,
-          icon: this.cancelIcon,
+          color: cancelColor,
+          title: cancelText,
+          icon: cancelIcon,
           autoClose: true,
           completelyAutoClose: false,
         ),

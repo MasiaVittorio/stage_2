@@ -253,33 +253,33 @@ class _StageColorsData<T,S> {
   //===============================
   // Getters
 
-  bool get _isCurrentlyReading => this.parent.parent.storeKey != null && (
-    this.lightAccent.modalReading ||
-    this.lightMainPrimary.modalReading ||
-    this.lightMainPageToPrimary.modalReading ||
-    this.lightPanelPrimary.modalReading ||
-    this.lightPanelPageToPrimary.modalReading ||
-    this.darkAccents.modalReading ||
-    this.darkMainPrimaries.modalReading ||
-    this.darkMainPageToPrimaries.modalReading ||
-    this.darkPanelPrimaries.modalReading ||
-    this.darkPanelPageToPrimaries.modalReading 
+  bool get _isCurrentlyReading => parent.parent.storeKey != null && (
+    lightAccent.modalReading ||
+    lightMainPrimary.modalReading ||
+    lightMainPageToPrimary.modalReading ||
+    lightPanelPrimary.modalReading ||
+    lightPanelPageToPrimary.modalReading ||
+    darkAccents.modalReading ||
+    darkMainPrimaries.modalReading ||
+    darkMainPageToPrimaries.modalReading ||
+    darkPanelPrimaries.modalReading ||
+    darkPanelPageToPrimaries.modalReading 
   );
 
 
   StageColorsData<T,S> get extractData => StageColorsData<T,S>._(
     allMainPagesToFill: null,
     allPanelPagesToFill: null,
-    lightAccent: this.lightAccent.value, 
-    lightMainPrimary: this.lightMainPrimary.value, 
-    lightMainPageToPrimary: this.lightMainPageToPrimary.value, 
-    lightPanelPrimary: this.lightPanelPrimary.value, 
-    lightPanelPageToPrimary: this.lightPanelPageToPrimary.value, 
-    darkAccents: this.darkAccents.value, 
-    darkMainPrimaries: this.darkMainPrimaries.value, 
-    darkMainPageToPrimaries: this.darkMainPageToPrimaries.value, 
-    darkPanelPrimaries: this.darkPanelPrimaries.value, 
-    darkPanelPageToPrimaries: this.darkPanelPageToPrimaries.value,
+    lightAccent: lightAccent.value, 
+    lightMainPrimary: lightMainPrimary.value, 
+    lightMainPageToPrimary: lightMainPageToPrimary.value, 
+    lightPanelPrimary: lightPanelPrimary.value, 
+    lightPanelPageToPrimary: lightPanelPageToPrimary.value, 
+    darkAccents: darkAccents.value, 
+    darkMainPrimaries: darkMainPrimaries.value, 
+    darkMainPageToPrimaries: darkMainPageToPrimaries.value, 
+    darkPanelPrimaries: darkPanelPrimaries.value, 
+    darkPanelPageToPrimaries: darkPanelPageToPrimaries.value,
   );
 
 }

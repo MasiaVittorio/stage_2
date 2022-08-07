@@ -33,7 +33,7 @@ class _StageDimensionsData {
   //===========================================
   // Getters
   bool get _isCurrentlyReading => parent.storeKey != null && (
-    this.dimensions.modalReading
+    dimensions.modalReading
   );
 
 }

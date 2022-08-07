@@ -23,19 +23,19 @@ class StageBuild {
   static Widget offOpenNonAlertAndPages<T,S>(Widget Function(BuildContext context, bool openNonAlert, T? mainPage, S? panelPage) builder)
     => _StageBuildOffOpenNonAlertAllPages<T,S>(builder);
 
-  static Widget offMainPagesData<T>(Widget Function(BuildContext, Map<T?,bool>?, List<T?>?, T?) builder)
+  static Widget offMainPagesData<T>(Widget Function(BuildContext, Map<T,bool>?, List<T>, T) builder)
     => _StageBuildOffMainPagesData<T>(builder);
 
   static Widget offMainEnabledPages<T>(Widget Function(BuildContext, Map<T,bool>) builder)
     => _StageBuildOffMainEnabledPages<T>(builder);
 
   static Widget offPanelPagesData<S>(Widget Function(BuildContext, Map<S?,bool>, List<S?>, S) builder)
-    => _StageBuildOffPanelPagesData<S>((con, map, list, s) => builder(con, map!, list!, s!));
+    => _StageBuildOffPanelPagesData<S>((con, map, list, s) => builder(con, map!, list!, s as S));
 
-  static Widget offMainColors<T>(Widget Function(BuildContext, Color?, Map<T?,Color?>?) builder) 
+  static Widget offMainColors<T>(Widget Function(BuildContext, Color, Map<T,Color>?) builder) 
     => _StageBuildOffMainColors<T>(builder);
 
-  static Widget offPanelColors<S>(Widget Function(BuildContext, Color?, Map<S?,Color?>?) builder) 
+  static Widget offPanelColors<S>(Widget Function(BuildContext, Color, Map<S,Color>?) builder) 
     => _StageBuildOffPanelColors<S>(builder);
 }
 

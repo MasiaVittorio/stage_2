@@ -6,10 +6,10 @@ extension _StageThemeDataExt<T,S> on _StageThemeData<T,S> {
   // System UI Style
   void updateSystemNavBarStyle(){
     if(forceSystemNavBarStyle){
-      final Color? color =  colorPlace.value.isTexts 
+      final Color color =  colorPlace.value.isTexts 
         ? derived.themeData.value.canvasColor 
         : derived.currentPrimaryColor.value;
-      final Brightness colorBrightness = ThemeData.estimateBrightnessForColor(color!);
+      final Brightness colorBrightness = ThemeData.estimateBrightnessForColor(color);
 
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: color,

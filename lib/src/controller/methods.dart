@@ -78,17 +78,17 @@ extension StageDataExt on StageData {
     required Future<void> Function() openSnackBar,
     required Future<void> Function() closeSnackBar,
   }){
-    this.panelController._closeInternal = closePanel;
-    this.panelController._openInternal = openPanel;
-    this.panelController._getIsAnimating = panelIsAnimating;
-    this.panelController._getPosition = panelPosition;
-    this.panelController._getVelocity = panelVelocity;
+    panelController._closeInternal = closePanel;
+    panelController._openInternal = openPanel;
+    panelController._getIsAnimating = panelIsAnimating;
+    panelController._getPosition = panelPosition;
+    panelController._getVelocity = panelVelocity;
 
-    this.panelController.snackbarController._closeSnackInternal = closeSnackBar;
-    this.panelController.snackbarController._openSnackInternal = openSnackBar;
-    this.panelController.snackbarController._getSnackIsAnimating = snackBarIsAnimating;
-    this.panelController.snackbarController._getSnackPosition = snackBarPosition;
-    this.panelController.snackbarController._getSnackVelocity = snackBarVelocity;
+    panelController.snackbarController._closeSnackInternal = closeSnackBar;
+    panelController.snackbarController._openSnackInternal = openSnackBar;
+    panelController.snackbarController._getSnackIsAnimating = snackBarIsAnimating;
+    panelController.snackbarController._getSnackPosition = snackBarPosition;
+    panelController.snackbarController._getSnackVelocity = snackBarVelocity;
   }
 
 

@@ -43,7 +43,7 @@ class PanelTitle extends StatelessWidget {
       height: twoLines 
         ? _minHeightTwoLines
         : _minHeight,
-      alignment: this.centered 
+      alignment: centered 
         ? Alignment.center 
         : AlignmentDirectional.centerStart,
       child: Padding(
@@ -51,8 +51,8 @@ class PanelTitle extends StatelessWidget {
         child: animated 
           ? AnimatedText(
             this.title,
-            textAlign: this.centered ? TextAlign.center : TextAlign.start,
-            maxLines: this.twoLines ? 2: 1, 
+            textAlign: centered ? TextAlign.center : TextAlign.start,
+            maxLines: twoLines ? 2: 1, 
             overflow: TextOverflow.ellipsis,
             style: style.copyWith(
               color: color,
@@ -61,8 +61,8 @@ class PanelTitle extends StatelessWidget {
           )
           : Text(
             this.title,
-            textAlign: this.centered ? TextAlign.center : TextAlign.start,
-            maxLines: this.twoLines ? 2: 1, 
+            textAlign: centered ? TextAlign.center : TextAlign.start,
+            maxLines: twoLines ? 2: 1, 
             overflow: TextOverflow.ellipsis,
             style: style.copyWith(
               color: color,
@@ -80,7 +80,7 @@ class PanelTitle extends StatelessWidget {
           : null,
         child: Container(
           alignment: Alignment.center,
-          height: this.twoLines ? twoLinesHeight : height,
+          height: twoLines ? twoLinesHeight : height,
           child: AlertComponents.drag 
             ? Column(
               mainAxisSize: MainAxisSize.min,

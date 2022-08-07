@@ -8,7 +8,7 @@ import 'package:sid_ui/interactive/color_picker/models/palette.dart';
 
 
 class ColorPickerAlert extends StatefulWidget {
-  ColorPickerAlert({
+  const ColorPickerAlert({
     this.initialColor,
     required this.onSubmitted,
   });
@@ -17,7 +17,7 @@ class ColorPickerAlert extends StatefulWidget {
   final Function(Color) onSubmitted;
 
   @override
-  _ColorPickerAlertState createState() => _ColorPickerAlertState();
+  State createState() => _ColorPickerAlertState();
 }
 
 class _ColorPickerAlertState extends State<ColorPickerAlert> {
@@ -29,16 +29,17 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
   void initState() {
     super.initState();
 
-    this._color = widget.initialColor ??  Colors.red.shade500;
+    _color = widget.initialColor ??  Colors.red.shade500;
     
-    if(PaletteTab.allColors.contains(this._color))
-      this._initialMode = ColorPickerMode.palette;
-    else 
-      this._initialMode = ColorPickerMode.manual;
+    if(PaletteTab.allColors.contains(_color)) {
+      _initialMode = ColorPickerMode.palette;
+    } else {
+      _initialMode = ColorPickerMode.manual;
+    }
   }
 
   void _onColor(Color? c) => setState(() {
-    this._color = c;
+    _color = c;
   });
 
   @override
@@ -48,7 +49,7 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
 
     return RadioHeaderedAlert<ColorPickerMode>(
       withoutHeader: true,
-      canvasBackground: true,
+      customBackground: (theme) => theme.canvasColor,
       initialValue: _initialMode,
       bottomAction: FloatingActionButton(
         backgroundColor: _color,
@@ -65,8 +66,8 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
           longTitle: "Manual color",
           title: "Manual", 
           child: ManualColorPicker(
-            color: this._color!,
-            onChanged: this._onColor,
+            color: _color!,
+            onChanged: _onColor,
           ), 
           icon: Icons.format_color_fill,
           alreadyScrollableChild: true,
@@ -76,8 +77,8 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
           title: "Custom", 
           child: CustomColorPicker(
             displayerUndescrollCallback: null,
-            color: this._color,
-            onChanged: this._onColor,
+            color: _color,
+            onChanged: _onColor,
           ), 
           icon: Icons.short_text,
           alreadyScrollableChild: true,
@@ -88,8 +89,8 @@ class _ColorPickerAlertState extends State<ColorPickerAlert> {
           child: PaletteColorPicker(
             ///Dont remember what non scrollable means precisely, has to do with the tab controller and re-initiating its state
             paletteUndescrollCallback: stage.closePanel,
-            onChanged: this._onColor,
-            color: this._color,
+            onChanged: _onColor,
+            color: _color,
           ), 
           icon: McIcons.palette,
           unselectedIcon: McIcons.palette_outline,

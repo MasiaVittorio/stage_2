@@ -2,7 +2,7 @@ part of stage;
 
 class _AlertBackground extends StatelessWidget {
 
-  _AlertBackground({
+  const _AlertBackground({
     required this.backgroundColor,
     required this.backgroundOpacity,
     required this.onPanelDrag,
@@ -30,7 +30,7 @@ class _AlertBackground extends StatelessWidget {
           child: themeController.colorPlace.build(((context, place) 
             => AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              color: (backgroundColor?.call(theme, place) ?? Color(0xFF000000))
+              color: (backgroundColor?.call(theme, place) ?? const Color(0xFF000000))
                   .withOpacity(alert ? (backgroundOpacity ?? 1/1.3) : 0.0),
             )),
           ),

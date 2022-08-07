@@ -19,8 +19,8 @@ class ConfirmSnackbar extends StatelessWidget {
       title: Text(label),
       secondary: StageSnackButton(
         onTap: action,
-        child: const Icon(Icons.check),
         autoClose: true,
+        child: const Icon(Icons.check),
       ),
     );
   }

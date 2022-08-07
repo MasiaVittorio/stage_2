@@ -19,11 +19,11 @@ class SelectSnackbar extends StatelessWidget {
     return LayoutBuilder(builder: (_, constraints)
       => _SnackbarSelector(
         height: constraints.maxHeight,
-        width: constraints.maxWidth, 
-        children: children,
+        width: constraints.maxWidth,
         initialIndex: initialIndex,
         onTap: onTap,
-        autoClose: autoClose,
+        autoClose: autoClose, 
+        children: children,
       ),
     );
   }
@@ -52,8 +52,8 @@ class _SnackbarSelector extends StatefulWidget {
 
 class _SnackbarSelectorState extends State<_SnackbarSelector> with SingleTickerProviderStateMixin {
 
-  AnimationController? animationController;
-  ScrollController? scrollController;
+  late AnimationController animationController;
+  late ScrollController scrollController;
   int? selectedIndex;
 
   @override
@@ -69,32 +69,37 @@ class _SnackbarSelectorState extends State<_SnackbarSelector> with SingleTickerP
       upperBound: 1.5,
       duration: const Duration(milliseconds: 800),
     );
-    this.prepare();
+    prepare();
   }
 
   void prepare(){
-    animationController!.animateTo(1, curve: Curves.easeOutBack);
+    animationController.animateTo(1, curve: Curves.easeOutBack);
   }
 
   @override
   void dispose() {
-    this.animationController?.dispose();
-    this.scrollController?.dispose();
+    animationController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
   //make the selected element visible at start
-  double get initialScrollOffset => (
-    elementWidth * ( //scroll the selected one at the top
-      (widget.initialIndex ?? 0.0)
-      + 1 //another step to make it disappear
-    )
-    - visibleWidth //and then put it at the bottom of the view
-  ).clamp(0.0, maxOffset); //this prevents useless scroll for the first few items
+  double get initialScrollOffset {
+    final max = maxOffset;
+    if(max <=0) return 0;
+    return (
+      elementWidth * ( //scroll the selected one at the top
+        (widget.initialIndex ?? 0.0)
+        + 1 //another step to make it disappear
+      )
+      - visibleWidth //and then put it at the bottom of the view
+    ).clamp(0.0, maxOffset);
+  } //this prevents useless scroll for the first few items
 
   double elementOffset(int index) => elementWidth * index * 1.0;
   double get elementWidth => widget.height + 5.0;
-  double get maxOffset => widget.children.length * elementWidth * 1.0 - visibleWidth;
+  double get occupiedSpace => widget.children.length * elementWidth * 1.0;
+  double get maxOffset => occupiedSpace - visibleWidth;
   double get visibleWidth => widget.width - widget.height;
   //the snackbar is occupied by the closing button at the right, but you can paint content below it
 
@@ -113,13 +118,13 @@ class _SnackbarSelectorState extends State<_SnackbarSelector> with SingleTickerP
           child: StageSnackButton(
             onTap: (){
               widget.onTap(i);
-              this.setState((){
+              setState((){
                 selectedIndex = i;
               });
-            }, 
-            child: widget.children[i],
+            },
             accent: i == selectedIndex,
-            autoClose: widget.autoClose,
+            autoClose: widget.autoClose, 
+            child: widget.children[i],
           ),
         ),
       StageSnackButton.placeHolder,
@@ -127,29 +132,45 @@ class _SnackbarSelectorState extends State<_SnackbarSelector> with SingleTickerP
 
     if(!rightAligned) children = children.reversed.toList();
 
-    final Widget child = SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      reverse: !rightAligned,
-      controller: scrollController,
-      physics: SidereusScrollPhysics(
-        topBounce: true,
-        topBounceCallback: stage.closeSnackBar,
-        alwaysScrollable: true,
-        neverScrollable: false,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: children.separateWith(const SizedBox(width: 5)),
-      ),
-    );
+    late Widget child;
+
+    if(occupiedSpace < visibleWidth){
+      child = Row(children: [
+        for(int i=0; i<children.length; i++)
+          ...[
+            children[i],
+            if(i<children.length - 2)
+              const Spacer(flex: 3,)
+            else if(i == children.length - 1) 
+              const Spacer(flex: 1,),
+          ]
+      ],);
+    } else {
+      child = SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        reverse: !rightAligned,
+        controller: scrollController,
+        physics: SidereusScrollPhysics(
+          topBounce: true,
+          topBounceCallback: stage.closeSnackBar,
+          alwaysScrollable: true,
+          neverScrollable: false,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: children.separateWith(const SizedBox(width: 5)),
+        ),
+      );
+    }
+
 
     return AnimatedBuilder(
-      animation: animationController!,
+      animation: animationController,
       child: child,
       builder: (_, child)
         => Transform.translate(
           offset: Offset(
-            (1 - animationController!.value) * 
+            (1 - animationController.value) * 
             (rightAligned ? 200 : -200), 
             0,
           ),

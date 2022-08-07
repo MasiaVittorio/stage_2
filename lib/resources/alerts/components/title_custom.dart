@@ -17,6 +17,8 @@ class AlertTitleCustom extends StatelessWidget {
           title,
         ],
       );
-    } else return title;
+    } else {
+      return title;
+    }
   }
 }

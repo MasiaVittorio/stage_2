@@ -32,7 +32,10 @@ class RadioHeaderedItem extends RadioNavBarItem {
   );
 }
 
+
 class RadioHeaderedAlert<T> extends StatefulWidget {
+
+  static Color _scaffoldBackground(ThemeData theme) => theme.scaffoldBackgroundColor;
 
   const RadioHeaderedAlert({
     this.orderedValues,
@@ -42,11 +45,11 @@ class RadioHeaderedAlert<T> extends StatefulWidget {
     bool accentSelected = false,
     this.animationType = RadioAnimation.horizontalFade,
     this.onPageChanged,
-    this.canvasBackground = false,
+    this.customBackground = _scaffoldBackground,
     this.bottomAction,
     this.withoutHeader = false,
     this.customScrollPhysics,
-  }): this.accentSelected = (bottomAccentColor != null) || accentSelected;
+  }): accentSelected = (bottomAccentColor != null) || accentSelected;
 
 
   final Map<T,RadioHeaderedItem> items;
@@ -54,7 +57,7 @@ class RadioHeaderedAlert<T> extends StatefulWidget {
   final List<T>? orderedValues;
   final Color? bottomAccentColor;
   final bool accentSelected;
-  final bool canvasBackground;
+  final Color Function(ThemeData) customBackground;
   final RadioAnimation animationType;
   final void Function(T)? onPageChanged;
   final Widget? bottomAction;
@@ -64,7 +67,7 @@ class RadioHeaderedAlert<T> extends StatefulWidget {
   final ScrollPhysics? customScrollPhysics;
 
   @override
-  _RadioHeaderedAlertState<T> createState() => _RadioHeaderedAlertState<T>();
+  State<RadioHeaderedAlert<T>> createState() => _RadioHeaderedAlertState<T>();
 }
 
 class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T>> {
@@ -86,13 +89,13 @@ class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T>> {
       page: page, 
       items: widget.items,
       orderedPages: orderedPages, 
-      onSelect: (T newVal) => this.setState((){
+      onSelect: (T newVal) => setState((){
         widget.onPageChanged?.call(newVal);
         previous = page;
         page = newVal;
       }), 
       previous: previous,
-      canvasBackground: widget.canvasBackground,
+      customBackground: widget.customBackground,
       animationType: widget.animationType,
       bottomAccentColor: widget.bottomAccentColor,
       accentSelected: widget.accentSelected,
@@ -112,13 +115,13 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
     required this.onSelect,
     required this.animationType,
     required this.previous,
-    required this.canvasBackground,
     required this.bottomAccentColor,
     required this.accentSelected,
     required this.items,
     required this.bottomAction,
     required this.withoutHeader,
     required this.customScrollPhysics,
+    required this.customBackground,
   });
 
   final Map<T,RadioHeaderedItem> items;
@@ -129,7 +132,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
   final bool accentSelected;
   final RadioAnimation animationType;
   final T? previous;
-  final bool canvasBackground;
+  final Color Function(ThemeData) customBackground;
   final Widget? bottomAction;
   final bool withoutHeader;
 
@@ -138,7 +141,8 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StageData? stage = Stage.of(context);
+    final StageData stage = Stage.of(context)!;
+    final theme = Theme.of(context);
 
     final Widget navBar = RadioNavBar<T>(
       selectedValue: page,
@@ -153,9 +157,9 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
           iconSize: entry.value.iconSize,
         ),
       },
-      onSelect: this.onSelect,
-      accentTextColor: this.accentSelected 
-        ? this.bottomAccentColor ?? Theme.of(context).colorScheme.secondary
+      onSelect: onSelect,
+      accentTextColor: accentSelected 
+        ? bottomAccentColor ?? theme.colorScheme.secondary
         : null,
     );
 
@@ -166,7 +170,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
         child = Stack(
           fit: StackFit.expand, 
           children: <Widget>[
-            for(final T item in this.orderedPages)
+            for(final T item in orderedPages)
               Positioned.fill(
                 child: AnimatedPresented(
                   duration: const Duration(milliseconds: 215),
@@ -188,7 +192,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
             for(final T p in orderedPages)
               p: itemChild(items[p]!, stage),
           }, 
-          canvasBackground: canvasBackground,
+          backgroundColor: customBackground(theme),
         );
         break;
       case RadioAnimation.none:
@@ -200,7 +204,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
 
 
     return HeaderedAlert(
-      this.items[page]!.longTitle,
+      items[page]!.longTitle,
       bottom:Row(children: <Widget>[
         Expanded(child: navBar),
         if(bottomAction != null)
@@ -209,19 +213,19 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
             child: bottomAction,
           ),
       ],),
-      child: child,
       alreadyScrollableChild: true, // every single child decide for himself
-      canvasBackground: canvasBackground,
+      customBackground: customBackground,
       withoutHeader: withoutHeader,
+      child: child,
     );
   }
 
 
-  Widget itemChild(RadioHeaderedItem item, StageData? stage) => item.alreadyScrollableChild 
+  Widget itemChild(RadioHeaderedItem item, StageData stage) => item.alreadyScrollableChild 
     ? item.child 
     : SingleChildScrollView(
-      physics: this.customScrollPhysics ?? stage!.panelController.panelScrollPhysics(),
-      padding: EdgeInsets.only(top: this.withoutHeader ? 0.0 : PanelTitle.height),
+      physics: customScrollPhysics ?? stage.panelController.panelScrollPhysics(),
+      padding: EdgeInsets.only(top: withoutHeader ? 0.0 : PanelTitle.height),
       child: item.child,
     );
 

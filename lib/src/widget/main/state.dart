@@ -64,7 +64,7 @@ class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndE
     return StageProvider(
       data: controller,
       child: _StageContent(
-        data: this.controller, 
+        data: controller, 
 
         body: widget.body, 
         collapsedPanel: widget.collapsedPanel, 
@@ -77,6 +77,7 @@ class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndE
           appBarTitle: widget.topBarContent.title,
           secondary: widget.topBarContent.secondary,
         ),
+        scaffoldBackgroundFill: widget.scaffoldBackgroundFill,
 
         shadowBuilder: widget.shadowBuilder,
         singleShadow: widget.singleShadow,
@@ -86,6 +87,7 @@ class _StageWithThemeAndExternalDataState<T,S> extends State<_StageWithThemeAndE
         splashScreen: widget.splashScreen,
 
         wholeScreen: widget.wholeScreen,
+        customDecorationBuilder: widget.customDecorationBuilder,
       ),
     );
   }

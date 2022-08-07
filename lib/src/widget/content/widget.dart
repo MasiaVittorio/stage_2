@@ -13,12 +13,14 @@ class _StageContent<T,S> extends StatefulWidget {
     required this.extendedPanel,
     required this.extendedPanelBuilder,
     required this.topBarBuilder,
+    required this.scaffoldBackgroundFill,
 
     //theming
     required this.shadowBuilder,
     required this.singleShadow,
     required this.backgroundColor,
     required this.backgroundOpacity,
+    required this.customDecorationBuilder,
 
     required this.splashScreen,
 
@@ -38,6 +40,7 @@ class _StageContent<T,S> extends StatefulWidget {
   final Widget? extendedPanel; //could be null if the builder is there
   final Widget Function(BuildContext, Animation)? extendedPanelBuilder;
   final Widget Function(Animation) topBarBuilder;
+  final Widget? scaffoldBackgroundFill; // to override the regularly colored scaffold background
 
 
   //theming
@@ -45,6 +48,7 @@ class _StageContent<T,S> extends StatefulWidget {
   final double? backgroundOpacity;
   final StageShadowBuilder shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
   final BoxShadow? singleShadow; // If you do not need to animate the shadow
+  final StagePanelDecorationBuilder? customDecorationBuilder; // To override shadows, radiuses, background color etc
 
   //splash screen stuff
   final Widget? splashScreen;

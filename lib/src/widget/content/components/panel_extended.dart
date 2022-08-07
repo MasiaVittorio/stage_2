@@ -7,7 +7,7 @@ class _BoxedExtendedPanel<T,S> extends StatelessWidget {
   final StageDimensions dimensions;
   final _StageDerivedDimensions derived;
 
-  _BoxedExtendedPanel(this.content, {
+  const _BoxedExtendedPanel(this.content, {
     required this.data,
     required this.dimensions,
     required this.derived,
@@ -20,7 +20,7 @@ class _BoxedExtendedPanel<T,S> extends StatelessWidget {
       height: derived.totalPanelHeight,
       child: Column(
         children: <Widget>[
-          Expanded(child: this.content),
+          Expanded(child: content),
           if(data.panelPagesController != null)
             SizedBox(
               height: dimensions.barSize,

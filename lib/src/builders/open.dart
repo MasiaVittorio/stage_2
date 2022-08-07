@@ -2,7 +2,7 @@ part of stage;
 
 class _StageBuildOffPanelMostlyOpened extends StatelessWidget {
 
-  _StageBuildOffPanelMostlyOpened(this.builder);
+  const _StageBuildOffPanelMostlyOpened(this.builder);
 
   final Widget Function(BuildContext, bool) builder;
 

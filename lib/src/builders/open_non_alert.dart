@@ -2,7 +2,7 @@ part of stage;
 
 class _StageBuildOffOpenNonAlert extends StatelessWidget {
 
-  _StageBuildOffOpenNonAlert(this.builder);
+  const _StageBuildOffOpenNonAlert(this.builder);
 
   final Widget Function(BuildContext, bool) builder;
 

@@ -7,7 +7,7 @@ class HeaderedAlert extends StatelessWidget {
     required this.child,
     this.bottom,
     this.alreadyScrollableChild = false,
-    this.canvasBackground = false,
+    this.customBackground,
     this.withoutHeader = false,
     this.customTitleColor,
   });
@@ -16,7 +16,7 @@ class HeaderedAlert extends StatelessWidget {
   final Widget child;
   final Widget? bottom;
   final bool alreadyScrollableChild;
-  final bool canvasBackground;
+  final Color Function(ThemeData)? customBackground;
   final bool withoutHeader;
   final Color? customTitleColor;
 
@@ -24,12 +24,12 @@ class HeaderedAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     return HeaderedAlertCustom(
       PanelTitle(title, animated: true, customColor: customTitleColor), 
-      titleSize: PanelTitle.height, 
-      child: this.child,
-      bottom: this.bottom,
-      alreadyScrollableChild: this.alreadyScrollableChild,
-      canvasBackground: this.canvasBackground,
-      withoutHeader: this.withoutHeader,
+      titleSize: PanelTitle.height,
+      bottom: bottom,
+      alreadyScrollableChild: alreadyScrollableChild,
+      customBackground: customBackground,
+      withoutHeader: withoutHeader, 
+      child: child,
     );
   }
 }

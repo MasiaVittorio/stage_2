@@ -1,5 +1,6 @@
 part of stage;
 
+// ignore: library_private_types_in_public_api
 extension StageBrightnessDataExt on _StageBrightnessData {
 
   //==========================================
@@ -7,25 +8,25 @@ extension StageBrightnessDataExt on _StageBrightnessData {
 
   void enableAutoDark(BuildContext context){
     if(autoDark.setDistinct(true)){ // If it was false before
-      this._updateBrightness(context);
+      _updateBrightness(context);
     }
   }
 
   void disableAutoDark(Brightness toBrightness){
-    this.autoDark.setDistinct(false);
-    this.brightness.setDistinct(toBrightness);
+    autoDark.setDistinct(false);
+    brightness.setDistinct(toBrightness);
   }
 
 
   void autoDarkBasedOnTime(){
-    if(this.autoDarkMode.setDistinct(AutoDarkMode.timeOfDay)){
-      this._updateBrightness(null);
+    if(autoDarkMode.setDistinct(AutoDarkMode.timeOfDay)){
+      _updateBrightness(null);
     }
   }
 
   void autoDarkBasedOnSystem(BuildContext context){
-    if(this.autoDarkMode.setDistinct(AutoDarkMode.system)){
-      this._updateBrightness(context);
+    if(autoDarkMode.setDistinct(AutoDarkMode.system)){
+      _updateBrightness(context);
     }
   }
 
@@ -51,7 +52,7 @@ extension StageBrightnessDataExt on _StageBrightnessData {
     if(autoDarkMode.modalReading) return;
     if(autoDark.modalReading) return;
 
-    this.brightness.setDistinct(
+    brightness.setDistinct(
       autoDarkMode.value.currentBrightness(context != null ? MediaQuery.of(context) : null)
       /// It is very crucial to call this MediaQuery.of(context) here and not before the postFrameCallback.
       /// Because this method is called in the initState of the Stage itself so it may be detrimental to access

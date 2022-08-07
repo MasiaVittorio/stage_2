@@ -7,7 +7,7 @@ class HeaderedAlertCustom extends StatelessWidget {
     required this.titleSize,
     required this.child,
     this.bottom,
-    this.canvasBackground = false,
+    this.customBackground,
     this.alreadyScrollableChild = false,
     this.withoutHeader = false,
   });
@@ -17,16 +17,15 @@ class HeaderedAlertCustom extends StatelessWidget {
   final Widget child;
   final Widget? bottom;
   final bool alreadyScrollableChild;
-  final bool canvasBackground;
+  final Color Function(ThemeData)? customBackground;
   final bool withoutHeader;
 
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Color background = canvasBackground
-      ? theme.canvasColor
-      : theme.scaffoldBackgroundColor;
+    final Color background = customBackground?.call(theme) 
+      ?? theme.scaffoldBackgroundColor;
 
     return Material(
       color: background,

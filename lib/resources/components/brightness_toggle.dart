@@ -61,18 +61,18 @@ class _LightDarkAuto extends StatelessWidget {
 
     return RadioSlider(
       selectedIndex: autoDark! ? 1 : brightness!.isLight ? 0 : 2,
-      items: [
+      items: const [
         RadioSliderItem(
-          icon: const Icon(McIcons.weather_sunny),
-          title: const Text("Light"),
+          icon: Icon(McIcons.weather_sunny),
+          title: Text("Light"),
         ),
         RadioSliderItem(
-          icon: const Icon(Icons.brightness_auto),
-          title: const Text("Auto"),
+          icon: Icon(Icons.brightness_auto),
+          title: Text("Auto"),
         ),
         RadioSliderItem(
-          icon: const Icon(McIcons.weather_night),
-          title: const Text("Dark"),
+          icon: Icon(McIcons.weather_night),
+          title: Text("Dark"),
         ),
       ],
       onTap: (i){
@@ -119,8 +119,11 @@ class _TimeOfDayVSSystem extends StatelessWidget {
           ),
         ],
         onTap: (i){
-          if(i == 0) controller.autoDarkBasedOnTime();
-          else controller.autoDarkBasedOnSystem(context);
+          if(i == 0) {
+            controller.autoDarkBasedOnTime();
+          } else {
+            controller.autoDarkBasedOnSystem(context);
+          }
         },
       )),
     );

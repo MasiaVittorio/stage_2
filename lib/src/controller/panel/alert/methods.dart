@@ -1,18 +1,20 @@
 part of stage;
 
+// ignore: library_private_types_in_public_api
 extension StageAlertDataExt on _StageAlertData {
   static const double defaultAlertSize = 250;
 
   //===================================
   // Public
 
+  // if size == double.infinity, scrolls to close the panel are ignored!
   void showAlert(Widget child, {
     double size = defaultAlertSize, 
     bool replace = false
   }) async {
 
-    if(this.parent.position > 0.0){
-      if(this.children.value.isEmpty){
+    if(parent.position > 0.0){
+      if(children.value.isEmpty){
         previouslyOpenedPanel = true;
       }
       await parent._closeInternal!();
@@ -22,7 +24,7 @@ extension StageAlertDataExt on _StageAlertData {
       await parent.snackbarController.close();
     }
 
-    if(replace && this.sizes.value.isNotEmpty && this.children.value.isNotEmpty){
+    if(replace && sizes.value.isNotEmpty && children.value.isNotEmpty){
       sizes.value.removeLast();
       children.value.removeLast();
     }
@@ -46,10 +48,12 @@ extension StageAlertDataExt on _StageAlertData {
   // Private
 
   void _removeOneChild(){
-    if(sizes.value.isNotEmpty)
+    if(sizes.value.isNotEmpty) {
       sizes.value.removeLast();
-    if(children.value.isNotEmpty)
+    }
+    if(children.value.isNotEmpty) {
       children.value.removeLast();
+    }
     sizes.refresh();
     children.refresh();
   }

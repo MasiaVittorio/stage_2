@@ -3,10 +3,10 @@ part of stage;
 
 class StageDefaultColors {
 
-  static const Color nightBluePrimary = const Color(0xFF222E3C);
-  static const Color darkPrimary = const Color(0xFF1E1E1E);
-  static const Color nightBlackPrimary = const Color(0xFF191919);
-  static const Color amoledPrimary = const Color(0xFF151515);
+  static const Color nightBluePrimary = Color(0xFF222E3C);
+  static const Color darkPrimary = Color(0xFF1E1E1E);
+  static const Color nightBlackPrimary = Color(0xFF191919);
+  static const Color amoledPrimary = Color(0xFF151515);
   static const Map<DarkStyle,Color> darkPrimaries = <DarkStyle,Color>{
     DarkStyle.amoled: amoledPrimary,
     DarkStyle.dark: darkPrimary,
@@ -15,10 +15,10 @@ class StageDefaultColors {
   };
 
   // static const Color nightBlueAccent = NordTheme.nord8;
-  static const Color nightBlueAccent = const Color(0xFF64FFDA);
-  static const Color darkAccent = const Color(0xFFECEFF1);
-  static const Color nightBlackAccent = const Color(0xFFCFD8DC);
-  static const Color amoledAccent = const Color(0xFFCFD8DC);
+  static const Color nightBlueAccent = Color(0xFF64FFDA);
+  static const Color darkAccent = Color(0xFFECEFF1);
+  static const Color nightBlackAccent = Color(0xFFCFD8DC);
+  static const Color amoledAccent = Color(0xFFCFD8DC);
   static const Map<DarkStyle,Color> darkAccents = <DarkStyle,Color>{
     DarkStyle.amoled: amoledAccent,
     DarkStyle.dark: darkAccent,
@@ -33,9 +33,9 @@ class StageDefaultColors {
   //   DarkStyle.nightBlack: const Color(0xFF212121),
   // };
 
-  static const Color primary = const Color(0xFF1A3452);
-  static const Color accent = const Color(0xFFE55A52);
+  static const Color primary = Color(0xFF1A3452);
+  static const Color accent = Color(0xFFE55A52);
 
-  static const Color delete = const Color(0xFFE45356);
+  static const Color delete = Color(0xFFE45356);
 
 }

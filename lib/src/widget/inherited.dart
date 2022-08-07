@@ -7,7 +7,7 @@ part of stage;
 
 class StageProvider<T,S> extends StatefulWidget {
 
-  StageProvider({
+  const StageProvider({
     required this.child,
     required this.data,
     super.key,
@@ -22,7 +22,7 @@ class StageProvider<T,S> extends StatefulWidget {
   }
 
   @override
-  _StageProviderState createState() => _StageProviderState();
+  State<StageProvider> createState() => _StageProviderState();
 }
 
 class _StageProviderState extends State<StageProvider> {

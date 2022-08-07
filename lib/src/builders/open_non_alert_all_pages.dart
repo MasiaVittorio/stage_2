@@ -2,7 +2,7 @@ part of stage;
 
 class _StageBuildOffOpenNonAlertAllPages<T,S> extends StatelessWidget {
 
-  _StageBuildOffOpenNonAlertAllPages(this.builder);
+  const _StageBuildOffOpenNonAlertAllPages(this.builder);
 
   final Widget Function(BuildContext context, bool openNonAlert, T? mainPage, S? panelPage) builder;
 

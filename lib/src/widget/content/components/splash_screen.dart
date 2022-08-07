@@ -17,7 +17,7 @@ class StageSplashScreen extends StatelessWidget {
       child: Container(
         color: background,
         child: IconTheme.merge(
-          data: IconThemeData(
+          data: const IconThemeData(
             size: 120,
           ),
           child: icon,

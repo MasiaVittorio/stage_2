@@ -79,17 +79,17 @@ class _StagePagesData<T> {
   //================================
   // Getters
   bool get _isCurrentlyReading => parent.storeKey != null && (
-    this._enabledPages.modalReading ||
-    this._orderedPages.modalReading 
+    _enabledPages.modalReading ||
+    _orderedPages.modalReading 
   );
 
   T? get previousPage => _previousPages.isNotEmpty ? _previousPages.last : null;
 
   StagePagesData<T> get extractData => StagePagesData<T>._(
-    defaultPage: this.defaultPage,
-    pagesData: this.pagesData,
-    enabledPages: this._enabledPages.value,
-    orderedPages: this._orderedPages.value,
+    defaultPage: defaultPage,
+    pagesData: pagesData,
+    enabledPages: _enabledPages.value,
+    orderedPages: _orderedPages.value,
   );
 
 
@@ -111,7 +111,7 @@ class _StagePagesData<T> {
   bool _backToDefaultPage(){
     if(defaultPage != null && _page.value!= defaultPage){
       if(_enabledPages.value[defaultPage!]!){
-        _page.set(defaultPage!);
+        _page.set(defaultPage as T);
         return true;
       }
     }

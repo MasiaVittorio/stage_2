@@ -29,14 +29,18 @@ class StagePage {
   );
 
   static bool compare(StagePage first, StagePage second){
-    if(first.name != second.name)
+    if(first.name != second.name) {
       return false;
-    if(first.longName != second.longName)
+    }
+    if(first.longName != second.longName) {
       return false;
-    if(first.icon != second.icon)
+    }
+    if(first.icon != second.icon) {
       return false;
-    if(first.unselectedIcon != second.unselectedIcon)
+    }
+    if(first.unselectedIcon != second.unselectedIcon) {
       return false;
+    }
     return true;
   }
 

@@ -3,7 +3,7 @@ part of stage;
 
 class _BottomGesture extends StatelessWidget {
   
-  _BottomGesture({
+  const _BottomGesture({
     required this.onPanelDrag,
     required this.onPanelDragEnd,
   });

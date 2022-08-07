@@ -6,8 +6,8 @@ class _StageBadgesData<T,S> {
   //================================
   // Disposer
   void dispose(){
-    this.mainPages.dispose();
-    this.panelPages.dispose();
+    mainPages.dispose();
+    panelPages.dispose();
   }
 
 
@@ -60,13 +60,13 @@ class _StageBadgesData<T,S> {
 
   //===============================
   // Getters
-  bool get _isCurrentlyReading => this.parent.storeKey != null && (
-    this.mainPages.modalReading ||
-    this.panelPages.modalReading
+  bool get _isCurrentlyReading => parent.storeKey != null && (
+    mainPages.modalReading ||
+    panelPages.modalReading
   );
 
   void setMainPage(T mainPage, bool val) 
-    => this.mainPages.edit((map){
+    => mainPages.edit((map){
       map[mainPage] = val;
     });
 
@@ -77,9 +77,10 @@ class _StageBadgesData<T,S> {
     => setMainPage(mainPage, false);
 
   void setPanelPage(S panelPage, bool val) 
-    => this.panelPages.edit((map){
-      if(map.containsKey(panelPage))
+    => panelPages.edit((map){
+      if(map.containsKey(panelPage)) {
         map[panelPage] = val;
+      }
     });
   void showPanelPage(S panelPage) 
     => setPanelPage(panelPage, true);

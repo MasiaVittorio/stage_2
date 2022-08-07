@@ -1,5 +1,9 @@
 part of stage;
 
+typedef StagePanelDecorationBuilder = BoxDecoration Function(
+  double, ThemeData, StageColorPlace, 
+  StageDimensions, Color mainPrimary,
+);
 typedef StageShadowBuilder = BoxShadow Function(double, StageColorPlace);
 typedef StageBackgroundGetter = Color Function(ThemeData, StageColorPlace);
 
@@ -16,6 +20,9 @@ class Stage<T,S> extends StatelessWidget {
     required this.extendedPanel,
     this.extendedPanelBuilder, //can use this and set the regular one to null
     required this.topBarContent,
+
+    // optional to override the regularly colored scaffold background
+    this.scaffoldBackgroundFill,
 
     /// Optional external controller
     this.controller, /// Either you put this, or you set the initial controller values
@@ -40,6 +47,7 @@ class Stage<T,S> extends StatelessWidget {
     this.backgroundColor,
     this.backgroundOpacity,
     this.shadowBuilder = _defaultShadowBuilder,
+    this.customDecorationBuilder,
     this.singleShadow,
 
     this.splashScreen,
@@ -55,6 +63,7 @@ class Stage<T,S> extends StatelessWidget {
   final Widget? extendedPanel; //could be null if the builder is there
   final Widget Function(BuildContext, Animation)? extendedPanelBuilder;
   final StageTopBarContent topBarContent;
+  final Widget? scaffoldBackgroundFill; // to override the regularly colored scaffold background
 
   //performance optimization
   final bool wholeScreen;
@@ -84,6 +93,7 @@ class Stage<T,S> extends StatelessWidget {
   final double? backgroundOpacity;
   final StageShadowBuilder shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
   final BoxShadow? singleShadow; // If you do not need to animate the shadow
+  final StagePanelDecorationBuilder? customDecorationBuilder; // To override radiuses, background color, and what have you
 
   final Widget? splashScreen;
 
@@ -120,30 +130,32 @@ class Stage<T,S> extends StatelessWidget {
     return _StageWithThemeAndExternalData<T,S>(
       startingThemeData: startingThemeData,
       externalStageData: (externalStageData is StageData<T,S>) ? externalStageData : null,
-      storeKey: this.storeKey,
-      controller: this.controller,
-      mainPageToJson: this.mainPageToJson,
-      jsonToMainPage: this.jsonToMainPage,
-      panelPageToJson: this.panelPageToJson,
-      jsonToPanelPage: this.jsonToPanelPage,
-      stageTheme: this.stageTheme,
-      mainPages: this.mainPages,
-      panelPages: this.panelPages,
-      dimensions: this.dimensions,
-      panelData: this.panelData,
-      onMainPageChanged: this.onMainPageChanged,
-      popBehavior: this.popBehavior,
+      storeKey: storeKey,
+      controller: controller,
+      mainPageToJson: mainPageToJson,
+      jsonToMainPage: jsonToMainPage,
+      panelPageToJson: panelPageToJson,
+      jsonToPanelPage: jsonToPanelPage,
+      stageTheme: stageTheme,
+      mainPages: mainPages,
+      panelPages: panelPages,
+      dimensions: dimensions,
+      panelData: panelData,
+      onMainPageChanged: onMainPageChanged,
+      popBehavior: popBehavior,
 
       body: body,
       collapsedPanel: collapsedPanel,
       extendedPanel: extendedPanel,
       extendedPanelBuilder: extendedPanelBuilder,
       topBarContent: topBarContent,
+      scaffoldBackgroundFill: scaffoldBackgroundFill,
 
       backgroundColor: backgroundColor,
       backgroundOpacity: backgroundOpacity,
       shadowBuilder: shadowBuilder,
       singleShadow: singleShadow,
+      customDecorationBuilder: customDecorationBuilder,
 
       splashScreen: splashScreen,
 

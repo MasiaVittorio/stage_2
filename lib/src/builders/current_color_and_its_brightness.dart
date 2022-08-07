@@ -2,7 +2,7 @@ part of stage;
 
 class _StageBuildOffPrimaryColorANDItsBrightness extends StatelessWidget {
 
-  _StageBuildOffPrimaryColorANDItsBrightness(this.builder);
+  const _StageBuildOffPrimaryColorANDItsBrightness(this.builder);
 
   final Widget Function(BuildContext,Color, Brightness) builder;
 

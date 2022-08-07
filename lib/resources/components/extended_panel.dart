@@ -7,11 +7,11 @@ class StageExtendedPanel<S> extends StatelessWidget {
 
   const StageExtendedPanel({
     required this.children,
-    this.canvasBackground = false, // If false, scaffold background is used
+    this.customBackground, // If false, scaffold background is used
   });
 
   final Map<S,Widget> children;
-  final bool canvasBackground;
+  final Color Function(ThemeData)? customBackground;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class StageExtendedPanel<S> extends StatelessWidget {
         previous: previous, 
         children: children, 
         orderedPages: orderedPages,
-        canvasBackground: canvasBackground,
+        backgroundColor: customBackground?.call(Theme.of(context)),
       );
     },);
 

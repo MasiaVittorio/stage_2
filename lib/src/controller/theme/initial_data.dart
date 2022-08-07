@@ -106,15 +106,15 @@ class StageThemeData<T,S> {
   //==================================
   // Getters
   StageThemeData<T,S> fillWith(StageThemeData<T,S>? other) => StageThemeData<T,S>._(
-    colorPlace: this.colorPlace ?? other?.colorPlace,
-    topBarElevations: this.topBarElevations ?? other?.topBarElevations,
-    bottomBarShadow: this.bottomBarShadow ?? other?.bottomBarShadow,
-    backgroundColors: this.backgroundColors?.fillWith(other?.backgroundColors) ?? other?.backgroundColors, 
-    textsColors: this.textsColors?.fillWith(other?.textsColors) ?? other?.textsColors, 
-    brightness: this.brightness?.fillWith(other?.brightness) ?? other?.brightness,
-    forceSystemNavBarStyle: this.forceSystemNavBarStyle ?? other?.forceSystemNavBarStyle,
-    accentSelectedPage: this.accentSelectedPage ?? other?.accentSelectedPage,
-    pandaOpenedPanelNavBar: this.pandaOpenedPanelNavBar ?? other?.pandaOpenedPanelNavBar,
+    colorPlace: colorPlace ?? other?.colorPlace,
+    topBarElevations: topBarElevations ?? other?.topBarElevations,
+    bottomBarShadow: bottomBarShadow ?? other?.bottomBarShadow,
+    backgroundColors: backgroundColors?.fillWith(other?.backgroundColors) ?? other?.backgroundColors, 
+    textsColors: textsColors?.fillWith(other?.textsColors) ?? other?.textsColors, 
+    brightness: brightness?.fillWith(other?.brightness) ?? other?.brightness,
+    forceSystemNavBarStyle: forceSystemNavBarStyle ?? other?.forceSystemNavBarStyle,
+    accentSelectedPage: accentSelectedPage ?? other?.accentSelectedPage,
+    pandaOpenedPanelNavBar: pandaOpenedPanelNavBar ?? other?.pandaOpenedPanelNavBar,
   );
   
 

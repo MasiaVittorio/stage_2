@@ -1,5 +1,6 @@
 part of stage;
 
+// ignore: library_private_types_in_public_api
 extension StagePagesDataExt<T> on _StagePagesData<T> {
 
   ///========================================
@@ -70,9 +71,9 @@ extension StagePagesDataExt<T> on _StagePagesData<T> {
     }
   }
 
-  bool isEnabled(T page) => this._enabledPages.value[page] ?? false;
+  bool isEnabled(T page) => _enabledPages.value[page] ?? false;
 
-  T? get currentPage => this._page.value;
+  T? get currentPage => _page.value;
 
   ///==============================================
   /// Private

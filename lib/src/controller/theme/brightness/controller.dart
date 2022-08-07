@@ -67,11 +67,11 @@ class _StageBrightnessData {
 
   //==============================
   // Getters
-  bool get _isCurrentlyReading => this.parent.parent.storeKey != null && (
-    this.autoDark.modalReading ||
-    this.autoDarkMode.modalReading ||
-    this.brightness.modalReading ||
-    this.darkStyle.modalReading 
+  bool get _isCurrentlyReading => parent.parent.storeKey != null && (
+    autoDark.modalReading ||
+    autoDarkMode.modalReading ||
+    brightness.modalReading ||
+    darkStyle.modalReading 
   );
 
   StageBrightnessData get extractData => StageBrightnessData._(

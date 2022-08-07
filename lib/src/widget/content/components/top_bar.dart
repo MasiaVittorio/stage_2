@@ -1,7 +1,7 @@
 part of stage;
 
 class _TopBar<T,S> extends StatelessWidget {
-  _TopBar({
+  const _TopBar({
     required this.animation,
     required this.openedPanelSubtitle,
     required this.alignment,
@@ -26,7 +26,7 @@ class _TopBar<T,S> extends StatelessWidget {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double topPadding = mediaQuery.padding.top;
 
-    final Widget subtitle = _Subtitle(this.openedPanelSubtitle);
+    final Widget subtitle = _Subtitle(openedPanelSubtitle);
 
     final Widget alignedTitles = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -93,7 +93,7 @@ class _TopBar<T,S> extends StatelessWidget {
 
 class _RowOfContent extends StatelessWidget {
 
-  _RowOfContent({
+  const _RowOfContent({
     required this.dimensions,
     required this.alignedTitles,
     required this.secondary,
@@ -186,7 +186,7 @@ class _MenuButton extends StatelessWidget {
 
 class _AlignedTitles extends StatelessWidget {
 
-  _AlignedTitles({
+  const _AlignedTitles({
     required this.alignment,
     required this.animation,
     required this.appBarTitle,
@@ -205,7 +205,7 @@ class _AlignedTitles extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Align(
-          alignment: this.alignment,
+          alignment: alignment,
           child: appBarTitle,
         ),
         if(subtitle != null)
@@ -222,7 +222,7 @@ class _AlignedTitles extends StatelessWidget {
 
 class _AnimateSubtitle extends StatelessWidget {
 
-  _AnimateSubtitle({
+  const _AnimateSubtitle({
     required this.animation,
     required this.subtitle,
     required this.alignment,
@@ -251,7 +251,7 @@ class _AnimateSubtitle extends StatelessWidget {
             final double clampedVal = animation.value.clamp(0.0, 1.0);
             return ClipRect(
               child: Align(
-                alignment: AlignmentDirectional(-1.0, 1.0),
+                alignment: const AlignmentDirectional(-1.0, 1.0),
                 heightFactor: clampedVal,
                 child: Opacity(
                   opacity: DoubleExt.mapToRange(clampedVal, 0.0, 1.0, fromMin: 0.4), 

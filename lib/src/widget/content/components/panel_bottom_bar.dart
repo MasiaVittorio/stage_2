@@ -2,7 +2,7 @@ part of stage;
 
 class _PanelBottomBar<T,S> extends StatelessWidget {
 
-  _PanelBottomBar({
+  const _PanelBottomBar({
     required this.data,
     required this.dimensions,
   });
@@ -27,7 +27,7 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
         decoration: const BoxDecoration(
           boxShadow: [BoxShadow(
             blurRadius: 6.0,
-            color: const Color(0x40000000), 
+            color: Color(0x40000000), 
             offset: Offset(0,0.5),
           )]
         ),
@@ -43,10 +43,10 @@ class _PanelBottomBar<T,S> extends StatelessWidget {
             final bool googleLike = place.isTexts;
 
             final bool single = primaryColorsMap == null;
-            final Color? singleBackground = currentColor;
+            final Color singleBackground = currentColor;
 
             final Color finalColor = thCon.pandaOpenedPanelNavBar == true 
-              ? (singleBackground ?? theme.primaryColor)
+              ? singleBackground
               : theme.canvasColor;
 
             return RadioNavBar<S>(

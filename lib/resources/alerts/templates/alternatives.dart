@@ -48,9 +48,9 @@ class AlternativesAlert extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
 
-            PanelTitle(this.label, twoLines: this.twoLinesLabel,),
+            PanelTitle(label, twoLines: twoLinesLabel,),
 
-            for(final alt in this.alternatives)
+            for(final alt in alternatives)
               ListTile(
                 onTap: (){
                   if(alt.completelyAutoClose){

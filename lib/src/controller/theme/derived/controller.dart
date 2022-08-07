@@ -191,8 +191,8 @@ class _StageDerivedThemeData<T,S> {
     >(
       parent.brightness.brightness,
       parent.brightness.darkStyle,
-      this._lightThemeData,
-      this._darkThemeDatas,
+      _lightThemeData,
+      _darkThemeDatas,
       map: (brightness, style, light, darks) 
         => _currentWithBrightness<ThemeData>(brightness!, style, light, darks),
     );

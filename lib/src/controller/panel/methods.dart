@@ -1,27 +1,28 @@
 part of stage;
 
+// ignore: library_private_types_in_public_api
 extension StagePanelDataExt on _StagePanelData {
 
   //=======================
   // Getters
   double get position {
-    assert(this._getPosition != null, _StagePanelData._warning);
-    return this._getPosition!();
+    assert(_getPosition != null, _StagePanelData._warning);
+    return _getPosition!();
   }
 
   double get velocity {
-    assert(this._getVelocity != null, _StagePanelData._warning);
-    return this._getVelocity!();
+    assert(_getVelocity != null, _StagePanelData._warning);
+    return _getVelocity!();
   }
   
   bool get isAnimating {
-    assert(this._getIsAnimating != null, _StagePanelData._warning);
-    return this._getIsAnimating!();
+    assert(_getIsAnimating != null, _StagePanelData._warning);
+    return _getIsAnimating!();
   }
 
   SidereusScrollPhysics panelScrollPhysics() => SidereusScrollPhysics(
     topBounce: true,
-    topBounceCallback: this.close,
+    topBounceCallback: close,
     alwaysScrollable: false,
     neverScrollable: false,
   );
@@ -119,13 +120,13 @@ extension StagePanelDataExt on _StagePanelData {
     }
 
     //check if the velocity is sufficient to constitute fling
-    double _vel = - details.velocity.pixelsPerSecond.dy;
-    if(_vel.abs() >= minFlingVelocity){
+    double vel = - details.velocity.pixelsPerSecond.dy;
+    if(vel.abs() >= minFlingVelocity){
       
-      if(_vel < 0){
+      if(vel < 0){
         close();
         return;
-      } else if(_vel > 0){
+      } else if(vel > 0){
         open();
         return;
       } else {

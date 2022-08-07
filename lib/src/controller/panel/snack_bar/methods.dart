@@ -5,18 +5,18 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
   //=======================
   // Getters
   double get position {
-    assert(this._getSnackPosition != null, _StagePanelData._warning);
-    return this._getSnackPosition!();
+    assert(_getSnackPosition != null, _StagePanelData._warning);
+    return _getSnackPosition!();
   }
 
   double get velocity {
-    assert(this._getSnackVelocity != null, _StagePanelData._warning);
-    return this._getSnackVelocity!();
+    assert(_getSnackVelocity != null, _StagePanelData._warning);
+    return _getSnackVelocity!();
   }
 
   bool get isAnimating {
-    assert(this._getSnackIsAnimating != null, _StagePanelData._warning);
-    return this._getSnackIsAnimating!();
+    assert(_getSnackIsAnimating != null, _StagePanelData._warning);
+    return _getSnackIsAnimating!();
   }
 
   SidereusScrollPhysics snackBarScrollPhysics({
@@ -26,12 +26,12 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
   }) => bottom 
     ? SidereusScrollPhysics(
       bottomBounce: true,
-      bottomBounceCallback: this.close,
+      bottomBounceCallback: close,
       alwaysScrollable: always,
       neverScrollable: never,
     ) : SidereusScrollPhysics(
       topBounce: true,
-      topBounceCallback: this.close,
+      topBounceCallback: close,
       alwaysScrollable: always,
       neverScrollable: never,
     );
@@ -65,14 +65,14 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
 
   void _realShow(Widget newChild, Duration? duration, bool rightAligned) async {
 
-    if(this.position > 0.0){
-      this.child.value = null; // so it is not set to null in close()
+    if(position > 0.0){
+      child.value = null; // so it is not set to null in close()
       await close();
     }
 
     snackBarRightAligned = rightAligned; /// Changing this before showing snackbar so the build methods get it right
 
-    this.child.set(newChild);
+    child.set(newChild);
     await _openSnackInternal!();
     _delaySnackBarClosure(duration, snackBarId);
   }
@@ -85,7 +85,9 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
     if(position != 0.0){
       if(!isAnimating || velocity > 0){
         await _closeSnackInternal!();
-        _onNextSnackClose.forEach((f) => f());
+        for (var f in _onNextSnackClose) {
+          f();
+        }
         _onNextSnackClose.clear();
         _onNextManualClose.clear();
       }
@@ -114,7 +116,7 @@ extension _StageSnackBarDataExt on _StageSnackBarData {
     await Future.delayed(duration);
     
     if(!isAnimating && oldId == snackBarId){
-      this.close();
+      close();
     }
   }
 

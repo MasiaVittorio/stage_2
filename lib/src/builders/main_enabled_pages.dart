@@ -2,7 +2,7 @@ part of stage;
 
 class _StageBuildOffMainEnabledPages<T> extends StatelessWidget {
 
-  _StageBuildOffMainEnabledPages(this.builder);
+  const _StageBuildOffMainEnabledPages(this.builder);
 
   final Widget Function(BuildContext, Map<T,bool>, ) builder;
 

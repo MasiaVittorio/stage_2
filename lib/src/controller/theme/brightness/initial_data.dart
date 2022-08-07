@@ -64,10 +64,10 @@ class StageBrightnessData {
   //=================================
   // Getters
   StageBrightnessData fillWith(StageBrightnessData? other) => StageBrightnessData._(
-    brightness: this.brightness ?? other?.brightness, 
-    darkStyle: this.darkStyle ?? other?.darkStyle, 
-    autoDark: this.autoDark ?? other?.autoDark, 
-    autoDarkMode: this.autoDarkMode ?? other?.autoDarkMode, 
+    brightness: brightness ?? other?.brightness, 
+    darkStyle: darkStyle ?? other?.darkStyle, 
+    autoDark: autoDark ?? other?.autoDark, 
+    autoDarkMode: autoDarkMode ?? other?.autoDarkMode, 
   );
 
 

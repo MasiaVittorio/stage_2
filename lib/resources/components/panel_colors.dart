@@ -47,14 +47,14 @@ class StagePanelColorsPerPage<S> extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final StageData<dynamic,S> stage = Stage.of<dynamic,S>(context)!;
-    final Map<S?,StagePage?>? pagesData = stage.panelPagesController!.pagesData;
+    final Map<S?,StagePage?> pagesData = stage.panelPagesController!.pagesData;
 
     return StageBuild.offPanelColors<S>((_,__, pageColors){
 
       if(pageColors == null) return Container();
 
       final List<Widget> children = <Widget>[
-        for(final page in pagesData!.keys)
+        for(final page in pagesData.keys)
           ListTile(
             title: Text(pagesData[page]!.name),
             leading: ColorCircleDisplayer(pageColors[page!], icon: pagesData[page]!.icon,),
@@ -141,7 +141,7 @@ class _MultiPageColorsTogglePanel<S> extends StatelessWidget {
     return StageBuild.offPanelColors((_, __, pageColors){
       final colors = stage!.themeController.currentColorsController;
       return RadioSliderOf<bool>(
-        items: <bool,RadioSliderItem>{
+        items: const <bool,RadioSliderItem>{
           false: RadioSliderItem(
             icon: Icon(McIcons.circle),
             title: Text("Single"),
@@ -151,7 +151,7 @@ class _MultiPageColorsTogglePanel<S> extends StatelessWidget {
             title: Text("Per page"),
           ),
         },
-        orderedItems: <bool>[false, true],
+        orderedItems: const <bool>[false, true],
         onSelect: (multi){
           if(multi){
             colors.enablePanelPagedColors();

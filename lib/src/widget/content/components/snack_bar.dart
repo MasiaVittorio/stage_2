@@ -19,7 +19,7 @@ class StageSnackBar extends StatelessWidget {
     this.onTap,
     this.contentPadding = defaultContentPadding,
   });
-  static const EdgeInsets defaultContentPadding = const EdgeInsets.symmetric(horizontal: 12);
+  static const EdgeInsets defaultContentPadding = EdgeInsets.symmetric(horizontal: 12);
 
   @override
   Widget build(BuildContext context) {
@@ -174,10 +174,12 @@ class StageSnackButton extends StatelessWidget {
         
         final double height = dimensions.collapsedPanelSize;
 
-        if(isPlaceHolder) return SizedBox(
+        if(isPlaceHolder) {
+          return SizedBox(
           height: height, 
           width: height
         );
+        }
         
         return Material(
           color: backgroundColor ?? (accent 
@@ -187,8 +189,8 @@ class StageSnackButton extends StatelessWidget {
           child: InkResponse(
             radius: height/2.5,
             onTap: onTap == null ? null : (){
-              this.onTap!();
-              if(this.autoClose){
+              onTap!();
+              if(autoClose){
                 stage.closeSnackBar();
               }
             },
@@ -196,7 +198,7 @@ class StageSnackButton extends StatelessWidget {
               height: height,
               width: height,
               alignment: Alignment.center,
-              child: this.child,
+              child: child,
             ),
           ),
         );
@@ -214,12 +216,12 @@ class StageSnackButton extends StatelessWidget {
 //what is actually shown 
 class _StageSnackBar extends StatelessWidget {
 
-  _StageSnackBar({
+  const _StageSnackBar({
     required this.animation,
     required this.child,
   });
 
-  final Animation? animation;
+  final Animation animation;
   final Widget child;
 
   static const double textOpacity = 0.9;
@@ -232,14 +234,15 @@ class _StageSnackBar extends StatelessWidget {
     
     final Widget closeButton = StageSnackButton(
       onTap: (){
-        stage.panelController.snackbarController._onNextManualClose
-          .forEach((f) => f());
+        for (var f in stage.panelController.snackbarController._onNextManualClose) {
+          f();
+        }
         stage.panelController.snackbarController._onNextManualClose
           .clear();
       },
       autoClose: true,
-      child: const Icon(Icons.close),
       accent: true,
+      child: const Icon(Icons.close),
     );
 
     final bool right = stage.panelController.snackbarController.snackBarRightAligned;
@@ -264,31 +267,25 @@ class _StageSnackBar extends StatelessWidget {
           final double height = dimensions.collapsedPanelSize;
           final Offset center = Offset(height / 2, height / 2);
 
-          final Widget alert = Container(
-            // color: color,
-            child: Container(
-              // color: color,
-              child: Material(
-                color: color,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    // if(!right) SizedBox(width: height,),
-                    Expanded(child: this.child),
-                    // if(right) SizedBox(width: height,),
-                  ],
-                ),
-              ),
+          final Widget alert = Material(
+            color: color,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                // if(!right) SizedBox(width: height,),
+                Expanded(child: child),
+                // if(right) SizedBox(width: height,),
+              ],
             ),
           );
 
           return SizedBox(
             height: height,
             child: AnimatedBuilder(
-              animation: this.animation!,
+              animation: animation,
               child: alert, 
               builder: (_, alert){
-                final double val = animation!.value;
+                final double val = animation.value;
                 // not clamped because they clamp it already in mapToRange
 
                 final double scale = Curves.easeOut.transform(
@@ -328,8 +325,8 @@ class _StageSnackBar extends StatelessWidget {
                       width: height,
                       child: Transform.scale(
                         scale: scale,
-                        child: closeButton,
                         alignment: Alignment.center,
+                        child: closeButton,
                       ),
                     ),
 
@@ -378,7 +375,7 @@ class _CircleClipper extends CustomClipper<Rect> {
 
   @override
   bool shouldReclip(_CircleClipper oldClipper) 
-      => oldClipper.radiusFraction != this.radiusFraction 
-      || oldClipper.center != this.center
-      || oldClipper.offsetFromRight != this.offsetFromRight;
+      => oldClipper.radiusFraction != radiusFraction 
+      || oldClipper.center != center
+      || oldClipper.offsetFromRight != offsetFromRight;
 }

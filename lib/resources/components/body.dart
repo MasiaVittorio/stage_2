@@ -6,10 +6,10 @@ class StageBody<T> extends StatelessWidget {
 
   const StageBody({
     required this.children,
-    this.canvasBackground = false,
+    this.customBackground,
   });
 
-  final bool canvasBackground;
+  final Color Function(ThemeData)? customBackground;
   final Map<T,Widget> children;
 
   @override
@@ -22,8 +22,8 @@ class StageBody<T> extends StatelessWidget {
         previous: stage!.mainPagesController.previousPage,
         page: page, 
         children: children, 
-        orderedPages: orderedPages!, 
-        canvasBackground: canvasBackground,
+        orderedPages: orderedPages, 
+        backgroundColor: customBackground?.call(Theme.of(context)),
       ),
     );
 

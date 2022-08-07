@@ -59,22 +59,22 @@ class StagePagesData<T> {
 
   StagePagesData<T> fillWith(StagePagesData<T>? other) {
     final Set<T> keys = <T>{
-      ...this._allKeys,
+      ..._allKeys,
       if(other != null)
         ...other._allKeys,
     };
 
     return StagePagesData._(
-      defaultPage: this.defaultPage ?? other?.defaultPage,
-      orderedPages: this.orderedPages ?? other?.orderedPages,
+      defaultPage: defaultPage ?? other?.defaultPage,
+      orderedPages: orderedPages ?? other?.orderedPages,
       pagesData: <T,StagePage?>{
         for(final T key in keys)
-          key: (this.pagesData != null ? this.pagesData![key] : null) 
+          key: (pagesData != null ? pagesData![key] : null) 
             ?? (other?.pagesData != null ? other?.pagesData![key] : null),
       },
       enabledPages: <T,bool?>{
         for(final T key in keys)
-          key: (this.enabledPages != null ? this.enabledPages![key] : null) 
+          key: (enabledPages != null ? enabledPages![key] : null) 
             ?? (other?.enabledPages != null ? other?.enabledPages![key] : null),
       },
     );

@@ -9,7 +9,6 @@ class _BottomBar<T,S> extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final StageData<T,S> data = Stage.of<T,S>(context)!;
-    final bool _useAccent = data.themeController.accentSelectedPage;
     final Map<T,StagePage?> pagesData = data.mainPagesController.pagesData;
 
     /// [primaryColorsMap] can be null, so cannot be used in batch with .build6!!
@@ -26,9 +25,13 @@ class _BottomBar<T,S> extends StatelessWidget {
         final bool googleLike = place.isTexts;
 
         final bool single = primaryColorsMap == null;
-        final Color? singleBackground = color;
-        final bool useAccent = single && _useAccent;
-        final Color? singleAccent = useAccent ? theme.colorScheme.secondary : null;
+        final Color singleBackground = color;
+        final bool useAccent 
+          =  single 
+          && data.themeController.accentSelectedPage;
+        final Color? singleAccent = useAccent 
+          ? theme.colorScheme.secondary 
+          : null;
         /// all that is ignored by radionavbar if googleLike
 
         final Widget child = RadioNavBar<T>(
@@ -65,7 +68,9 @@ class _BottomBar<T,S> extends StatelessWidget {
             return UpShadower(
               child: child,
             );
-          } else return child;
+          } else {
+            return child;
+          }
         });
 
       }))))))))))))))),

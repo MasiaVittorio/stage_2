@@ -17,23 +17,15 @@ class StagePopBehavior {
   //=========================================
   // Constructor
   const StagePopBehavior({
-    bool rememberPanelPage = false,
+    this.rememberPanelPage = false,
 
-    bool backToPreviousMainPage = true,
-    bool backToDefaultMainPage = false,
+    this.backToPreviousMainPage = true,
+    this.backToDefaultMainPage = false,
 
-    bool backToPreviousPanelPage = false,
-    bool backToDefaultPanelPage = true,
+    this.backToPreviousPanelPage = false,
+    this.backToDefaultPanelPage = true,
 
-    bool backToClosePanel = true,
-  }):
-    rememberPanelPage = rememberPanelPage,
+    this.backToClosePanel = true,
+  });
 
-    backToPreviousMainPage = backToPreviousMainPage,
-    backToDefaultMainPage = backToDefaultMainPage,
-
-    backToPreviousPanelPage = backToPreviousPanelPage,
-    backToDefaultPanelPage = backToDefaultPanelPage,
-
-    backToClosePanel = backToClosePanel;
 }

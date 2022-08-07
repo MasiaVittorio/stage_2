@@ -19,11 +19,12 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
       lowerBound: 0.0, upperBound: 1.5,
       duration: const Duration(milliseconds: 500),
     )..addListener((){
-      final double _val = panelAnimation.value;
-      if(_val >= widget.data!.panelController.openedThreshold){
-        if(widget.data!.panelController.isMostlyOpened.setDistinct(true)) /// If just opened
+      final double val = panelAnimation.value;
+      if(val >= widget.data!.panelController.openedThreshold){
+        if(widget.data!.panelController.isMostlyOpened.setDistinct(true)) {
           widget.data!.panelController.snackbarController.close();
-      } else if(_val < widget.data!.panelController.closedThreshold) {
+        }
+      } else if(val < widget.data!.panelController.closedThreshold) {
         widget.data!.panelController.isMostlyOpened.setDistinct(false);
       }
     });
@@ -60,8 +61,8 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
       panelPosition: () => panelAnimation.value.clamp(0.0, 1.0),
       panelVelocity: () => panelAnimation.velocity, 
       panelIsAnimating: () => panelAnimation.isAnimating,
-      openPanel: this.openInternal, 
-      closePanel: this.closeInternal,
+      openPanel: openInternal, 
+      closePanel: closeInternal,
 
       snackBarPosition: () => snackBarAnimation.value,
       snackBarVelocity: () => snackBarAnimation.velocity,
@@ -86,7 +87,7 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
   Future<void> closeInternal() async {
     if(!mounted) return;
     if(panelAnimation.value != 0.0) {
-      await this.panelAnimation.animateBack(
+      await panelAnimation.animateBack(
         0.0, 
         curve: Curves.easeOut,
         duration: Duration(microseconds: (220000 * (panelAnimation.value + (1-panelAnimation.value)/3)).round()),
@@ -97,14 +98,14 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
 
   Future<void> openInternal() async {
     if(panelAnimation.value != 1.0) {
-      await this.panelAnimation.animateTo(
+      await panelAnimation.animateTo(
         1.0, 
         // curve: const Cubic(0.0, 0.0, 0.58, 1.0), // That would be ease out as defined by the material library
 
         // curve: const Cubic(0.5, 1.15, 0.5, 0.99), // that should be a more visible ease out but I dont really like it
         // duration: const Duration(milliseconds: 250),
 
-        curve: Cubic(0.175, 0.885, 0.32, 1.1), // that overshoots a bit
+        curve: const Cubic(0.175, 0.885, 0.32, 1.1), // that overshoots a bit
         duration: const Duration(milliseconds: 300),
       );
     }
@@ -118,11 +119,11 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
   //========================================
   // Gestures
   void onPanelDrag(DragUpdateDetails details, double delta){
-    final double _val = (panelAnimation.value - 1.2 * details.primaryDelta! / delta).clamp(0.0, 1.0);
-    if(_val != panelAnimation.value){
+    final double val = (panelAnimation.value - 1.2 * details.primaryDelta! / delta).clamp(0.0, 1.0);
+    if(val != panelAnimation.value){
       //change the value only if necessary, we do not want
       //to call listeners for no reasons
-      panelAnimation.value = _val;
+      panelAnimation.value = val;
     }
   }
 
@@ -143,7 +144,7 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final StageData<T,S> data = widget.data!;
 
-    final Widget topBar = widget.topBarBuilder(this.panelAnimation);
+    final Widget topBar = widget.topBarBuilder(panelAnimation);
 
     final Widget panelBackground = Positioned.fill(child:_PanelBackground(
       animation: panelAnimation, 
@@ -170,6 +171,7 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
               widget.collapsedPanel!,
               dimensions: dimensions,
               derived: derived,
+              transparency: widget.customDecorationBuilder != null,
             )
             : null;
           
@@ -230,14 +232,14 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
                   right: 0.0,
                   height: derived.bottomBarSize,
                   child: _BottomGesture(
-                    onPanelDrag: (details) => this.onPanelDrag(details, realDelta),
-                    onPanelDragEnd: this.onPanelDragEnd,
+                    onPanelDrag: (details) => onPanelDrag(details, realDelta),
+                    onPanelDragEnd: onPanelDragEnd,
                   ),
                 );
 
                 final Widget alertBackground = Positioned.fill(child: _AlertBackground(
-                  onPanelDrag: (details) => this.onPanelDrag(details, realDelta),
-                  onPanelDragEnd: this.onPanelDragEnd,
+                  onPanelDrag: (details) => onPanelDrag(details, realDelta),
+                  onPanelDragEnd: onPanelDragEnd,
                   // animation: this.panelAnimation, 
                   backgroundColor: widget.backgroundColor,
                   backgroundOpacity: widget.backgroundOpacity, 
@@ -250,12 +252,13 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
                   boxedExtended: boxedExtended, 
                   realDelta: realDelta, 
                   derived: derived, 
-                  panelAnimation: this.panelAnimation, 
-                  snackBarAnimation: this.snackBarAnimation, 
-                  onPanelDrag: this.onPanelDrag, 
-                  onPanelDragEnd: this.onPanelDragEnd,
+                  panelAnimation: panelAnimation, 
+                  snackBarAnimation: snackBarAnimation, 
+                  onPanelDrag: onPanelDrag, 
+                  onPanelDragEnd: onPanelDragEnd,
                   shadowBuilder: widget.shadowBuilder, 
                   singleShadow: widget.singleShadow,
+                  customDecorationBuilder: widget.customDecorationBuilder,
                 );
 
                 return AnimatedBuilder(animation: panelAnimation, child: panel, builder: (_, child){
@@ -269,6 +272,9 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
                   return Stack(
                     fit: StackFit.expand,
                     children: <Widget>[
+
+                      if(widget.scaffoldBackgroundFill != null)
+                        Positioned.fill(child: widget.scaffoldBackgroundFill!),
 
                       Positioned(
                         left: 0.0,
@@ -314,7 +320,8 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
                           - dimensions.collapsedPanelSize/2 // bit of overlap with the top part of the bottom bar
                           - clampedVal * derived.maxDownExpansion // expand down over the bottom bar while opening
                           + (alert ? mediaQuery.viewInsets.bottom : 0.0), // make the panel avoid keyboard only if alert is shown,
-                        height: dimensions.collapsedPanelSize + pureVal * realDelta, // current panel size
+                        height: dimensions.collapsedPanelSize 
+                          + pureVal * realDelta, // current panel size
                         child: child!,
                       ),
 

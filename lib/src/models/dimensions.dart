@@ -103,7 +103,7 @@ class StageDimensions{
 }
 
 extension _BoxConstraintsSize on BoxConstraints {
-  Size get size => Size(this.maxWidth, this.maxHeight);
+  Size get size => Size(maxWidth, maxHeight);
 }
 
 

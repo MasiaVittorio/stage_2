@@ -2,7 +2,7 @@ part of stage;
 
 class _StageBuildOffMainPage<T> extends StatelessWidget {
 
-  _StageBuildOffMainPage(this.builder);
+  const _StageBuildOffMainPage(this.builder);
 
   final Widget Function(BuildContext, T) builder;
 

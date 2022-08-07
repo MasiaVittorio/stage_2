@@ -4,7 +4,7 @@ import 'package:stage/stage.dart';
 String _theUnchecker(String s) => "";
 
 class InsertAlert extends StatefulWidget {
-  InsertAlert({
+  const InsertAlert({
     required this.onConfirm,
     this.hintText,
     required this.labelText,
@@ -33,7 +33,7 @@ class InsertAlert extends StatefulWidget {
   static const double _buttons = 56.0;
 
   @override
-  _InsertAlertState createState() => _InsertAlertState();
+  State<InsertAlert> createState() => _InsertAlertState();
 }
 
 class _InsertAlertState extends State<InsertAlert> {

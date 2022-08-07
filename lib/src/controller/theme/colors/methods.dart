@@ -1,5 +1,6 @@
 part of stage;
 
+// ignore: library_private_types_in_public_api
 extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
 
   //============================================
@@ -43,12 +44,12 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
 
   bool _enableDarkMainPagedColors(){
     if(darkMainPageToPrimaries.value != null) return false;
-    this.darkMainPageToPrimaries.set(
-      this._cachedDarkMainPageToPrimaries.value ?? <DarkStyle,Map<T,Color>>{
+    darkMainPageToPrimaries.set(
+      _cachedDarkMainPageToPrimaries.value ?? <DarkStyle,Map<T,Color>>{
         for(final style in DarkStyle.values)
           style: <T,Color>{
             for(final key in parent.parent.mainPagesController.pagesData.keys)
-              key: this.darkMainPrimaries.value[style]!,
+              key: darkMainPrimaries.value[style]!,
           },
       },
     );
@@ -56,20 +57,20 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
   }
   bool _disableDarkMainPagedColors() {
     if(darkMainPageToPrimaries.value == null) return false;
-    this._cachedDarkMainPageToPrimaries.set(
-      this.darkMainPageToPrimaries.value,
+    _cachedDarkMainPageToPrimaries.set(
+      darkMainPageToPrimaries.value,
     );
-    this.darkMainPageToPrimaries.set(null);
+    darkMainPageToPrimaries.set(null);
     return true;
   }
   bool _enableDarkPanelPagedColors(){
     if(darkPanelPageToPrimaries.value != null) return false;
-    this.darkPanelPageToPrimaries.set(
-      this._cachedDarkPanelPageToPrimaries.value ?? <DarkStyle,Map<S,Color>>{
+    darkPanelPageToPrimaries.set(
+      _cachedDarkPanelPageToPrimaries.value ?? <DarkStyle,Map<S,Color>>{
         for(final style in DarkStyle.values)
           style: <S,Color>{
             for(final key in parent.parent.panelPagesController!.pagesData.keys)
-              key: this.darkPanelPrimaries.value[style]!,
+              key: darkPanelPrimaries.value[style]!,
           },
       },
     );
@@ -77,10 +78,10 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
   }
   bool _disableDarkPanelPagedColors() {
     if(darkPanelPageToPrimaries.value == null) return false;
-    this._cachedDarkPanelPageToPrimaries.set(
-      this.darkPanelPageToPrimaries.value,
+    _cachedDarkPanelPageToPrimaries.set(
+      darkPanelPageToPrimaries.value,
     );
-    this.darkPanelPageToPrimaries.set(null);
+    darkPanelPageToPrimaries.set(null);
     return true;
   }
 
@@ -117,38 +118,38 @@ extension StageColorsMethods<T,S> on _StageColorsData<T,S> {
 
   bool _enableLightMainPagedColors(){
     if(lightMainPageToPrimary.value != null) return false;
-    this.lightMainPageToPrimary.set(
-      this._cachedLightMainPageToPrimary.value ?? <T,Color>{
+    lightMainPageToPrimary.set(
+      _cachedLightMainPageToPrimary.value ?? <T,Color>{
         for(final T key in parent.parent.mainPagesController.pagesData.keys)
-          key: this.lightMainPrimary.value,
+          key: lightMainPrimary.value,
       },
     );
     return true;
   }
   bool _disableLightMainPagedColors() {
     if(lightMainPageToPrimary.value == null) return false;
-    this._cachedLightMainPageToPrimary.set(
-      this.lightMainPageToPrimary.value,
+    _cachedLightMainPageToPrimary.set(
+      lightMainPageToPrimary.value,
     );
-    this.lightMainPageToPrimary.set(null);
+    lightMainPageToPrimary.set(null);
     return true;
   }
   bool _enableLightPanelPagedColors(){
     if(lightPanelPageToPrimary.value != null) return false;
-    this.lightPanelPageToPrimary.set(
-      this._cachedLightPanelPageToPrimary.value ?? <S,Color>{
+    lightPanelPageToPrimary.set(
+      _cachedLightPanelPageToPrimary.value ?? <S,Color>{
         for(final key in parent.parent.panelPagesController!.pagesData.keys)
-          key: this.lightPanelPrimary.value,
+          key: lightPanelPrimary.value,
       },
     );
     return true;
   }
   bool _disableLightPanelPagedColors() {
     if(lightPanelPageToPrimary.value == null) return false;
-    this._cachedLightPanelPageToPrimary.set(
-      this.lightPanelPageToPrimary.value,
+    _cachedLightPanelPageToPrimary.set(
+      lightPanelPageToPrimary.value,
     );
-    this.lightPanelPageToPrimary.set(null);
+    lightPanelPageToPrimary.set(null);
     return true;
   }
 

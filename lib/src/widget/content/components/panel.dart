@@ -2,7 +2,7 @@ part of stage;
 
 class _Panel extends StatelessWidget {
 
-  _Panel({
+  const _Panel({
     required this.panelAnimation,
     required this.snackBarAnimation,
     required this.realDelta,
@@ -15,13 +15,14 @@ class _Panel extends StatelessWidget {
     required this.onPanelDragEnd,
     required this.shadowBuilder,
     required this.singleShadow,
+    required this.customDecorationBuilder,
   });
 
   final void Function(DragUpdateDetails, double) onPanelDrag;
   final void Function(DragEndDetails)  onPanelDragEnd;
 
-  final Animation<double>? panelAnimation;
-  final Animation<double>? snackBarAnimation;
+  final Animation<double> panelAnimation;
+  final Animation<double> snackBarAnimation;
   final double realDelta;
   final _StageDerivedDimensions derived;
   final StageDimensions dimensions;
@@ -33,6 +34,7 @@ class _Panel extends StatelessWidget {
 
   final StageShadowBuilder shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
   final BoxShadow? singleShadow; // If you do not need to animate the shadow
+  final StagePanelDecorationBuilder? customDecorationBuilder; // To override shadows, radiuses, background color etc
 
   @override
   Widget build(BuildContext context) {
@@ -48,41 +50,58 @@ class _Panel extends StatelessWidget {
       dimensions: dimensions,
     );
 
-    final data = Stage.of(context);
+    final data = Stage.of(context)!;
+    final theme = Theme.of(context);
 
     return AnimatedBuilder(
-      animation: panelAnimation!,
+      animation: panelAnimation,
       child: content,
       builder: (_, child){
 
-        // final double clampedVal = panelAnimation.value; //Much faster without clamping, but not suitable if the animation overshoots
-        final double clampedVal = panelAnimation!.value.clamp(0.0, 1.0);
-        final double? radius = DoubleExt.mapToRangeLoose(clampedVal, dimensions.panelRadiusClosed, dimensions.panelRadiusOpened);
-        final double padding = DoubleExt.mapToRangeLoose(clampedVal, dimensions.panelHorizontalPaddingClosed, dimensions.panelHorizontalPaddingOpened);
-        
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: padding),
-          child: GestureDetector(
-            onVerticalDragUpdate: (details) => onPanelDrag(details, realDelta),
-            onVerticalDragEnd: onPanelDragEnd,
-            child:  data!.themeController.colorPlace.build(((context, place) 
-              => Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(radius!),
-                  boxShadow: [
-                    singleShadow 
-                    ?? shadowBuilder(clampedVal, place),
-                  ],
+        // Much faster without clamping, but not suitable if the animation overshoots
+        final double clampedVal = panelAnimation.value.clamp(0.0, 1.0);
+
+        final Widget result = data.themeController.colorPlace.build((context, place) 
+          => data.themeController.derived.currentPrimaryColor.build((_, mainPrimaryColor) 
+            => Container(
+
+              decoration: customDecorationBuilder?.call(
+                clampedVal,
+                theme,
+                place,
+                dimensions,
+                mainPrimaryColor,
+              ) ?? BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  clampedVal.mapToRangeLoose(
+                    dimensions.panelRadiusClosed, 
+                    dimensions.panelRadiusOpened,
+                  ),
                 ),
-                child: ClipRRect(
-                  //this is really heavy but needed for the various layers of stuff in the content
-                  clipBehavior: Clip.antiAliasWithSaveLayer, 
-                  borderRadius: BorderRadius.circular(radius),
-                  child: child,
-                ),
-              )),
+                boxShadow: [singleShadow ?? shadowBuilder(clampedVal, place)],
+              ),
+
+              //this is really heavy but needed for the various layers of stuff in the content
+              clipBehavior: Clip.antiAliasWithSaveLayer, 
+
+              child: child,
             ),
           ),
+        );
+        
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: clampedVal.mapToRangeLoose(
+            dimensions.panelHorizontalPaddingClosed, 
+            dimensions.panelHorizontalPaddingOpened,
+          )),
+          child: data.panelController.alertController.currentSize
+            .build((_, alertSize) => alertSize == double.infinity 
+              ? result 
+              : GestureDetector(
+                onVerticalDragUpdate: (details) => onPanelDrag(details, realDelta),
+                onVerticalDragEnd: onPanelDragEnd,
+                child: result,
+              ),),
         );
       },
     );
