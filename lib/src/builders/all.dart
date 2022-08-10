@@ -23,7 +23,7 @@ class StageBuild {
   static Widget offOpenNonAlertAndPages<T,S>(Widget Function(BuildContext context, bool openNonAlert, T? mainPage, S? panelPage) builder)
     => _StageBuildOffOpenNonAlertAllPages<T,S>(builder);
 
-  static Widget offMainPagesData<T>(Widget Function(BuildContext, Map<T,bool>?, List<T>, T) builder)
+  static Widget offMainPagesData<T>(Widget Function(BuildContext, Map<T,bool>, List<T>, T) builder)
     => _StageBuildOffMainPagesData<T>(builder);
 
   static Widget offMainEnabledPages<T>(Widget Function(BuildContext, Map<T,bool>) builder)

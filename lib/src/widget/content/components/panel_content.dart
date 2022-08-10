@@ -45,7 +45,12 @@ class _PanelContent extends StatelessWidget {
           return IgnorePointer(
             ignoring: clampedVal != 0.0,
             child: Opacity(
-              opacity: DoubleExt.mapToRange(clampedVal, 1.0, 0.0, fromMin: dimensions.barSize/realDelta, fromMax: 1.0),
+              opacity: Curves.easeInOut.transform(clampedVal.mapToRange(
+                0.0, 1.0,
+                fromMin: 0.42,
+                fromMax: 0,
+                // fromMax: dimensions.barSize/realDelta,
+              )),
               child: child,
             ),
           );
@@ -73,12 +78,14 @@ class _PanelContent extends StatelessWidget {
               return IgnorePointer(
                 ignoring: clampedVal < 0.95,
                 child: Opacity(
-                  opacity: alertChild != null ? 0.0 : clampedVal.mapToRange(
-                    0.0,
-                    1.0,
-                    fromMin: dimensions.barSize/realDelta,
-                    fromMax: 1.0,
-                  ),
+                  opacity: alertChild != null 
+                    ? 0.0 
+                    : Curves.easeInOut.transform(clampedVal.mapToRange(
+                      0.0,
+                      1.0,
+                      fromMin: 0.38,
+                      fromMax: 1.0,
+                    )),
                   child: child,
                 ),
               );
@@ -95,12 +102,12 @@ class _PanelContent extends StatelessWidget {
                 return IgnorePointer(
                   ignoring: clampedVal < 0.95,
                   child: Opacity(
-                    opacity: clampedVal.mapToRange(
+                    opacity: Curves.easeInOut.transform(clampedVal.mapToRange(
                       0.0,
                       1.0,
-                      fromMin: dimensions.barSize/realDelta,
+                      fromMin: 0.38,
                       fromMax: 1.0,
-                    ),
+                    )),
                     child: child,
                   ),
                 );

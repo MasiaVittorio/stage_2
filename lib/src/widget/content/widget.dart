@@ -28,7 +28,7 @@ class _StageContent<T,S> extends StatefulWidget {
   }): assert(extendedPanelBuilder != null || extendedPanel != null);
 
   //logic
-  final StageData<T,S>? data;
+  final StageData<T,S> data;
 
   //performance optimization
   final bool wholeScreen;

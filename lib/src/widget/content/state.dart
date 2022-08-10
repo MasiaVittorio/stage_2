@@ -20,12 +20,12 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
       duration: const Duration(milliseconds: 500),
     )..addListener((){
       final double val = panelAnimation.value;
-      if(val >= widget.data!.panelController.openedThreshold){
-        if(widget.data!.panelController.isMostlyOpened.setDistinct(true)) {
-          widget.data!.panelController.snackbarController.close();
+      if(val >= widget.data.panelController.openedThreshold){
+        if(widget.data.panelController.isMostlyOpened.setDistinct(true)) {
+          widget.data.panelController.snackbarController.close();
         }
-      } else if(val < widget.data!.panelController.closedThreshold) {
-        widget.data!.panelController.isMostlyOpened.setDistinct(false);
+      } else if(val < widget.data.panelController.closedThreshold) {
+        widget.data.panelController.isMostlyOpened.setDistinct(false);
       }
     });
 
@@ -36,7 +36,7 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
     
     attachListeners();
 
-    widget.data!.themeController
+    widget.data.themeController
         .brightness._checkBrightness(context);
         /// this will use a scheduler.addPostFrameCallback()  to access the 
         /// MediaQuery.of(context) if needed, So it will not break the initState
@@ -57,7 +57,7 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
   // Logic 
 
   void attachListeners(){
-    widget.data!._attachListeners(
+    widget.data._attachListeners(
       panelPosition: () => panelAnimation.value.clamp(0.0, 1.0),
       panelVelocity: () => panelAnimation.velocity, 
       panelIsAnimating: () => panelAnimation.isAnimating,
@@ -97,6 +97,8 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
   }
 
   Future<void> openInternal() async {
+    final sizes = widget.data.panelController.alertController.sizes.value;
+    final size = sizes.isEmpty ? null : sizes.last;
     if(panelAnimation.value != 1.0) {
       await panelAnimation.animateTo(
         1.0, 
@@ -105,8 +107,12 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
         // curve: const Cubic(0.5, 1.15, 0.5, 0.99), // that should be a more visible ease out but I dont really like it
         // duration: const Duration(milliseconds: 250),
 
-        curve: const Cubic(0.175, 0.885, 0.32, 1.1), // that overshoots a bit
-        duration: const Duration(milliseconds: 300),
+        curve: size == double.infinity
+          ? Curves.easeInOutCubicEmphasized
+          : const Cubic(0.175, 0.885, 0.32, 1.1), // that overshoots a bit
+        duration: size == double.infinity
+          ? const Duration(milliseconds: 500)
+          : const Duration(milliseconds: 300),
       );
     }
     return;
@@ -128,7 +134,7 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
   }
 
   void onPanelDragEnd(DragEndDetails details)
-    => widget.data!.panelController._onPanelDragEnd(details);
+    => widget.data.panelController._onPanelDragEnd(details);
 
 
 
@@ -142,7 +148,7 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
   Widget build(BuildContext context) {
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
-    final StageData<T,S> data = widget.data!;
+    final StageData<T,S> data = widget.data;
 
     final Widget topBar = widget.topBarBuilder(panelAnimation);
 
