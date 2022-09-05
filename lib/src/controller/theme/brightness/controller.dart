@@ -22,8 +22,8 @@ class _StageBrightnessData {
 
   //============================================
   // Behavior (pseudo state, provide mediaquery to update manually)
-  final BlocVar<bool?> autoDark;
-  final BlocVar<AutoDarkMode?> autoDarkMode;
+  final BlocVar<bool> autoDark;
+  final BlocVar<AutoDarkMode> autoDarkMode;
   ///wether the automatic light/dark switch has to be decided upon time
   ///  of day (current hour between 7 and 20) or system's mediaquery -> preferred brightness
 
@@ -40,19 +40,19 @@ class _StageBrightnessData {
       fromJson: (j) => _Brightness.fromName(j as String?)!,
       readCallback: (_) => parent.parent._readCallback("stage_brightness_brightness"),
     ),
-    autoDark = BlocVar.modal<bool?>(
-      initVal: initialData.autoDark,
+    autoDark = BlocVar.modal<bool>(
+      initVal: initialData.autoDark ?? StageBrightnessData.defaultAutoDark,
       key: parent.parent._getStoreKey("stage_brightness_aautoDark"), 
       toJson: (b) => b,
-      fromJson: (j) => j as bool?,
+      fromJson: (j) => j as bool,
       readCallback: (_) => parent.parent._readCallback("stage_brightness_aautoDark"),
       //WARNING: this read callback is never called, cannot figure out why the fuck
     ),
-    autoDarkMode = BlocVar.modal<AutoDarkMode?>(
-      initVal: initialData.autoDarkMode,
+    autoDarkMode = BlocVar.modal<AutoDarkMode>(
+      initVal: initialData.autoDarkMode ?? StageBrightnessData.defaultAutoDarkMode,
       key: parent.parent._getStoreKey("stage_brightness_autoDarkMode"), 
       toJson: (auto) => auto.name,
-      fromJson: (j) => _AutoDarkMode.fromName(j as String?),
+      fromJson: (j) => _AutoDarkMode.fromName(j as String)!,
       readCallback: (_) => parent.parent._readCallback("stage_brightness_autoDarkMode"),
       //WARNING: this read callback is never called, cannot figure out why the fuck
     ),
