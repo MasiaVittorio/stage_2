@@ -46,7 +46,7 @@ class StageDimensions{
     double? panelHorizontalPaddingClosed,
     double? panelHorizontalPaddingOpened,
     bool? forceOpenedPanelOverNavBar,
-    bool? parallax,
+    double? parallax,
   }) => StageDimensions(
     barSize: barSize ?? this.barSize,
     collapsedPanelSize: collapsedPanelSize ?? this.collapsedPanelSize,
@@ -55,7 +55,7 @@ class StageDimensions{
     panelRadiusClosed: panelRadiusClosed ?? this.panelRadiusClosed,
     panelRadiusOpened: panelRadiusOpened ?? this.panelRadiusOpened,
     forceOpenedPanelOverNavBar: forceOpenedPanelOverNavBar ?? this.forceOpenedPanelOverNavBar,
-    parallax: parallax as double? ?? this.parallax,
+    parallax: parallax ?? this.parallax,
   );
 
 

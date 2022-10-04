@@ -186,7 +186,6 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
       case RadioAnimation.horizontalFade:
         child = RadioPageTransition<T>(
           page: page, 
-          previous: previous ?? page, 
           orderedPages: orderedPages,
           children: <T,Widget>{
             for(final T p in orderedPages)

@@ -14,12 +14,8 @@ class StageBody<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final StageData<T,dynamic>? stage = Stage.of<T,dynamic>(context);
-  
     return StageBuild.offMainPagesData<T>((_, __, orderedPages, page)
       => RadioPageTransition<T?>(
-        previous: stage!.mainPagesController.previousPage,
         page: page, 
         children: children, 
         orderedPages: orderedPages, 

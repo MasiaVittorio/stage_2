@@ -15,14 +15,9 @@ class StageExtendedPanel<S> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final StageData<dynamic,S>? stage = Stage.of<dynamic,S>(context);
-  
     return StageBuild.offPanelPagesData<S>((_, __, orderedPages, page){
-      final S? previous = stage!.panelPagesController!.previousPage;
       return RadioPageTransition<S?>(
         page: page, 
-        previous: previous, 
         children: children, 
         orderedPages: orderedPages,
         backgroundColor: customBackground?.call(Theme.of(context)),
