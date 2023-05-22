@@ -78,8 +78,6 @@ class StageThemeUtils {
       iconTheme: IconThemeData(opacity: 0.75, color: brightness.contrast),
       primaryIconTheme: IconThemeData(opacity: 1.0, color: primary.contrast),
 
-      toggleableActiveColor: toggleable,
-
       sliderTheme: SliderThemeData(
         activeTickMarkColor: toggleable,
         activeTrackColor: toggleable,
@@ -89,7 +87,30 @@ class StageThemeUtils {
         inactiveTrackColor: toggleable.withAlpha(0x3d),
         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 9.0),
         showValueIndicator: ShowValueIndicator.always,
-      ),
+      ), switchTheme: SwitchThemeData(
+ thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+ if (states.contains(MaterialState.disabled)) { return null; }
+ if (states.contains(MaterialState.selected)) { return toggleable; }
+ return null;
+ }),
+ trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+ if (states.contains(MaterialState.disabled)) { return null; }
+ if (states.contains(MaterialState.selected)) { return toggleable; }
+ return null;
+ }),
+ ), radioTheme: RadioThemeData(
+ fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+ if (states.contains(MaterialState.disabled)) { return null; }
+ if (states.contains(MaterialState.selected)) { return toggleable; }
+ return null;
+ }),
+ ), checkboxTheme: CheckboxThemeData(
+ fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+ if (states.contains(MaterialState.disabled)) { return null; }
+ if (states.contains(MaterialState.selected)) { return toggleable; }
+ return null;
+ }),
+ ),
     );
   } 
 
@@ -180,19 +201,19 @@ class StageThemeUtils {
   );
 
   static const _textTheme = TextTheme(
-    bodyText2: _body1,
-    bodyText1: _body2,
-    headline6: _title,
-    headline4: _display1,
-    headline3: _display2,
-    headline2: _display3,
-    headline1: _display4,
-    headline5: _headline,
-    subtitle1: _subhead,
-    caption: _caption,
-    button: _button,
-    subtitle2: _subtitle,
-    overline: _overline,
+    bodyMedium: _body1,
+    bodyLarge: _body2,
+    titleLarge: _title,
+    headlineMedium: _display1,
+    displaySmall: _display2,
+    displayMedium: _display3,
+    displayLarge: _display4,
+    headlineSmall: _headline,
+    titleMedium: _subhead,
+    bodySmall: _caption,
+    labelLarge: _button,
+    titleSmall: _subtitle,
+    labelSmall: _overline,
   );
 
 

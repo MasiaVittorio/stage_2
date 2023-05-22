@@ -358,7 +358,7 @@ class _StageContentState<T,S> extends State<_StageContent<T,S>> with TickerProvi
     return data.themeController.derived.themeData.build(((_,theme) => Theme(
       data: theme,
       child: ListTileTheme.merge(
-        iconColor: theme.textTheme.bodyText2?.color,
+        iconColor: theme.textTheme.bodyMedium?.color,
         child: WillPopScope(
           onWillPop: () => data._decidePop(),
           child: Scaffold(

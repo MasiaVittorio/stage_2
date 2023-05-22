@@ -67,7 +67,7 @@ class _TopBar<T,S> extends StatelessWidget {
             child: Material(
               type: MaterialType.transparency,
               child: DefaultTextStyle.merge(
-                style: theme.primaryTextTheme.headline6!.copyWith(
+                style: theme.primaryTextTheme.titleLarge!.copyWith(
                   color: textColor,
                   fontWeight: FontWeight.w600,
                 ),

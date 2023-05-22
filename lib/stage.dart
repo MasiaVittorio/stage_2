@@ -5,7 +5,7 @@ import 'dart:math' as math;
 
 import 'package:badges/badges.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:sid_ui/sid_ui.dart';

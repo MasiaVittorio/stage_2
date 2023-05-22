@@ -59,7 +59,7 @@ class StageSnackBar extends StatelessWidget {
               subtitle != null ? 0.5 : 0.0
             ),
             child: DefaultTextStyle(
-              style: theme.textTheme.subtitle1!,
+              style: theme.textTheme.titleMedium!,
               child: title,
             ),
           ),
@@ -70,7 +70,7 @@ class StageSnackBar extends StatelessWidget {
             child: Align(
               alignment: Alignment(xAlignment,-0.5),
               child: DefaultTextStyle(
-                style: theme.textTheme.subtitle2!,
+                style: theme.textTheme.titleSmall!,
                 child: subtitle!,
               ),
             ),
