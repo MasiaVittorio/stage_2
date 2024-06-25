@@ -1,8 +1,6 @@
-part of stage;
-
+part of 'package:stage/stage.dart';
 
 class _BottomGesture extends StatelessWidget {
-  
   const _BottomGesture({
     required this.onPanelDrag,
     required this.onPanelDragEnd,
@@ -18,8 +16,8 @@ class _BottomGesture extends StatelessWidget {
       onVerticalDragEnd: onPanelDragEnd,
       behavior: HitTestBehavior.translucent,
       child: Container(
-        //color null => touch events pass to the bottom bars
-      ),
+          //color null => touch events pass to the bottom bars
+          ),
     );
   }
 }

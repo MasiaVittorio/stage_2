@@ -1,115 +1,140 @@
 import 'package:example/core.dart';
 
 class Alerts extends StatelessWidget {
-
-  const Alerts({Key? key}): super(key: key);
-
+  const Alerts({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final StageData stage = Stage.of(context)!;
 
-    return ListView(children: <Widget>[
-      
-      Section(<Widget>[
-        const SectionTitle("Simple"),
-        Row(children: <Widget>[
-          for(final child in <Widget>[
-            ListTile(
-              title: const Text("Big"),
-              onTap: () => stage.showAlert(headered, size: 500),
+    return ListView(
+      children: <Widget>[
+        Section(
+          <Widget>[
+            const SectionTitle("Simple"),
+            Row(
+              children: <Widget>[
+                for (final child in <Widget>[
+                  ListTile(
+                    title: const Text("Big"),
+                    onTap: () => stage.showAlert(headered, size: 500),
+                  ),
+                  ListTile(
+                    title: const Text("Small"),
+                    onTap: () => stage.showAlert(headered, size: 300),
+                  ),
+                ])
+                  Expanded(
+                    child: child,
+                  ),
+              ],
             ),
-            ListTile(
-              title: const Text("Small"),
-              onTap: () => stage.showAlert(headered, size: 300),
-            ),
-          ]) Expanded(child: child,),
-        ],),
-      ],),
-
-      Section(<Widget>[
-        const SectionTitle("Multi page"),
-        Row(children: <Widget>[
-          for(final child in <Widget>[
-            ListTile(
-              title: const Text("Vert. swap"),
-              onTap: () => stage.showAlert(
-                const RadioHeaderedAlert<int>(
-                  items: radioItems,
-                  animationType: RadioAnimation.verticalSwap,
-                ),
-                size: 500,
-              ),
-            ),
-            ListTile(
-              title: const Text("Horiz. fade"),
-              onTap: () => stage.showAlert(
-                const RadioHeaderedAlert<int>(
-                  items: radioItems,
-                  animationType: RadioAnimation.horizontalFade,
-                ),
-                size: 500,
-              ),
-            ),
-          ]) Expanded(child: child,),
-        ],),
-      ]),
-
-      Section(<Widget>[
-
-        const SectionTitle("Interactive"),
-
-        Row(children: <Widget>[
-          for(final child in const <Widget>[
-            _TextInput(),
-            _NumberInput(),
-          ]) Expanded(child: child,),
-        ],),
-        
-        const _ColorInput(),
-
-        const _ConfirmInput(),
-
-      ],),
-
-      Section(<Widget>[
-        const SectionTitle("Nested alerts"),
-        ListTile(
-          title: const Text("Show nested alerts"),
-          onTap: () => stage.showAlert(NestedAlert(1)),
+          ],
         ),
-      ]),
-
-    ],);
+        Section(<Widget>[
+          const SectionTitle("Multi page"),
+          Row(
+            children: <Widget>[
+              for (final child in <Widget>[
+                ListTile(
+                  title: const Text("Vert. swap"),
+                  onTap: () => stage.showAlert(
+                    const RadioHeaderedAlert<int>(
+                      items: radioItems,
+                      animationType: RadioAnimation.verticalSwap,
+                    ),
+                    size: 500,
+                  ),
+                ),
+                ListTile(
+                  title: const Text("Horiz. fade"),
+                  onTap: () => stage.showAlert(
+                    const RadioHeaderedAlert<int>(
+                      items: radioItems,
+                      animationType: RadioAnimation.horizontalFade,
+                    ),
+                    size: 500,
+                  ),
+                ),
+              ])
+                Expanded(
+                  child: child,
+                ),
+            ],
+          ),
+        ]),
+        Section(
+          <Widget>[
+            const SectionTitle("Interactive"),
+            Row(
+              children: <Widget>[
+                for (final child in const <Widget>[
+                  _TextInput(),
+                  _NumberInput(),
+                ])
+                  Expanded(
+                    child: child,
+                  ),
+              ],
+            ),
+            const _ColorInput(),
+            const _ConfirmInput(),
+          ],
+        ),
+        Section(<Widget>[
+          const SectionTitle("Nested alerts"),
+          ListTile(
+            title: const Text("Show nested alerts"),
+            onTap: () => stage.showAlert(NestedAlert(1)),
+          ),
+        ]),
+      ],
+    );
   }
 
-  static const Map<int,RadioHeaderedItem> radioItems = <int,RadioHeaderedItem>{
+  static const Map<int, RadioHeaderedItem> radioItems = <int, RadioHeaderedItem>{
     1: RadioHeaderedItem(
       longTitle: "All favorites",
-      title: "Favs", 
-      child: SizedBox(height: 200, child: Center(child: Icon(Icons.favorite_border, size: 40,)),), 
+      title: "Favs",
+      child: SizedBox(
+        height: 200,
+        child: Center(
+            child: Icon(
+          Icons.favorite_border,
+          size: 40,
+        )),
+      ),
       icon: Icons.favorite,
       unselectedIcon: Icons.favorite_border,
     ),
     2: RadioHeaderedItem(
-      longTitle: "Other stuff", 
+      longTitle: "Other stuff",
       title: "Other",
-      child: SizedBox(height: 200, child: Center(child: Icon(Icons.menu, size: 40,)),), 
+      child: SizedBox(
+        height: 200,
+        child: Center(
+            child: Icon(
+          Icons.menu,
+          size: 40,
+        )),
+      ),
       icon: Icons.menu,
     ),
   };
 
   static final Widget headered = HeaderedAlert(
-    "Scroll this list!", 
-    child: Column(mainAxisSize: MainAxisSize.min,children: <Widget>[
-      for(int i in [1,2,3,4,5,6,7,8,9,10,11])
-        ListTile(title: Text("Content $i"),),
-    ],
-  ),);
-
-
+    "Scroll this list!",
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        for (int i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+          ListTile(
+            title: Text("Content $i"),
+          ),
+      ],
+    ),
+  );
 }
-
 
 class _ConfirmInput extends StatefulWidget {
   const _ConfirmInput();
@@ -118,7 +143,6 @@ class _ConfirmInput extends StatefulWidget {
 }
 
 class __ConfirmInputState extends State<_ConfirmInput> {
-
   bool? confirm;
 
   @override
@@ -126,19 +150,18 @@ class __ConfirmInputState extends State<_ConfirmInput> {
     return ListTile(
       title: const Text("Confirm alert"),
       leading: const Icon(Icons.check),
-      trailing: Text(confirm == true ? "confirmed": "-"),
+      trailing: Text(confirm == true ? "confirmed" : "-"),
       onTap: () => Stage.of(context)!.showAlert(
         ConfirmAlert(
           action: () => setState(() {
             confirm = true;
           }),
-        ), 
+        ),
         size: ConfirmAlert.height,
       ),
     );
   }
 }
-
 
 class _ColorInput extends StatefulWidget {
   const _ColorInput();
@@ -154,22 +177,30 @@ class _ColorInputState extends State<_ColorInput> {
     final StageData stage = Stage.of(context)!;
 
     return ListTile(
-      leading: const Icon(McIcons.palette_outline),
-      trailing: color != null ? CircleAvatar(backgroundColor: color, child: Container(),) : null,
+      leading: Icon(MdiIcons.paletteOutline),
+      trailing: color != null
+          ? CircleAvatar(
+              backgroundColor: color,
+              child: Container(),
+            )
+          : null,
       title: const Text("Color pick Alert"),
       onTap: () => stage.pickColor(
         initialColor: color,
         onSubmitted: (Color value) {
-          setState((){
+          setState(() {
             color = value;
           });
           stage.showSnackBar(
             StageSnackBar(
-              title: Text("Color: ${value.value.toRadixString(16).toUpperCase()}"), 
+              title: Text("Color: ${value.value.toRadixString(16).toUpperCase()}"),
               secondary: StageSnackButton(
-                onTap: null, 
-                backgroundColor: value, 
-                child: Icon(Icons.palette, color: value.contrast,),
+                onTap: null,
+                backgroundColor: value,
+                child: Icon(
+                  Icons.palette,
+                  color: value.contrast,
+                ),
               ),
             ),
           );
@@ -179,7 +210,6 @@ class _ColorInputState extends State<_ColorInput> {
   }
 }
 
-
 class _TextInput extends StatefulWidget {
   const _TextInput();
   @override
@@ -187,7 +217,6 @@ class _TextInput extends StatefulWidget {
 }
 
 class _TextInputState extends State<_TextInput> {
-
   String? text;
 
   @override
@@ -202,7 +231,7 @@ class _TextInputState extends State<_TextInput> {
           initialText: text,
           labelText: "Insert some text",
           onConfirm: (value) {
-            setState((){
+            setState(() {
               text = value;
             });
             stage.showSnackBar(
@@ -222,9 +251,7 @@ class _NumberInput extends StatefulWidget {
   _NumberInputState createState() => _NumberInputState();
 }
 
-
 class _NumberInputState extends State<_NumberInput> {
-
   int? number;
 
   @override
@@ -240,7 +267,7 @@ class _NumberInputState extends State<_NumberInput> {
           labelText: "Insert a number",
           inputType: TextInputType.number,
           onConfirm: (value) {
-            setState((){
+            setState(() {
               number = int.tryParse(value);
             });
             stage.showSnackBar(
@@ -254,28 +281,30 @@ class _NumberInputState extends State<_NumberInput> {
   }
 }
 
-
 class NestedAlert extends StatelessWidget {
   final int id;
-  NestedAlert(this.id): super(key: ValueKey(id));  
+  NestedAlert(this.id) : super(key: ValueKey(id));
   @override
   Widget build(BuildContext context) {
     return HeaderedAlert(
       "Nested alert #$id",
-      bottom: Row(children: <Widget>[
-        for(final child in <Widget>[
-          ListTile(
-            title: const Text("Show next"),
-            leading: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => Stage.of(context)!.showAlert(NestedAlert(id+1)),
-          ),
-          ListTile(
-            title: const Text("Close completely"),
-            leading: const Icon(Icons.close),
-            onTap: () => Stage.of(context)!.closePanelCompletely(),
-          ),
-        ]) Expanded(child: child),
-      ],),
+      bottom: Row(
+        children: <Widget>[
+          for (final child in <Widget>[
+            ListTile(
+              title: const Text("Show next"),
+              leading: const Icon(Icons.keyboard_arrow_right),
+              onTap: () => Stage.of(context)!.showAlert(NestedAlert(id + 1)),
+            ),
+            ListTile(
+              title: const Text("Close completely"),
+              leading: const Icon(Icons.close),
+              onTap: () => Stage.of(context)!.closePanelCompletely(),
+            ),
+          ])
+            Expanded(child: child),
+        ],
+      ),
       child: Container(),
     );
   }

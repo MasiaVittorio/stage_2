@@ -5,7 +5,6 @@ import 'stage/home_page.dart';
 void main() => runApp(const StageExample());
 
 class StageExample extends StatelessWidget {
-  
   const StageExample({Key? key}) : super(key: key);
 
   // This widget is the root of your application.

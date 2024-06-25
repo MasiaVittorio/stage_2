@@ -1,60 +1,44 @@
-part of stage;
-
+part of 'package:stage/stage.dart';
 
 typedef StageAlertShower = Future<void> Function(Widget, double, bool);
 
-
 class _StageAlertData {
-
   //================================
   // Disposer
-  void dispose(){
+  void dispose() {
     children.dispose();
     sizes.dispose();
-    isShowing.dispose();
+    savedStates.clear();
     currentChild.dispose();
     currentSize.dispose();
-    savedStates.clear();
+    isShowing.dispose();
   }
 
-
   //================================
-  // Values 
+  // Values
   final _StagePanelData parent;
 
-  // State 
-  final BlocVar<List<Widget>> children = BlocVar<List<Widget>>(<Widget>[]);
-  final BlocVar<List<double>> sizes = BlocVar<List<double>>(<double>[]);
-  final Map<String,dynamic> savedStates = <String,dynamic>{};
+  // State
+  final Reactive<List<Widget>> children = Reactive<List<Widget>>(<Widget>[]);
+  final Reactive<List<double>> sizes = Reactive<List<double>>(<double>[]);
+  final Map<String, dynamic> savedStates = <String, dynamic>{};
 
-  // Derived 
-  late BlocVar<bool> isShowing;
-  late BlocVar<Widget?> currentChild;
-  late BlocVar<double?> currentSize;
+  // Derived
+  late Reactive<bool> isShowing;
+  late Reactive<Widget?> currentChild;
+  late Reactive<double?> currentSize;
 
   // Logic
   /// if the panel was opened already without displaying any alert before displaying the first
-  bool previouslyOpenedPanel = false; 
-
+  bool previouslyOpenedPanel = false;
 
   //================================
   // Constructor
-  _StageAlertData(this.parent){
-    currentChild = BlocVar.fromCorrelate<Widget?, List<Widget>>(
-      from: children, 
-      map: (l) => l.isEmpty ? null : l.last,
-    );
-    currentSize = BlocVar.fromCorrelate<double?, List<double>>(
-      from: sizes, 
-      map: (l) => l.isEmpty ? null : l.last,
-    );
-    isShowing = BlocVar.fromCorrelateLatest2<bool,Widget?,double?>(
-      currentChild,
-      currentSize, 
-      map: (c,s) => c != null && s != null,
-      distinct: true,
+  _StageAlertData(this.parent) {
+    currentChild = children.related<Widget?>((l) => l.isEmpty ? null : l.last);
+    currentSize = sizes.related<double?>((l) => l.isEmpty ? null : l.last);
+    isShowing = (currentChild, currentSize).related<bool>(
+      (c, s) => c != null && s != null,
     );
   }
-
-
 }

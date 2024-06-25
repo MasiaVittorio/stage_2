@@ -1,14 +1,11 @@
 import 'package:example/core.dart';
 
-
 enum PanelPage {
   theme,
   pages,
   dimensions,
   stateless,
 }
-
-
 
 extension PanelPageExt on PanelPage {
   String get name => PanelPages._names[this]!;
@@ -19,16 +16,15 @@ extension PanelPageExt on PanelPage {
 }
 
 class PanelPages {
+  static PanelPage fromName(String name) => reversedNames[name]!;
 
-  static PanelPage fromName(String name)=> reversedNames[name]!;
-
-  static const Map<PanelPage,String> _names = <PanelPage,String>{
+  static const Map<PanelPage, String> _names = <PanelPage, String>{
     PanelPage.theme: "Theme",
     PanelPage.stateless: "Stateless",
     PanelPage.dimensions: "Dimensions",
     PanelPage.pages: "Pages",
   };
-  static const Map<String,PanelPage> reversedNames = <String,PanelPage>{
+  static const Map<String, PanelPage> reversedNames = <String, PanelPage>{
     "Stored": PanelPage.theme,
     "Theme": PanelPage.theme,
     "Stateless": PanelPage.stateless,
@@ -36,31 +32,30 @@ class PanelPages {
     "Pages": PanelPage.pages,
   };
 
-  static const Map<PanelPage,String> _longNames = <PanelPage,String>{
+  static const Map<PanelPage, String> _longNames = <PanelPage, String>{
     PanelPage.theme: "Theme settings",
     PanelPage.pages: "Pages settings",
     PanelPage.dimensions: "Stage's geometry",
     PanelPage.stateless: "Stateless Variables",
   };
 
-  static const Map<PanelPage,String> _subtitles = <PanelPage,String>{
+  static const Map<PanelPage, String> _subtitles = <PanelPage, String>{
     PanelPage.theme: "Change colors",
     PanelPage.stateless: "Set once by the dev",
     PanelPage.dimensions: "Set boundaries",
     PanelPage.pages: "Customize main screen",
   };
 
-  static const Map<PanelPage,IconData> _iconsFilled = <PanelPage,IconData>{
-    PanelPage.theme: McIcons.palette,
-    PanelPage.stateless: McIcons.cog,
-    PanelPage.dimensions: McIcons.ruler,
-    PanelPage.pages: McIcons.cards,
+  static final Map<PanelPage, IconData> _iconsFilled = <PanelPage, IconData>{
+    PanelPage.theme: MdiIcons.palette,
+    PanelPage.stateless: MdiIcons.cog,
+    PanelPage.dimensions: MdiIcons.ruler,
+    PanelPage.pages: MdiIcons.cards,
   };
-  static const Map<PanelPage,IconData> _iconsOutlined = <PanelPage,IconData>{
-    PanelPage.theme: McIcons.palette_outline,
-    PanelPage.stateless: McIcons.cog_outline,
-    PanelPage.dimensions: McIcons.ruler,
-    PanelPage.pages: McIcons.cards_outline,
+  static final Map<PanelPage, IconData> _iconsOutlined = <PanelPage, IconData>{
+    PanelPage.theme: MdiIcons.paletteOutline,
+    PanelPage.stateless: MdiIcons.cogOutline,
+    PanelPage.dimensions: MdiIcons.ruler,
+    PanelPage.pages: MdiIcons.cardsOutline,
   };
-
 }

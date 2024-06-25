@@ -1,4 +1,4 @@
-part of stage;
+part of 'package:stage/stage.dart';
 
 // ignore: library_private_types_in_public_api
 extension StageAlertDataExt on _StageAlertData {
@@ -8,23 +8,19 @@ extension StageAlertDataExt on _StageAlertData {
   // Public
 
   // if size == double.infinity, scrolls to close the panel are ignored!
-  void showAlert(Widget child, {
-    double size = defaultAlertSize, 
-    bool replace = false
-  }) async {
-
-    if(parent.position > 0.0){
-      if(children.value.isEmpty){
+  void showAlert(Widget child, {double size = defaultAlertSize, bool replace = false}) async {
+    if (parent.position > 0.0) {
+      if (children.value.isEmpty) {
         previouslyOpenedPanel = true;
       }
       await parent._closeInternal!();
     }
 
-    if(parent.snackbarController.position != 0.0){
+    if (parent.snackbarController.position != 0.0) {
       await parent.snackbarController.close();
     }
 
-    if(replace && sizes.value.isNotEmpty && children.value.isNotEmpty){
+    if (replace && sizes.value.isNotEmpty && children.value.isNotEmpty) {
       sizes.value.removeLast();
       children.value.removeLast();
     }
@@ -37,42 +33,38 @@ extension StageAlertDataExt on _StageAlertData {
   }
 
   void recalcAlertSize(double newSize) {
-    if(sizes.value.isEmpty) return;
+    if (sizes.value.isEmpty) return;
     sizes.value.last = newSize;
     sizes.refresh();
   }
 
-
-
   //===================================
   // Private
 
-  void _removeOneChild(){
-    if(sizes.value.isNotEmpty) {
+  void _removeOneChild() {
+    if (sizes.value.isNotEmpty) {
       sizes.value.removeLast();
     }
-    if(children.value.isNotEmpty) {
+    if (children.value.isNotEmpty) {
       children.value.removeLast();
     }
     sizes.refresh();
     children.refresh();
   }
 
-
-  bool _closedAlertRoutine(){
-    if(children.value.isNotEmpty){
-      
+  bool _closedAlertRoutine() {
+    if (children.value.isNotEmpty) {
       _removeOneChild();
       bool shouldReOpen = false;
-      if(children.value.isEmpty){
-        if(previouslyOpenedPanel){
+      if (children.value.isEmpty) {
+        if (previouslyOpenedPanel) {
           shouldReOpen = true;
           previouslyOpenedPanel = false;
         }
       } else {
         shouldReOpen = true;
       }
-      if(shouldReOpen){
+      if (shouldReOpen) {
         SchedulerBinding.instance.addPostFrameCallback((_) {
           parent.open();
         });
@@ -82,14 +74,10 @@ extension StageAlertDataExt on _StageAlertData {
     return false;
   }
 
-
-  void _completelyCloseAlertRoutine(){
+  void _completelyCloseAlertRoutine() {
     children.value.clear();
     sizes.value.clear();
     sizes.refresh();
     children.refresh();
   }
-
-
 }
-

@@ -1,12 +1,11 @@
-import 'package:stage/stage.dart';
 import 'package:flutter/material.dart';
+import 'package:stage/stage.dart';
 
 class StageBrightnessToggle extends StatelessWidget {
-
   const StageBrightnessToggle({
     this.showDarkStylesOnlyIfDark = false,
-    Key? key,
-  }):super(key:key);
+    super.key,
+  });
 
   final bool showDarkStylesOnlyIfDark;
 
@@ -15,9 +14,9 @@ class StageBrightnessToggle extends StatelessWidget {
     final StageData stage = Stage.of(context)!;
     final controller = stage.themeController.brightness;
 
-    return BlocVar.build2<Brightness,bool?>(
-      controller.brightness, 
-      controller.autoDark, 
+    return Reactive.build2<Brightness, bool?>(
+      controller.brightness,
+      controller.autoDark,
       builder: (_, brightness, autoDark) => Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -38,18 +37,14 @@ class StageBrightnessToggle extends StatelessWidget {
         ],
       ),
     );
-
   }
 }
 
-
 class _LightDarkAuto extends StatelessWidget {
-
   const _LightDarkAuto({
     required this.brightness,
     required this.autoDark,
-    Key? key,
-  }): super(key: key);
+  });
 
   final bool? autoDark;
   final Brightness? brightness;
@@ -60,22 +55,26 @@ class _LightDarkAuto extends StatelessWidget {
     final controller = stage.themeController.brightness;
 
     return RadioSlider(
-      selectedIndex: autoDark! ? 1 : brightness!.isLight ? 0 : 2,
-      items: const [
+      selectedIndex: autoDark!
+          ? 1
+          : brightness!.isLight
+              ? 0
+              : 2,
+      items: [
         RadioSliderItem(
-          icon: Icon(McIcons.weather_sunny),
-          title: Text("Light"),
+          icon: Icon(MdiIcons.weatherSunny),
+          title: const Text("Light"),
         ),
-        RadioSliderItem(
+        const RadioSliderItem(
           icon: Icon(Icons.brightness_auto),
           title: Text("Auto"),
         ),
         RadioSliderItem(
-          icon: Icon(McIcons.weather_night),
-          title: Text("Dark"),
+          icon: Icon(MdiIcons.weatherNight),
+          title: const Text("Dark"),
         ),
       ],
-      onTap: (i){
+      onTap: (i) {
         switch (i) {
           case 0:
             controller.disableAutoDark(Brightness.light);
@@ -94,68 +93,59 @@ class _LightDarkAuto extends StatelessWidget {
 }
 
 class _TimeOfDayVSSystem extends StatelessWidget {
-
-  const _TimeOfDayVSSystem({
-    Key? key,
-  }): super(key: key);
+  const _TimeOfDayVSSystem();
 
   @override
   Widget build(BuildContext context) {
     final StageData stage = Stage.of(context)!;
     final controller = stage.themeController.brightness;
 
-    return controller.autoDarkMode.build(((_, mode)
-      => RadioSlider(
-        title: const Text("Based on:"),
-        selectedIndex: mode == AutoDarkMode.timeOfDay ? 0 : 1,
-        items: const [
-          RadioSliderItem(
-            icon: Icon(McIcons.theme_light_dark),
-            title: Text("Day time"),
-          ),
-          RadioSliderItem(
-            icon: Icon(Icons.timeline),
-            title: Text("System"),
-          ),
-        ],
-        onTap: (i){
-          if(i == 0) {
-            controller.autoDarkBasedOnTime();
-          } else {
-            controller.autoDarkBasedOnSystem(context);
-          }
-        },
-      )),
+    return controller.autoDarkMode.build(
+      ((_, mode) => RadioSlider(
+            title: const Text("Based on:"),
+            selectedIndex: mode == AutoDarkMode.timeOfDay ? 0 : 1,
+            items: [
+              RadioSliderItem(
+                icon: Icon(MdiIcons.themeLightDark),
+                title: const Text("Day time"),
+              ),
+              const RadioSliderItem(
+                icon: Icon(Icons.timeline),
+                title: Text("System"),
+              ),
+            ],
+            onTap: (i) {
+              if (i == 0) {
+                controller.autoDarkBasedOnTime();
+              } else {
+                controller.autoDarkBasedOnSystem(context);
+              }
+            },
+          )),
     );
-
   }
-
 }
 
 class _DarkStyleSwitcher extends StatelessWidget {
-
-  const _DarkStyleSwitcher({
-    Key? key,
-  }): super(key: key);
-
+  const _DarkStyleSwitcher();
 
   @override
   Widget build(BuildContext context) {
     final StageData stage = Stage.of(context)!;
     final controller = stage.themeController.brightness;
 
-    return controller.darkStyle.build(((_, darkStyle)
-      => ListTile(
-        title: const Text("Dark Style:"),
-        trailing: AnimatedText(
-          darkStyle.name,
-          duration: const Duration(milliseconds: 220),
-        ),
-        leading: const Icon(Icons.format_color_fill),
-        onTap: (){
-          controller.darkStyle.setDistinct(darkStyle.next);
-        },
-      )),
+    return controller.darkStyle.build(
+      ((_, darkStyle) => ListTile(
+            title: const Text("Dark Style:"),
+            trailing: AnimatedText(
+              darkStyle.name,
+              duration: const Duration(milliseconds: 220),
+            ),
+            leading: const Icon(Icons.format_color_fill),
+            onTap: () {
+              controller.darkStyle.update(darkStyle.next);
+            },
+          )),
     );
   }
 }

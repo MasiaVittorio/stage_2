@@ -1,39 +1,32 @@
-part of stage;
-
+part of 'package:stage/stage.dart';
 
 class _StageDimensionsData {
-
   //================================
   // Disposer
-  void dispose(){
+  void dispose() {
     dimensions.dispose();
   }
-
-
 
   //================================
   // Values
   final StageData parent;
 
-  final BlocVar<StageDimensions> dimensions;
+  final Reactive<StageDimensions> dimensions;
 
   //================================
   // Constructor
-  _StageDimensionsData(this.parent, {
+  _StageDimensionsData(
+    this.parent, {
     required StageDimensions initialDimensions,
-  }): dimensions = BlocVar.modal<StageDimensions>(
-    initVal: initialDimensions,
-    key: parent._getStoreKey("stage_dimensions"), 
-    toJson: (dim) => dim.json,
-    fromJson: (json) => StageDimensions.fromJson(json),
-    readCallback: (_) => parent._readCallback("stage_dimensions"),
-  );
-
+  }) : dimensions = Reactive.modal<StageDimensions>(
+          initVal: initialDimensions,
+          key: parent._getStoreKey("stage_dimensions"),
+          toJsonEncodable: (dim) => dim.json,
+          fromJsonDecoded: (json) => StageDimensions.fromJson(json),
+          readCallback: (_) => parent._readCallback("stage_dimensions"),
+        );
 
   //===========================================
   // Getters
-  bool get _isCurrentlyReading => parent.storeKey != null && (
-    dimensions.modalReading
-  );
-
+  bool get _isCurrentlyReading => parent.storeKey != null && (dimensions.modalReading);
 }

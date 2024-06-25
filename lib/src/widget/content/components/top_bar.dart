@@ -1,6 +1,6 @@
-part of stage;
+part of 'package:stage/stage.dart';
 
-class _TopBar<T,S> extends StatelessWidget {
+class _TopBar<T, S> extends StatelessWidget {
   const _TopBar({
     required this.animation,
     required this.openedPanelSubtitle,
@@ -20,8 +20,7 @@ class _TopBar<T,S> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final StageData<T,S> data = Stage.of<T,S>(context)!;
+    final StageData<T, S> data = Stage.of<T, S>(context)!;
     final ThemeData theme = Theme.of(context);
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double topPadding = mediaQuery.padding.top;
@@ -40,59 +39,57 @@ class _TopBar<T,S> extends StatelessWidget {
 
     Widget child = Padding(
       padding: EdgeInsets.only(top: topPadding),
-      child: data.dimensionsController.dimensions.build(((_, dimensions)
-        => _RowOfContent(
-          dimensions: dimensions,
-          alignedTitles: alignedTitles,
-          secondary: secondary,
-        )),
+      child: data.dimensionsController.dimensions.build(
+        ((_, dimensions) => _RowOfContent(
+              dimensions: dimensions,
+              alignedTitles: alignedTitles,
+              secondary: secondary,
+            )),
       ),
     );
 
-    return StageBuild.offPrimaryColorAndItsBrightness((_, currentColor, brightness)
-      => data.themeController.colorPlace.build(((context, place) 
-      => data.themeController.topBarElevations.build((context,elevations) {
-        final Color color = place.isTexts 
-          ? theme.canvasColor : (currentColor ?? Colors.blue);
-        final Color textColor = place.isTexts 
-          ? theme.colorScheme.onSurface : brightness.contrast;
+    return StageBuild.offPrimaryColorAndItsBrightness(
+      (_, currentColor, brightness) => data.themeController.colorPlace.build(
+        ((context, place) => data.themeController.topBarElevations.build(
+              (context, elevations) {
+                final Color color =
+                    place.isTexts ? theme.canvasColor : (currentColor ?? Colors.blue);
+                final Color textColor =
+                    place.isTexts ? theme.colorScheme.onSurface : brightness.contrast;
 
-        return Material(
-          color: color,
-          elevation: elevations[place] 
-            ?? StageThemeData.defaultTopBarElevations[place]!,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            color: color,
-            child: Material(
-              type: MaterialType.transparency,
-              child: DefaultTextStyle.merge(
-                style: theme.primaryTextTheme.titleLarge!.copyWith(
-                  color: textColor,
-                  fontWeight: FontWeight.w600,
-                ),
-                child: IconTheme(
-                  data: IconThemeData(
-                    color: textColor, 
-                    opacity: 1.0, 
-                    size: 24.0,
+                return Material(
+                  color: color,
+                  elevation: elevations[place] ?? StageThemeData.defaultTopBarElevations[place]!,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    color: color,
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: DefaultTextStyle.merge(
+                        style: theme.primaryTextTheme.titleLarge!.copyWith(
+                          color: textColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        child: IconTheme(
+                          data: IconThemeData(
+                            color: textColor,
+                            opacity: 1.0,
+                            size: 24.0,
+                          ),
+                          child: child,
+                        ),
+                      ),
+                    ),
                   ),
-                  child: child,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-      )),),);
-
+                );
+              },
+            )),
+      ),
+    );
   }
-
 }
 
-
 class _RowOfContent extends StatelessWidget {
-
   const _RowOfContent({
     required this.dimensions,
     required this.alignedTitles,
@@ -105,11 +102,10 @@ class _RowOfContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final MediaQueryData mediaQuery = MediaQuery.of(context);
 
     return Align(
-      alignment: Alignment(0.0,mediaQuery.size.aspectRatio >= 1.0 ? -1.0 : 0.0),
+      alignment: Alignment(0.0, mediaQuery.size.aspectRatio >= 1.0 ? -1.0 : 0.0),
       child: SizedBox(
         height: dimensions.barSize,
         child: Row(
@@ -126,15 +122,17 @@ class _RowOfContent extends StatelessWidget {
             Expanded(
               child: alignedTitles,
             ),
-            if(secondary != null) Container(
-              width: dimensions.barSize,
-              height: dimensions.barSize,
-              alignment: Alignment.center,
-              child: secondary,
-            )
-            else SizedBox(
-              width: dimensions.barSize,
-            ),
+            if (secondary != null)
+              Container(
+                width: dimensions.barSize,
+                height: dimensions.barSize,
+                alignment: Alignment.center,
+                child: secondary,
+              )
+            else
+              SizedBox(
+                width: dimensions.barSize,
+              ),
           ],
         ),
       ),
@@ -142,50 +140,45 @@ class _RowOfContent extends StatelessWidget {
   }
 }
 
-
 class _MenuButton extends StatelessWidget {
-
   const _MenuButton();
 
   @override
   Widget build(BuildContext context) {
-    
     final StageData data = Stage.of(context)!;
 
-    return data.badgesController.panelPages.build(((_, panelBadges) 
-      => data.panelController.isMostlyOpenedNonAlert.build(((_, openNonAlert) 
-      => Badge(
-        showBadge: !(openNonAlert) && panelBadges.values.any((v) => v == true),
-        badgeContent: null,
-        toAnimate: false,
-        shape: BadgeShape.circle,
-        // alignment: Alignment.topRight,
-        badgeColor: Theme.of(context).colorScheme.secondary,
-        position: BadgePosition.topEnd(top: 8, end: 8),
-        ignorePointer: true,
-        child: IconButton(
-          onPressed: (){
-            if(data.panelController.isMostlyOpenedNonAlert.value){
-              data.panelController.close();
-            } else {
-              data.panelController.open();
-            }
-          },
-          icon: ImplicitlySwitchingIcon(
-            firstIcon: AnimatedIcons.menu_close,
-            secondIcon: AnimatedIcons.close_menu,
-            duration: const Duration(milliseconds: 300),
-            progress: openNonAlert ? 1.0 : 0.0, 
-          ),
-        ),
-      )),
-    )));
+    return data.badgesController.panelPages
+        .build(((_, panelBadges) => data.panelController.isMostlyOpenedNonAlert.build(
+              ((_, openNonAlert) => Badge(
+                    showBadge: !(openNonAlert) && panelBadges.values.any((v) => v == true),
+                    badgeContent: null,
+                    toAnimate: false,
+                    shape: BadgeShape.circle,
+                    // alignment: Alignment.topRight,
+                    badgeColor: Theme.of(context).colorScheme.secondary,
+                    position: BadgePosition.topEnd(top: 8, end: 8),
+                    ignorePointer: true,
+                    child: IconButton(
+                      onPressed: () {
+                        if (data.panelController.isMostlyOpenedNonAlert.value) {
+                          data.panelController.close();
+                        } else {
+                          data.panelController.open();
+                        }
+                      },
+                      icon: ImplicitlySwitchingIcon(
+                        firstIcon: AnimatedIcons.menu_close,
+                        secondIcon: AnimatedIcons.close_menu,
+                        duration: const Duration(milliseconds: 300),
+                        progress: openNonAlert ? 1.0 : 0.0,
+                      ),
+                    ),
+                  )),
+            )));
   }
 }
 
-
 class _AlignedTitles extends StatelessWidget {
-
   const _AlignedTitles({
     required this.alignment,
     required this.animation,
@@ -208,7 +201,7 @@ class _AlignedTitles extends StatelessWidget {
           alignment: alignment,
           child: appBarTitle,
         ),
-        if(subtitle != null)
+        if (subtitle != null)
           _AnimateSubtitle(
             animation: animation,
             alignment: alignment,
@@ -219,9 +212,7 @@ class _AlignedTitles extends StatelessWidget {
   }
 }
 
-
 class _AnimateSubtitle extends StatelessWidget {
-
   const _AnimateSubtitle({
     required this.animation,
     required this.subtitle,
@@ -234,11 +225,10 @@ class _AnimateSubtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     final StageData data = Stage.of(context)!;
 
-    return data.panelController.alertController.isShowing.build((context, alert){
-      if(alert){
+    return data.panelController.alertController.isShowing.build((context, alert) {
+      if (alert) {
         return Container();
       } else {
         return AnimatedBuilder(
@@ -254,9 +244,10 @@ class _AnimateSubtitle extends StatelessWidget {
                 alignment: const AlignmentDirectional(-1.0, 1.0),
                 heightFactor: clampedVal,
                 child: Opacity(
-                  opacity: DoubleExt.mapToRange(clampedVal, 0.0, 1.0, fromMin: 0.4), 
+                  // opacity: DoubleExt.mapToRange(clampedVal, 0.0, 1.0, fromMin: 0.4),
+                  opacity: clampedVal.mapToRangeFrom((0, 1), (0.4, 1)),
                   // it disappears by fading before disappearing by clipping
-                  child: child, 
+                  child: child,
                 ),
               ),
             );
@@ -264,20 +255,17 @@ class _AnimateSubtitle extends StatelessWidget {
         );
       }
     });
- 
   }
 }
 
-
 class _Subtitle extends StatelessWidget {
-
   const _Subtitle(this.child);
-  
+
   final Widget? child;
 
   @override
   Widget build(BuildContext context) {
-    if(child == null) return Container();
+    if (child == null) return Container();
 
     final TextStyle def = DefaultTextStyle.of(context).style;
 
@@ -288,16 +276,12 @@ class _Subtitle extends StatelessWidget {
       ),
       child: child!,
     );
-
   }
 }
 
-
 extension _FontWeightExt on FontWeight {
-  FontWeight get thinner => FontWeight.values[
-    (FontWeight.values.indexOf(this) - 1)
-    .clamp(3, FontWeight.values.length -1)
-  ];
+  FontWeight get thinner => FontWeight
+      .values[(FontWeight.values.indexOf(this) - 1).clamp(3, FontWeight.values.length - 1)];
   // FontWeight get bolder => FontWeight.values[
   //   (FontWeight.values.indexOf(this) - 1)
   //   .clamp(0, FontWeight.values.length - 1)

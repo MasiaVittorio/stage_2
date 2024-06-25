@@ -1,18 +1,16 @@
 // ignore_for_file: library_private_types_in_public_api
 
-part of stage;
+part of 'package:stage/stage.dart';
 
 ///This is the controller of a [Stage]. It contains all the logic of it.
 /// You can access it by calling [Stage.of(context)].
-/// You can have it store its values (for user-side customizations) on disk by providing an unique key 
+/// You can have it store its values (for user-side customizations) on disk by providing an unique key
 /// that distinguish it from others.
 /// The main pages are identified by the T type, the panel pages (optional), by the S type.
-class StageData<T,S> {
-
-
+class StageData<T, S> {
   //================================
   // Disposer
-  void dispose(){
+  void dispose() {
     isReadingFromDisk.dispose();
     panelPagesController?.dispose();
     mainPagesController.dispose();
@@ -22,9 +20,6 @@ class StageData<T,S> {
     badgesController.dispose();
   }
 
-
-
-
   //================================
   // Values
 
@@ -33,24 +28,41 @@ class StageData<T,S> {
   final String? storeKey;
 
   /// Persistence
-  final T Function(dynamic)? _jsonToMainPage; /// Reading the main page from disk
-  final dynamic Function(T)? _mainPageToJson; /// Writing a main page to disk (useless if T is an already jsonable type like String or int)
+  final T Function(dynamic)? _jsonToMainPage;
+
+  /// Reading the main page from disk
+  final dynamic Function(T)? _mainPageToJson;
+
+  /// Writing a main page to disk (useless if T is an already jsonable type like String or int)
   final S Function(dynamic)? _jsonToPanelPage;
   final dynamic Function(S)? _panelPageToJson;
 
-  /// wether this controller is still reading the 
+  /// wether this controller is still reading the
   /// saved values from disk for at least one variable
-  final BlocVar<bool> isReadingFromDisk = BlocVar<bool>(true);
+  final Reactive<bool> isReadingFromDisk = Reactive<bool>(true);
 
   /// Controllers
-  late _StageDimensionsData dimensionsController; /// Panel / Scaffold dimensions and stuff
-  late _StagePagesData<T> mainPagesController; /// Main screen navigation
-  _StagePagesData<S>? panelPagesController; /// In-panel navigation: This whole controller may be null if the panel does not have different pages
-  late _StagePanelData panelController; /// Opening and closing the panel
-  late _StageThemeData<T,S> themeController; /// Theming options (Colors / Brightnesses...)
-  final StagePopBehavior popBehavior; /// Cannot be customize by the user or change over time
-  late _StageBadgesData<T,S> badgesController; /// Putting badges to alert the user about going to a certain page
+  late _StageDimensionsData dimensionsController;
 
+  /// Panel / Scaffold dimensions and stuff
+  late _StagePagesData<T> mainPagesController;
+
+  /// Main screen navigation
+  _StagePagesData<S>? panelPagesController;
+
+  /// In-panel navigation: This whole controller may be null if the panel does not have different pages
+  late _StagePanelData panelController;
+
+  /// Opening and closing the panel
+  late _StageThemeData<T, S> themeController;
+
+  /// Theming options (Colors / Brightnesses...)
+  final StagePopBehavior popBehavior;
+
+  /// Cannot be customize by the user or change over time
+  late _StageBadgesData<T, S> badgesController;
+
+  /// Putting badges to alert the user about going to a certain page
 
   //================================
   // Constructor
@@ -63,22 +75,26 @@ class StageData<T,S> {
     required dynamic Function(S)? panelPageToJson,
 
     // Initial data
-    required StageThemeData<T,S> initialThemeData,
+    required StageThemeData<T, S> initialThemeData,
     required StagePagesData<T> initialMainPagesData,
-    required StagePagesData<S>? initialPanelPagesData, /// Could be null
-    required StageDimensions? initialDimensions, /// Could be null
-    required StagePanelData? panelData, /// Could be null
+    required StagePagesData<S>? initialPanelPagesData,
+
+    /// Could be null
+    required StageDimensions? initialDimensions,
+
+    /// Could be null
+    required StagePanelData? panelData,
+
+    /// Could be null
     required void Function(T)? onMainPageChanged,
+    required StagePopBehavior? popBehavior,
 
-    required StagePopBehavior? popBehavior, /// Could be null
-  }) :
-      _jsonToMainPage = jsonToMainPage,
-      _jsonToPanelPage = jsonToPanelPage,
-      _mainPageToJson = mainPageToJson,
-      _panelPageToJson = panelPageToJson,
-      popBehavior = popBehavior ?? const StagePopBehavior()
-  {
-
+    /// Could be null
+  })  : _jsonToMainPage = jsonToMainPage,
+        _jsonToPanelPage = jsonToPanelPage,
+        _mainPageToJson = mainPageToJson,
+        _panelPageToJson = panelPageToJson,
+        popBehavior = popBehavior ?? const StagePopBehavior() {
     panelController = _StagePanelData(
       this,
       initialData: panelData ?? StagePanelData(),
@@ -94,43 +110,43 @@ class StageData<T,S> {
       uniqueKey: "MAIN",
       onPageChanged: onMainPageChanged,
       initialData: initialMainPagesData,
-      pageToJson: (T p) => _writeMainPage(p), 
+      pageToJson: (T p) => _writeMainPage(p),
       jsonToPage: (j) => _readMainPage(j),
+
       /// ^ Needed explicitly as it is different if the pages controller is dedicated to the panel or the main pages
     );
 
     /// This whole controller may be null if the panel does not have different pages
-    panelPagesController = initialPanelPagesData == null ? null : _StagePagesData<S>(
-      this,
-      uniqueKey: "PANEL",
-      onPageChanged: null,
-      initialData: initialPanelPagesData,
-      pageToJson: (S p) => _writePanelPage(p),
-      jsonToPage: (j) => _readPanelPage(j),
-      /// ^ Needed explicitly as it is different if the pages controller is dedicated to the panel or the main pages
-    );
+    panelPagesController = initialPanelPagesData == null
+        ? null
+        : _StagePagesData<S>(
+            this,
+            uniqueKey: "PANEL",
+            onPageChanged: null,
+            initialData: initialPanelPagesData,
+            pageToJson: (S p) => _writePanelPage(p),
+            jsonToPage: (j) => _readPanelPage(j),
 
-    
+            /// ^ Needed explicitly as it is different if the pages controller is dedicated to the panel or the main pages
+          );
+
     /// This controller has some variables that are derived from the current page and the state of the panel.
     /// Therefore it has to be initialized last
-    themeController = _StageThemeData<T,S>(
+    themeController = _StageThemeData<T, S>(
       this,
       initialData: initialThemeData,
     );
 
-    badgesController = _StageBadgesData<T,S>(this);
-    
+    badgesController = _StageBadgesData<T, S>(this);
+
     _readCallback("controller initialized");
 
-    Future.delayed(const Duration(milliseconds: 100)).then((_){
+    Future.delayed(const Duration(milliseconds: 100)).then((_) {
       _readCallback("controller initialized delayed for safety");
-    }); /// Some of the BlocVars callbacks are not called for some misterious fucking reason
+    });
 
+    /// Some of the BlocVars callbacks are not called for some misterious fucking reason
   }
-
-
-
-
 
   //====================================
   // Private Stuff
@@ -139,72 +155,67 @@ class StageData<T,S> {
 
   void _readCallback(String note) async {
     final bool current = _isCurrentlyReading;
-    isReadingFromDisk.setDistinct(current);
+    isReadingFromDisk.update(current);
   }
 
-  bool get _isCurrentlyReading => storeKey != null && (
-    (dimensionsController._isCurrentlyReading) ||
-    (mainPagesController._isCurrentlyReading) ||
-    (themeController._isCurrentlyReading) || // if these and  up are null it means that those controllers are not initialised yet
-    (panelPagesController?._isCurrentlyReading ?? false) ||
-    (badgesController._isCurrentlyReading)
-  );
+  bool get _isCurrentlyReading =>
+      storeKey != null &&
+      ((dimensionsController._isCurrentlyReading) ||
+          (mainPagesController._isCurrentlyReading) ||
+          (themeController
+              ._isCurrentlyReading) || // if these and  up are null it means that those controllers are not initialised yet
+          (panelPagesController?._isCurrentlyReading ?? false) ||
+          (badgesController._isCurrentlyReading));
 
   S _readPanelPage(dynamic j) => _jsonToPanelPage?.call(j) ?? j as S;
   dynamic _writePanelPage(S p) => _panelPageToJson?.call(p) ?? p;
   T _readMainPage(dynamic j) => _jsonToMainPage?.call(j) ?? j as T;
   dynamic _writeMainPage(T p) => _mainPageToJson?.call(p) ?? p;
 
-
   Future<bool> _decidePop() async {
-    
     final _StageSnackBarData snackBarData = panelController.snackbarController;
     final _StageAlertData alertData = panelController.alertController;
 
-
-    if(snackBarData.isShowing!.value!){
+    if (snackBarData.isShowing!.value!) {
       snackBarData.close();
       return false;
-    } else if(alertData.isShowing.value){
-      if(panelController.isMostlyOpened.value){
+    } else if (alertData.isShowing.value) {
+      if (panelController.isMostlyOpened.value) {
         panelController.close();
         return false;
       }
     } else {
-      if(panelController.isMostlyOpened.value){
-        if(popBehavior.backToPreviousPanelPage){
+      if (panelController.isMostlyOpened.value) {
+        if (popBehavior.backToPreviousPanelPage) {
           /// The entire panel pages controller may be null if the panel does not have pages
-          if(panelPagesController?._backToPreviousPage() ?? false){
-            return false; 
-          } 
+          if (panelPagesController?._backToPreviousPage() ?? false) {
+            return false;
+          }
+
           /// While the pop behavior always has non null parameters
         }
-        if(popBehavior.backToDefaultPanelPage){
-          if(panelPagesController?._backToDefaultPage() ?? false){
+        if (popBehavior.backToDefaultPanelPage) {
+          if (panelPagesController?._backToDefaultPage() ?? false) {
             return false;
           }
         }
-        if(popBehavior.backToClosePanel){
+        if (popBehavior.backToClosePanel) {
           panelController.close();
           return false;
         }
       } else {
-        if(popBehavior.backToPreviousMainPage){
-          if(mainPagesController._backToPreviousPage()){
+        if (popBehavior.backToPreviousMainPage) {
+          if (mainPagesController._backToPreviousPage()) {
             return false;
           }
         }
-        if(popBehavior.backToDefaultMainPage){
-          if(mainPagesController._backToDefaultPage()){
+        if (popBehavior.backToDefaultMainPage) {
+          if (mainPagesController._backToDefaultPage()) {
             return false;
           }
         }
       }
     }
     return true;
-  } 
-
-
-
-
+  }
 }

@@ -1,7 +1,6 @@
-part of stage;
+part of 'package:stage/stage.dart';
 
 class _Panel extends StatelessWidget {
-
   const _Panel({
     required this.panelAnimation,
     required this.snackBarAnimation,
@@ -19,26 +18,29 @@ class _Panel extends StatelessWidget {
   });
 
   final void Function(DragUpdateDetails, double) onPanelDrag;
-  final void Function(DragEndDetails)  onPanelDragEnd;
+  final void Function(DragEndDetails) onPanelDragEnd;
 
   final Animation<double> panelAnimation;
   final Animation<double> snackBarAnimation;
   final double realDelta;
   final _StageDerivedDimensions derived;
   final StageDimensions dimensions;
-  // final bool thereIsCollapsed; 
-  final Widget? boxedCollapsed; /// Could be null
+  // final bool thereIsCollapsed;
+  final Widget? boxedCollapsed;
+
+  /// Could be null
   final Widget boxedExtended;
 
   final double maxAlertHeight;
 
-  final StageShadowBuilder shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
+  final StageShadowBuilder
+      shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
   final BoxShadow? singleShadow; // If you do not need to animate the shadow
-  final StagePanelDecorationBuilder? customDecorationBuilder; // To override shadows, radiuses, background color etc
+  final StagePanelDecorationBuilder?
+      customDecorationBuilder; // To override shadows, radiuses, background color etc
 
   @override
   Widget build(BuildContext context) {
-
     final Widget content = _PanelContent(
       alertMaxHeight: maxAlertHeight,
       derived: derived,
@@ -56,55 +58,55 @@ class _Panel extends StatelessWidget {
     return AnimatedBuilder(
       animation: panelAnimation,
       child: content,
-      builder: (_, child){
-
+      builder: (_, child) {
         // Much faster without clamping, but not suitable if the animation overshoots
         final double clampedVal = panelAnimation.value.clamp(0.0, 1.0);
 
-        final Widget result = data.themeController.colorPlace.build((context, place) 
-          => data.themeController.derived.currentPrimaryColor.build((_, mainPrimaryColor) 
-            => Container(
-
+        final Widget result = data.themeController.colorPlace.build(
+          (context, place) => data.themeController.derived.currentPrimaryColor.build(
+            (_, mainPrimaryColor) => Container(
               decoration: customDecorationBuilder?.call(
-                clampedVal,
-                theme,
-                place,
-                dimensions,
-                mainPrimaryColor,
-              ) ?? BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  clampedVal.mapToRangeLoose(
-                    dimensions.panelRadiusClosed, 
-                    dimensions.panelRadiusOpened,
+                    clampedVal,
+                    theme,
+                    place,
+                    dimensions,
+                    mainPrimaryColor,
+                  ) ??
+                  BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                      clampedVal.mapToRangeLoose(
+                        dimensions.panelRadiusClosed,
+                        dimensions.panelRadiusOpened,
+                      ),
+                    ),
+                    boxShadow: [singleShadow ?? shadowBuilder(clampedVal, place)],
                   ),
-                ),
-                boxShadow: [singleShadow ?? shadowBuilder(clampedVal, place)],
-              ),
 
               //this is really heavy but needed for the various layers of stuff in the content
-              clipBehavior: Clip.antiAliasWithSaveLayer, 
+              clipBehavior: Clip.antiAliasWithSaveLayer,
 
               child: child,
             ),
           ),
         );
-        
+
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: clampedVal.mapToRangeLoose(
-            dimensions.panelHorizontalPaddingClosed, 
+          padding: EdgeInsets.symmetric(
+              horizontal: clampedVal.mapToRangeLoose(
+            dimensions.panelHorizontalPaddingClosed,
             dimensions.panelHorizontalPaddingOpened,
           )),
-          child: data.panelController.alertController.currentSize
-            .build((_, alertSize) => alertSize == double.infinity 
-              ? result 
-              : GestureDetector(
-                onVerticalDragUpdate: (details) => onPanelDrag(details, realDelta),
-                onVerticalDragEnd: onPanelDragEnd,
-                child: result,
-              ),),
+          child: data.panelController.alertController.currentSize.build(
+            (_, alertSize) => alertSize == double.infinity
+                ? result
+                : GestureDetector(
+                    onVerticalDragUpdate: (details) => onPanelDrag(details, realDelta),
+                    onVerticalDragEnd: onPanelDragEnd,
+                    child: result,
+                  ),
+          ),
         );
       },
     );
-
   }
 }

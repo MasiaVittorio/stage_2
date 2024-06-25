@@ -1,33 +1,28 @@
-part of stage;
+part of 'package:stage/stage.dart';
 
 class _StageUtils {
-
-  static bool _compareMaps<T,S>(
-    Map<T,S>? first, 
-    Map<T,S>? second, [
-      bool Function(S one,S? two)? compareValue
-    ]
-  ){
-    if(first == null && second == null) {
+  static bool _compareMaps<T, S>(Map<T, S>? first, Map<T, S>? second,
+      [bool Function(S one, S? two)? compareValue]) {
+    if (first == null && second == null) {
       return true;
     }
-    if(first == null || second == null) {
+    if (first == null || second == null) {
       return false;
     }
-    if(first.length != second.length) {
+    if (first.length != second.length) {
       return false;
     }
-    for(final entry in first.entries){
-      if(!second.containsKey(entry.key)){
+    for (final entry in first.entries) {
+      if (!second.containsKey(entry.key)) {
         return false;
       } else {
-        if(compareValue != null){
-          if(!compareValue(
+        if (compareValue != null) {
+          if (!compareValue(
             entry.value,
             second[entry.key],
           )) return false;
         } else {
-          if(entry.value != second[entry.key]) {
+          if (entry.value != second[entry.key]) {
             return false;
           }
         }

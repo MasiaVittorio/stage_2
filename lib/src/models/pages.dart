@@ -1,8 +1,6 @@
-part of stage;
-
+part of 'package:stage/stage.dart';
 
 class StagePage {
-
   final String name;
   final String longName;
   final IconData icon;
@@ -13,7 +11,7 @@ class StagePage {
     String? longName,
     required this.icon,
     this.unselectedIcon,
-  }): longName = longName ?? name;
+  }) : longName = longName ?? name;
 
   StagePage copyWith({
     String? name,
@@ -21,27 +19,27 @@ class StagePage {
     Color? primaryColor,
     IconData? icon,
     IconData? unselectedIcon,
-  })=> StagePage(
-    name: name ?? this.name,
-    longName: longName ?? this.longName,
-    icon: icon ?? this.icon,
-    unselectedIcon: unselectedIcon ?? this.unselectedIcon,
-  );
+  }) =>
+      StagePage(
+        name: name ?? this.name,
+        longName: longName ?? this.longName,
+        icon: icon ?? this.icon,
+        unselectedIcon: unselectedIcon ?? this.unselectedIcon,
+      );
 
-  static bool compare(StagePage first, StagePage second){
-    if(first.name != second.name) {
+  static bool compare(StagePage first, StagePage second) {
+    if (first.name != second.name) {
       return false;
     }
-    if(first.longName != second.longName) {
+    if (first.longName != second.longName) {
       return false;
     }
-    if(first.icon != second.icon) {
+    if (first.icon != second.icon) {
       return false;
     }
-    if(first.unselectedIcon != second.unselectedIcon) {
+    if (first.unselectedIcon != second.unselectedIcon) {
       return false;
     }
     return true;
   }
-
 }

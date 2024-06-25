@@ -1,28 +1,25 @@
-part of stage;
+part of 'package:stage/stage.dart';
 
 // ignore: library_private_types_in_public_api
 extension StagePagesDataExt<T> on _StagePagesData<T> {
-
   ///========================================
   /// Public
-  
-  Map<T?,bool>? get currentlyEnabledPages => _enabledPages.value;
 
+  Map<T?, bool>? get currentlyEnabledPages => _enabledPages.value;
 
-  /// ==> Ordered Pages 
-  bool movePage(int from, int to){
+  /// ==> Ordered Pages
+  bool movePage(int from, int to) {
     // Nice little extension method, null and out-of-range proof
-    final bool ret = _orderedPages.value.move(from, to); 
+    final bool ret = _orderedPages.value.move(from, to);
     _orderedPages.refresh();
     return ret;
   }
 
-
-  /// ==> Pages Enable / Disable 
-  bool enablePage(T enablablePage){
+  /// ==> Pages Enable / Disable
+  bool enablePage(T enablablePage) {
     // Check if useful
-    if(!pagesData.containsKey(enablablePage)) return false;
-    if(_enabledPages.value[enablablePage] == true) return false;
+    if (!pagesData.containsKey(enablablePage)) return false;
+    if (_enabledPages.value[enablablePage] == true) return false;
 
     // Actually enable
     _enabledPages.value[enablablePage] = true;
@@ -30,13 +27,13 @@ extension StagePagesDataExt<T> on _StagePagesData<T> {
     return true;
   }
 
-  bool disablePage(T disablablePage){
+  bool disablePage(T disablablePage) {
     // Check if useful
-    if(!pagesData.containsKey(disablablePage)) return false;
-    if(_enabledPages.value[disablablePage] == false) return false;
+    if (!pagesData.containsKey(disablablePage)) return false;
+    if (_enabledPages.value[disablablePage] == false) return false;
 
     // Avoid that page if it is the current one
-    if(!_avoidPage(disablablePage)) return false; // There was no other page to get back to!
+    if (!_avoidPage(disablablePage)) return false; // There was no other page to get back to!
 
     // Actually disable
     _previousPages.remove(disablablePage);
@@ -45,25 +42,25 @@ extension StagePagesDataExt<T> on _StagePagesData<T> {
     return true; // All went well
   }
 
-  bool togglePage(T toggleablePage){
-    if(_enabledPages.value[toggleablePage] ?? true){
+  bool togglePage(T toggleablePage) {
+    if (_enabledPages.value[toggleablePage] ?? true) {
       return disablePage(toggleablePage);
     } else {
       return enablePage(toggleablePage);
     }
   }
 
-  bool enableAllPages(){
+  bool enableAllPages() {
     bool changed = false;
 
-    for(final p in _enabledPages.value.keys){
-      if(!_enabledPages.value[p]!){
+    for (final p in _enabledPages.value.keys) {
+      if (!_enabledPages.value[p]!) {
         _enabledPages.value[p] = true;
         changed = true;
       }
     }
 
-    if(changed){
+    if (changed) {
       _enabledPages.refresh();
       return true;
     } else {
@@ -78,14 +75,14 @@ extension StagePagesDataExt<T> on _StagePagesData<T> {
   ///==============================================
   /// Private
 
-  /// Only used privately before disabling a page 
-  bool _avoidPage(T? pageToAvoid){
-    if(_page.value == pageToAvoid){
-      if(goToPage(defaultPage)){ 
+  /// Only used privately before disabling a page
+  bool _avoidPage(T? pageToAvoid) {
+    if (_page.value == pageToAvoid) {
+      if (goToPage(defaultPage)) {
         return true; // The default was enabled and different from the current one
       } else {
-        for(final p in  _orderedPages.value){
-          if(goToPage(p)){
+        for (final p in _orderedPages.value) {
+          if (goToPage(p)) {
             return true; // This page was enabled and different from the current one
           }
         }
@@ -95,7 +92,4 @@ extension StagePagesDataExt<T> on _StagePagesData<T> {
       return true; // No reason, already avoided
     }
   }
-
-
-
 }

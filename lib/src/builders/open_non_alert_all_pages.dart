@@ -1,19 +1,18 @@
-part of stage;
+part of 'package:stage/stage.dart';
 
-class _StageBuildOffOpenNonAlertAllPages<T,S> extends StatelessWidget {
-
+class _StageBuildOffOpenNonAlertAllPages<T, S> extends StatelessWidget {
   const _StageBuildOffOpenNonAlertAllPages(this.builder);
 
   final Widget Function(BuildContext context, bool openNonAlert, T? mainPage, S? panelPage) builder;
 
   @override
   Widget build(BuildContext context) {
-    final StageData<T,S> stage = Stage.of<T,S>(context)!;
+    final StageData<T, S> stage = Stage.of<T, S>(context)!;
 
-    return BlocVar.build3<bool,T?,S?>(
+    return Reactive.build3<bool, T?, S?>(
       stage.panelController.isMostlyOpenedNonAlert,
       stage.mainPagesController._page,
-      stage.panelPagesController?._page ?? BlocVar<S?>(null),
+      stage.panelPagesController?._page ?? Reactive<S?>(null),
       builder: (con, op, mpg, ppg) => builder(con, op, mpg, ppg),
     );
   }

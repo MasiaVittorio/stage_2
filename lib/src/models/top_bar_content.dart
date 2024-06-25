@@ -1,8 +1,6 @@
-part of stage;
-
+part of 'package:stage/stage.dart';
 
 class StageTopBarContent {
-
   final Widget? subtitle;
 
   final Alignment alignment;
@@ -16,7 +14,6 @@ class StageTopBarContent {
     this.subtitle,
     this.secondary,
     Alignment? alignment,
-    Map<StageColorPlace,double>? elevations,
-  }): alignment = alignment ?? defaultAlignment;
-  
+    Map<StageColorPlace, double>? elevations,
+  }) : alignment = alignment ?? defaultAlignment;
 }

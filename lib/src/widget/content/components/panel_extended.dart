@@ -1,13 +1,13 @@
-part of stage;
+part of 'package:stage/stage.dart';
 
-class _BoxedExtendedPanel<T,S> extends StatelessWidget {
-
+class _BoxedExtendedPanel<T, S> extends StatelessWidget {
   final Widget content;
-  final StageData<T,S> data;
+  final StageData<T, S> data;
   final StageDimensions dimensions;
   final _StageDerivedDimensions derived;
 
-  const _BoxedExtendedPanel(this.content, {
+  const _BoxedExtendedPanel(
+    this.content, {
     required this.data,
     required this.dimensions,
     required this.derived,
@@ -21,11 +21,11 @@ class _BoxedExtendedPanel<T,S> extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Expanded(child: content),
-          if(data.panelPagesController != null)
+          if (data.panelPagesController != null)
             SizedBox(
               height: dimensions.barSize,
               child: _PanelBottomBar(
-                data: data, 
+                data: data,
                 dimensions: dimensions,
               ),
             ),
@@ -33,5 +33,4 @@ class _BoxedExtendedPanel<T,S> extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -1,4 +1,4 @@
-part of stage;
+part of 'package:stage/stage.dart';
 
 enum DarkStyle {
   dark(
@@ -32,23 +32,18 @@ enum DarkStyle {
     this.defaultAccent,
   );
 
-  static DarkStyle fromName(String name) 
-    => values.firstWhere((e) => e.name == name);
-  
-  
-  static const Map<DarkStyle,DarkStyle> _next = {
+  static DarkStyle fromName(String name) => values.firstWhere((e) => e.name == name);
+
+  static const Map<DarkStyle, DarkStyle> _next = {
     DarkStyle.dark: DarkStyle.nightBlack,
     DarkStyle.nightBlack: DarkStyle.amoled,
     DarkStyle.amoled: DarkStyle.nightBlue,
     DarkStyle.nightBlue: DarkStyle.dark,
   };
 
-  DarkStyle get  next => _next[this]!;
-  
-  static Map<DarkStyle,T> mapWithSingleValue<T>(T value) => <DarkStyle,T>{
-    for(final style in DarkStyle.values)
-      style: value,
-  };
+  DarkStyle get next => _next[this]!;
+
+  static Map<DarkStyle, T> mapWithSingleValue<T>(T value) => <DarkStyle, T>{
+        for (final style in DarkStyle.values) style: value,
+      };
 }
-
-

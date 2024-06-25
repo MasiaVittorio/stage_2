@@ -1,8 +1,6 @@
-part of stage;
+part of 'package:stage/stage.dart';
 
-
-class _StageContent<T,S> extends StatefulWidget {
-
+class _StageContent<T, S> extends StatefulWidget {
   const _StageContent({
     //logic
     required this.data,
@@ -21,14 +19,12 @@ class _StageContent<T,S> extends StatefulWidget {
     required this.backgroundColor,
     required this.backgroundOpacity,
     required this.customDecorationBuilder,
-
     required this.splashScreen,
-
     required this.wholeScreen,
-  }): assert(extendedPanelBuilder != null || extendedPanel != null);
+  }) : assert(extendedPanelBuilder != null || extendedPanel != null);
 
   //logic
-  final StageData<T,S> data;
+  final StageData<T, S> data;
 
   //performance optimization
   final bool wholeScreen;
@@ -42,17 +38,18 @@ class _StageContent<T,S> extends StatefulWidget {
   final Widget Function(Animation) topBarBuilder;
   final Widget? scaffoldBackgroundFill; // to override the regularly colored scaffold background
 
-
   //theming
   final StageBackgroundGetter? backgroundColor;
   final double? backgroundOpacity;
-  final StageShadowBuilder shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
+  final StageShadowBuilder
+      shadowBuilder; // Different shadow for each panel value (0=closed, 1=opened)
   final BoxShadow? singleShadow; // If you do not need to animate the shadow
-  final StagePanelDecorationBuilder? customDecorationBuilder; // To override shadows, radiuses, background color etc
+  final StagePanelDecorationBuilder?
+      customDecorationBuilder; // To override shadows, radiuses, background color etc
 
   //splash screen stuff
   final Widget? splashScreen;
 
   @override
-  _StageContentState<T,S> createState() => _StageContentState<T,S>();
+  _StageContentState<T, S> createState() => _StageContentState<T, S>();
 }

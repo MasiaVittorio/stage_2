@@ -1,2 +1,1 @@
-part of stage;
-
+part of 'package:stage/stage.dart';

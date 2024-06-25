@@ -1,7 +1,6 @@
-part of stage;
+part of 'package:stage/stage.dart';
 
 class _StageBuildOffOpenNonAlert extends StatelessWidget {
-
   const _StageBuildOffOpenNonAlert(this.builder);
 
   final Widget Function(BuildContext, bool) builder;

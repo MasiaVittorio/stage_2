@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:stage/stage.dart';
 
 class HeaderedAlertCustom extends StatelessWidget {
-  
-  const HeaderedAlertCustom(this.title, {
+  const HeaderedAlertCustom(
+    this.title, {
     required this.titleSize,
     required this.child,
     this.bottom,
@@ -20,47 +20,49 @@ class HeaderedAlertCustom extends StatelessWidget {
   final Color Function(ThemeData)? customBackground;
   final bool withoutHeader;
 
-
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Color background = customBackground?.call(theme) 
-      ?? theme.scaffoldBackgroundColor;
+    final Color background = customBackground?.call(theme) ?? theme.scaffoldBackgroundColor;
 
     return Material(
       color: background,
-       child: MediaQuery(
-         data: MediaQuery.of(context).copyWith(
-           padding: withoutHeader ? null : EdgeInsets.only(top: titleSize),
-         ),
-         child: Stack(children: <Widget>[
-          Positioned.fill(child: Column(children: <Widget>[
-
-            Expanded(child: alreadyScrollableChild ? child : SingleChildScrollView(
-              physics: Stage.of(context)!.panelController.panelScrollPhysics(),
-              padding: EdgeInsets.only(top: withoutHeader ? 0.0 : titleSize),
-              child: child,
-            ),),
-
-            if(bottom != null)
-              UpShadower(child: bottom!,),
-
-          ],),),
-
-          if(!withoutHeader)
-            Positioned(
-              top: 0.0,
-              height: titleSize,
-              left: 0.0,
-              right: 0.0,
-              child: Container(
-                color: background.withOpacity(0.8),
-                child: title,
+      child: MediaQuery(
+        data: MediaQuery.of(context).copyWith(
+          padding: withoutHeader ? null : EdgeInsets.only(top: titleSize),
+        ),
+        child: Stack(
+          children: <Widget>[
+            Positioned.fill(
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: alreadyScrollableChild
+                        ? child
+                        : SingleChildScrollView(
+                            physics: Stage.of(context)!.panelController.panelScrollPhysics(),
+                            padding: EdgeInsets.only(top: withoutHeader ? 0.0 : titleSize),
+                            child: child,
+                          ),
+                  ),
+                  if (bottom case Widget bottom) bottom.shadowed(),
+                ],
               ),
             ),
-
-      ],),
-       ),
+            if (!withoutHeader)
+              Positioned(
+                top: 0.0,
+                height: titleSize,
+                left: 0.0,
+                right: 0.0,
+                child: Container(
+                  color: background.withOpacity(0.8),
+                  child: title,
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }

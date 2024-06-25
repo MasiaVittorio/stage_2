@@ -1,8 +1,6 @@
-part of stage;
-
+part of 'package:stage/stage.dart';
 
 class StageSplashScreen extends StatelessWidget {
-
   const StageSplashScreen({
     required this.background,
     required this.icon,
@@ -23,6 +21,6 @@ class StageSplashScreen extends StatelessWidget {
           child: icon,
         ),
       ),
-    );    
+    );
   }
 }

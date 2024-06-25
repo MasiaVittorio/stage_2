@@ -1,4 +1,4 @@
-part of stage;
+part of 'package:stage/stage.dart';
 
 //helper to make the snackbar child easier
 class StageSnackBar extends StatelessWidget {
@@ -28,23 +28,24 @@ class StageSnackBar extends StatelessWidget {
     // Ok to access to it like that because the snackbars are temporary
     final double height = dimensions.collapsedPanelSize;
 
-    final double xAlignment = alignment ?? (secondary != null 
-      ? 0 
-      : stage.panelController.snackbarController.snackBarRightAligned
-        ? 1
-        : -1);
+    final double xAlignment = alignment ??
+        (secondary != null
+            ? 0
+            : stage.panelController.snackbarController.snackBarRightAligned
+                ? 1
+                : -1);
 
-    final Widget? secondaryChild = secondary != null 
-      ? Container(
-        alignment: Alignment.center,
-        height: height,
-        constraints: BoxConstraints(
-          minWidth: height,
-        ),
-        child: secondary,
-      )
-      : null;
-    
+    final Widget? secondaryChild = secondary != null
+        ? Container(
+            alignment: Alignment.center,
+            height: height,
+            constraints: BoxConstraints(
+              minWidth: height,
+            ),
+            child: secondary,
+          )
+        : null;
+
     final ThemeData theme = Theme.of(context);
 
     final Widget body = Column(
@@ -52,23 +53,20 @@ class StageSnackBar extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         Expanded(
-          flex: 5, 
+          flex: 5,
           child: Align(
-            alignment: Alignment(
-              xAlignment,
-              subtitle != null ? 0.5 : 0.0
-            ),
+            alignment: Alignment(xAlignment, subtitle != null ? 0.5 : 0.0),
             child: DefaultTextStyle(
               style: theme.textTheme.titleMedium!,
               child: title,
             ),
           ),
         ),
-        if(subtitle != null)
+        if (subtitle != null)
           Expanded(
-            flex: 4, 
+            flex: 4,
             child: Align(
-              alignment: Alignment(xAlignment,-0.5),
+              alignment: Alignment(xAlignment, -0.5),
               child: DefaultTextStyle(
                 style: theme.textTheme.titleSmall!,
                 child: subtitle!,
@@ -84,24 +82,23 @@ class StageSnackBar extends StatelessWidget {
       onTap: onTap,
       child: SizedBox(
         height: height,
-        child: Row(children: <Widget>[
-          if(secondaryChild != null && right)
-            secondaryChild,
-          if(!right) StageSnackButton.placeHolder,
-
-          Expanded(child: Padding(
-            padding: contentPadding,
-            child: body,
-          )),
-
-          if(right) StageSnackButton.placeHolder,
-          if(secondaryChild != null && !right)
-            secondaryChild,
-        ],),
+        child: Row(
+          children: <Widget>[
+            if (secondaryChild != null && right) secondaryChild,
+            if (!right) StageSnackButton.placeHolder,
+            Expanded(
+                child: Padding(
+              padding: contentPadding,
+              child: body,
+            )),
+            if (right) StageSnackButton.placeHolder,
+            if (secondaryChild != null && !right) secondaryChild,
+          ],
+        ),
       ),
     );
 
-    if(scrollable){
+    if (scrollable) {
       return SnackBarClosingScrollable(result);
     }
 
@@ -116,8 +113,8 @@ class SnackBarClosingScrollable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StageData? stage = Stage.of(context);
-    return LayoutBuilder(builder: (_, constraints)
-      => ConstrainedBox(
+    return LayoutBuilder(
+      builder: (_, constraints) => ConstrainedBox(
         constraints: constraints,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -135,9 +132,7 @@ class SnackBarClosingScrollable extends StatelessWidget {
   }
 }
 
-
 class StageSnackButton extends StatelessWidget {
-
   const StageSnackButton({
     required this.onTap,
     required this.child,
@@ -152,48 +147,43 @@ class StageSnackButton extends StatelessWidget {
   final bool autoClose;
   final bool accent;
 
-  const StageSnackButton.asPlaceHolder():
-    onTap = null,
-    child = null,
-    autoClose = true,
-    accent = false,
-    isPlaceHolder = true,
-    backgroundColor = null;
+  const StageSnackButton.asPlaceHolder()
+      : onTap = null,
+        child = null,
+        autoClose = true,
+        accent = false,
+        isPlaceHolder = true,
+        backgroundColor = null;
 
   static const StageSnackButton placeHolder = StageSnackButton.asPlaceHolder();
 
   @override
   Widget build(BuildContext context) {
-
     final StageData stage = Stage.of(context)!;
 
-    return BlocVar.build2<StageDimensions,Color>( 
+    return Reactive.build2<StageDimensions, Color>(
       stage.dimensionsController.dimensions,
       stage.themeController.derived.currentPrimaryColor,
-      builder:(_, dimensions, color){
-        
+      builder: (_, dimensions, color) {
         final double height = dimensions.collapsedPanelSize;
 
-        if(isPlaceHolder) {
-          return SizedBox(
-          height: height, 
-          width: height
-        );
+        if (isPlaceHolder) {
+          return SizedBox(height: height, width: height);
         }
-        
+
         return Material(
-          color: backgroundColor ?? (accent 
-            ? getColor(Theme.of(context), color) 
-            : color),
+          color: backgroundColor ?? (accent ? getColor(Theme.of(context), color) : color),
           borderRadius: BorderRadius.circular(dimensions.panelRadiusClosed),
           child: InkResponse(
-            radius: height/2.5,
-            onTap: onTap == null ? null : (){
-              onTap!();
-              if(autoClose){
-                stage.closeSnackBar();
-              }
-            },
+            radius: height / 2.5,
+            onTap: onTap == null
+                ? null
+                : () {
+                    onTap!();
+                    if (autoClose) {
+                      stage.closeSnackBar();
+                    }
+                  },
             child: Container(
               height: height,
               width: height,
@@ -205,17 +195,15 @@ class StageSnackButton extends StatelessWidget {
       },
     );
   }
-  static Color getColor(ThemeData theme, Color color) => Color.alphaBlend(
-    theme.colorScheme.onSurface
-        .withOpacity(0.1),
-    color, 
-  );
 
+  static Color getColor(ThemeData theme, Color color) => Color.alphaBlend(
+        theme.colorScheme.onSurface.withOpacity(0.1),
+        color,
+      );
 }
 
-//what is actually shown 
+//what is actually shown
 class _StageSnackBar extends StatelessWidget {
-
   const _StageSnackBar({
     required this.animation,
     required this.child,
@@ -228,17 +216,15 @@ class _StageSnackBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final StageData stage = Stage.of(context)!;
     final ThemeData theme = Theme.of(context);
-    
+
     final Widget closeButton = StageSnackButton(
-      onTap: (){
+      onTap: () {
         for (var f in stage.panelController.snackbarController._onNextManualClose) {
           f();
         }
-        stage.panelController.snackbarController._onNextManualClose
-          .clear();
+        stage.panelController.snackbarController._onNextManualClose.clear();
       },
       autoClose: true,
       accent: true,
@@ -247,104 +233,98 @@ class _StageSnackBar extends StatelessWidget {
 
     final bool right = stage.panelController.snackbarController.snackBarRightAligned;
 
-    return stage.themeController.derived.currentPrimaryColor.build((_, color) {
-      final Brightness colorBrightness 
-        = ThemeData.estimateBrightnessForColor(color);
-      final Color iconColor = colorBrightness.contrast;
+    return stage.themeController.derived.currentPrimaryColor.build(
+      (_, color) {
+        final Brightness colorBrightness = ThemeData.estimateBrightnessForColor(color);
+        final Color iconColor = colorBrightness.contrast;
 
-      return Theme(
-        data: theme.copyWith(
-          iconTheme: theme.primaryIconTheme.copyWith(
-            color: iconColor,
-            opacity: textOpacity,
-          ),
-          textTheme: theme.primaryTextTheme.apply(
-            bodyColor: iconColor.withOpacity(textOpacity), 
-          ),
-        ),
-        child: stage.dimensionsController.dimensions.build((_, dimensions) {
-          
-          final double height = dimensions.collapsedPanelSize;
-          final Offset center = Offset(height / 2, height / 2);
-
-          final Widget alert = Material(
-            color: color,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                // if(!right) SizedBox(width: height,),
-                Expanded(child: child),
-                // if(right) SizedBox(width: height,),
-              ],
+        return Theme(
+          data: theme.copyWith(
+            iconTheme: theme.primaryIconTheme.copyWith(
+              color: iconColor,
+              opacity: textOpacity,
             ),
-          );
-
-          return SizedBox(
-            height: height,
-            child: AnimatedBuilder(
-              animation: animation,
-              child: alert, 
-              builder: (_, alert){
-                final double val = animation.value;
-                // not clamped because they clamp it already in mapToRange
-
-                final double scale = Curves.easeOut.transform(
-                  DoubleExt.mapToRange(val, 0.0, 1.0, fromMin: 0.0, fromMax: 0.6)
-                );
-
-                final double clip = Curves.easeOut.transform(
-                  DoubleExt.mapToRange(val, 0.0, 1.0, fromMin: 0.4, fromMax: 1.0)
-                );
-                final _CircleClipper clipper = _CircleClipper(
-                  center: center,
-                  radiusFraction: clip,
-                  offsetFromRight: right,
-                );
-
-                return Stack(
-                  fit: StackFit.expand,
-                  clipBehavior: Clip.hardEdge,
-                  children: <Widget>[
-
-                    Positioned(
-                      left: 0.0,
-                      right: 0.0,
-                      top: 0.0,
-                      height: height,
-                      child: ClipOval(
-                        clipper: clipper,
-                        child: alert,
-                      ),
-                    ),
-
-                    Positioned(
-                      left: !right ? 0.0 : null,
-                      right: right ? 0.0 : null,
-                      top: 0.0,
-                      height: height,
-                      width: height,
-                      child: Transform.scale(
-                        scale: scale,
-                        alignment: Alignment.center,
-                        child: closeButton,
-                      ),
-                    ),
-
-                  ],
-                );
-              },
+            textTheme: theme.primaryTextTheme.apply(
+              bodyColor: iconColor.withOpacity(textOpacity),
             ),
-          );
-        }),
-      );
-    },);
+          ),
+          child: stage.dimensionsController.dimensions.build((_, dimensions) {
+            final double height = dimensions.collapsedPanelSize;
+            final Offset center = Offset(height / 2, height / 2);
+
+            final Widget alert = Material(
+              color: color,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  // if(!right) SizedBox(width: height,),
+                  Expanded(child: child),
+                  // if(right) SizedBox(width: height,),
+                ],
+              ),
+            );
+
+            return SizedBox(
+              height: height,
+              child: AnimatedBuilder(
+                animation: animation,
+                child: alert,
+                builder: (_, alert) {
+                  final double val = animation.value;
+                  // not clamped because they clamp it already in mapToRange
+
+                  final double scale = Curves.easeOut
+                      .transform(val.mapToRange(0.0, 1.0, fromMin: 0.0, fromMax: 0.6));
+
+                  final double clip = Curves.easeOut
+                      .transform(val.mapToRange(0.0, 1.0, fromMin: 0.4, fromMax: 1.0));
+                  final _CircleClipper clipper = _CircleClipper(
+                    center: center,
+                    radiusFraction: clip,
+                    offsetFromRight: right,
+                  );
+
+                  return Stack(
+                    fit: StackFit.expand,
+                    clipBehavior: Clip.hardEdge,
+                    children: <Widget>[
+                      Positioned(
+                        left: 0.0,
+                        right: 0.0,
+                        top: 0.0,
+                        height: height,
+                        child: ClipOval(
+                          clipper: clipper,
+                          child: alert,
+                        ),
+                      ),
+                      Positioned(
+                        left: !right ? 0.0 : null,
+                        right: right ? 0.0 : null,
+                        top: 0.0,
+                        height: height,
+                        width: height,
+                        child: Transform.scale(
+                          scale: scale,
+                          alignment: Alignment.center,
+                          child: closeButton,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            );
+          }),
+        );
+      },
+    );
   }
 }
 
-
 class _CircleClipper extends CustomClipper<Rect> {
   _CircleClipper({
-    required this.center, 
+    required this.center,
     required this.radiusFraction,
     required this.offsetFromRight,
   });
@@ -355,27 +335,21 @@ class _CircleClipper extends CustomClipper<Rect> {
 
   @override
   Rect getClip(Size size) {
-
     final double xRemaining = math.max(size.width - center.dx, center.dx);
     final double yRemaining = math.max(size.height - center.dy, center.dy);
     final double maxRadius = math.sqrt(xRemaining * xRemaining + yRemaining * yRemaining);
 
     final Rect rect = Rect.fromCircle(
-      radius: radiusFraction * maxRadius, 
-      center: offsetFromRight 
-        ? Offset(
-          size.width - center.dx,
-          center.dy
-        )
-        : center,
+      radius: radiusFraction * maxRadius,
+      center: offsetFromRight ? Offset(size.width - center.dx, center.dy) : center,
     );
 
     return rect;
   }
 
   @override
-  bool shouldReclip(_CircleClipper oldClipper) 
-      => oldClipper.radiusFraction != radiusFraction 
-      || oldClipper.center != center
-      || oldClipper.offsetFromRight != offsetFromRight;
+  bool shouldReclip(_CircleClipper oldClipper) =>
+      oldClipper.radiusFraction != radiusFraction ||
+      oldClipper.center != center ||
+      oldClipper.offsetFromRight != offsetFromRight;
 }

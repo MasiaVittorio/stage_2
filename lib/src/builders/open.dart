@@ -1,7 +1,6 @@
-part of stage;
+part of 'package:stage/stage.dart';
 
 class _StageBuildOffPanelMostlyOpened extends StatelessWidget {
-
   const _StageBuildOffPanelMostlyOpened(this.builder);
 
   final Widget Function(BuildContext, bool) builder;

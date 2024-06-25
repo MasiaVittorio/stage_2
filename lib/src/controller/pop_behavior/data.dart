@@ -1,5 +1,4 @@
-part of stage;
-
+part of 'package:stage/stage.dart';
 
 class StagePopBehavior {
   //=========================================
@@ -18,14 +17,10 @@ class StagePopBehavior {
   // Constructor
   const StagePopBehavior({
     this.rememberPanelPage = false,
-
     this.backToPreviousMainPage = true,
     this.backToDefaultMainPage = false,
-
     this.backToPreviousPanelPage = false,
     this.backToDefaultPanelPage = true,
-
     this.backToClosePanel = true,
   });
-
 }

@@ -1,16 +1,15 @@
-part of stage;
+part of 'package:stage/stage.dart';
 
 class _StageBuildOffPanelPagesData<S> extends StatelessWidget {
-
   const _StageBuildOffPanelPagesData(this.builder);
 
-  final Widget Function(BuildContext, Map<S?,bool>?, List<S?>?, S?) builder;
+  final Widget Function(BuildContext, Map<S?, bool>?, List<S?>?, S?) builder;
 
   @override
   Widget build(BuildContext context) {
-    final StageData<dynamic,S> stage = Stage.of<dynamic,S>(context)!;
+    final StageData<dynamic, S> stage = Stage.of<dynamic, S>(context)!;
 
-    return BlocVar.build3<Map<S?,bool>?, List<S?>?,S?>(
+    return Reactive.build3<Map<S?, bool>?, List<S?>?, S?>(
       stage.panelPagesController!._enabledPages,
       stage.panelPagesController!._orderedPages,
       stage.panelPagesController!._page,

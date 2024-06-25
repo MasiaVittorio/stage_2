@@ -1,13 +1,10 @@
 import 'package:example/core.dart';
 
-
 enum MainPage {
   alerts,
   snackBars,
   other,
 }
-
-
 
 extension MainPageExt on MainPage {
   String get name => MainPages._names[this]!;
@@ -17,37 +14,33 @@ extension MainPageExt on MainPage {
 }
 
 class MainPages {
+  static MainPage fromName(String name) => reversedNames[name]!;
 
-  static MainPage fromName(String name)=> reversedNames[name]!;
-
-  static const Map<MainPage,String> _names = <MainPage,String>{
+  static const Map<MainPage, String> _names = <MainPage, String>{
     MainPage.alerts: "Alerts",
     MainPage.snackBars: "Snacks",
     MainPage.other: "Other",
   };
-  static const Map<String,MainPage> reversedNames = <String,MainPage>{
+  static const Map<String, MainPage> reversedNames = <String, MainPage>{
     "Alerts": MainPage.alerts,
     "Snacks": MainPage.snackBars,
     "Other": MainPage.other,
   };
 
-  static const Map<MainPage,String> _longNames = <MainPage,String>{
+  static const Map<MainPage, String> _longNames = <MainPage, String>{
     MainPage.alerts: "Panel alerts",
     MainPage.snackBars: "SnackBars",
     MainPage.other: "Other stuff",
   };
 
-  static const Map<MainPage,IconData> _iconsFilled = <MainPage,IconData>{
-    MainPage.alerts: McIcons.alert,
+  static const Map<MainPage, IconData> _iconsFilled = <MainPage, IconData>{
+    MainPage.alerts: Icons.warning,
     MainPage.snackBars: Icons.notifications_active,
     MainPage.other: Icons.menu,
   };
-  static const Map<MainPage,IconData> _iconsOutlined = <MainPage,IconData>{
-    MainPage.alerts: McIcons.alert_outline,
+  static const Map<MainPage, IconData> _iconsOutlined = <MainPage, IconData>{
+    MainPage.alerts: Icons.warning_outlined,
     MainPage.snackBars: Icons.notifications_none,
     MainPage.other: Icons.menu,
   };
-
-  
-
 }
