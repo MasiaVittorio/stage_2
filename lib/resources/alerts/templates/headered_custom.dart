@@ -23,7 +23,8 @@ class HeaderedAlertCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Color background = customBackground?.call(theme) ?? theme.scaffoldBackgroundColor;
+    final Color background =
+        customBackground?.call(theme) ?? theme.scaffoldBackgroundColor;
 
     return Material(
       color: background,
@@ -40,8 +41,11 @@ class HeaderedAlertCustom extends StatelessWidget {
                     child: alreadyScrollableChild
                         ? child
                         : SingleChildScrollView(
-                            physics: Stage.of(context)!.panelController.panelScrollPhysics(),
-                            padding: EdgeInsets.only(top: withoutHeader ? 0.0 : titleSize),
+                            physics: Stage.of(context)!
+                                .panelController
+                                .panelScrollPhysics(),
+                            padding: EdgeInsets.only(
+                                top: withoutHeader ? 0.0 : titleSize),
                             child: child,
                           ),
                   ),
@@ -56,7 +60,7 @@ class HeaderedAlertCustom extends StatelessWidget {
                 left: 0.0,
                 right: 0.0,
                 child: Container(
-                  color: background.withOpacity(0.8),
+                  color: background.withValues(alpha: 0.8),
                   child: title,
                 ),
               ),

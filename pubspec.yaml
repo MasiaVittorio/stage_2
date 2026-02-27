@@ -11,13 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   sid_base:
-    path: ../sid_base
-  # sid_ui:
-  #   path: ../sid_ui
-  #   # git: https://github.com/MasiaVittorio/sid_ui.git
-  # sid_bloc:
-  #   path: ../sid_bloc
-    # git: https://github.com/MasiaVittorio/sid_bloc.git
+    path: ../../sid_base
+  segmented_slider:
+    path: ../../segmented_slider
   flutter_vector_icons: ^1.0.0
   animations: ^2.0.0
   badges: ^2.0.1

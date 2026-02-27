@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:segmented_slider/segmented_slider.dart';
 import 'package:stage/stage.dart';
 // import 'main_colors.dart'; // for the color circle displayer lol
 
@@ -75,10 +76,12 @@ class StagePanelColorsPerPage<S> extends StatelessWidget {
     );
   }
 
-  void pickPageColor(StageData<dynamic, S> stage, S page, Color? initialColor) => stage.pickColor(
+  void pickPageColor(
+          StageData<dynamic, S> stage, S page, Color? initialColor) =>
+      stage.pickColor(
         initialColor: initialColor,
-        onSubmitted: (color) =>
-            stage.themeController.currentColorsController.editPanelPageToPrimary(page, color),
+        onSubmitted: (color) => stage.themeController.currentColorsController
+            .editPanelPageToPrimary(page, color),
       );
 }
 
@@ -118,8 +121,9 @@ class StagePanelSingleColor extends StatelessWidget {
   }
 
   void pickSingleColor(StageData stage, Color? initialColor) => stage.pickColor(
-        onSubmitted: (Color color) =>
-            stage.themeController.currentColorsController.editPanelPrimary(color),
+        onSubmitted: (Color color) => stage
+            .themeController.currentColorsController
+            .editPanelPrimary(color),
         initialColor: initialColor,
       );
 }
@@ -134,26 +138,27 @@ class _MultiPageColorsTogglePanel<S> extends StatelessWidget {
     return StageBuild.offPanelColors(
       (_, __, pageColors) {
         final colors = stage!.themeController.currentColorsController;
-        return RadioSliderOf<bool>(
-          items: <bool, RadioSliderItem>{
-            false: RadioSliderItem(
-              icon: Icon(MdiIcons.circle),
-              title: const Text("Single"),
+        return SegmentedSlider<bool>(
+          segments: [
+            SliderSegment(
+              value: false,
+              selectedIcon: Icon(MdiIcons.circle),
+              label: const Text("Single"),
             ),
-            true: RadioSliderItem(
-              icon: Icon(MdiIcons.cardsOutline),
-              title: const Text("Per page"),
+            SliderSegment(
+              value: true,
+              selectedIcon: Icon(MdiIcons.cardsOutline),
+              label: const Text("Per page"),
             ),
-          },
-          orderedItems: const <bool>[false, true],
-          onSelect: (multi) {
-            if (multi) {
+          ],
+          onSelect: (value) {
+            if (value == true) {
               colors.enablePanelPagedColors();
             } else {
               colors.disablePanelPagedColors();
             }
           },
-          selectedItem: pageColors != null,
+          value: pageColors != null,
         );
       },
     );

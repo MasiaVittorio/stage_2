@@ -13,12 +13,12 @@ class AlertDrag extends StatelessWidget {
       alignment: Alignment.center,
       child: Container(
         decoration: BoxDecoration(
-          color: theme.colorScheme.onSurface.withOpacity(0.2),
+          color: theme.colorScheme.onSurface.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(50),
         ),
         height: 8.0,
         width: 34.0,
       ),
     );
-   }
+  }
 }

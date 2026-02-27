@@ -19,12 +19,14 @@ class StageSnackBar extends StatelessWidget {
     this.onTap,
     this.contentPadding = defaultContentPadding,
   });
-  static const EdgeInsets defaultContentPadding = EdgeInsets.symmetric(horizontal: 12);
+  static const EdgeInsets defaultContentPadding =
+      EdgeInsets.symmetric(horizontal: 12);
 
   @override
   Widget build(BuildContext context) {
     final StageData stage = Stage.of(context)!;
-    final StageDimensions dimensions = stage.dimensionsController.dimensions.value;
+    final StageDimensions dimensions =
+        stage.dimensionsController.dimensions.value;
     // Ok to access to it like that because the snackbars are temporary
     final double height = dimensions.collapsedPanelSize;
 
@@ -76,7 +78,8 @@ class StageSnackBar extends StatelessWidget {
       ],
     );
 
-    final bool right = stage.panelController.snackbarController.snackBarRightAligned;
+    final bool right =
+        stage.panelController.snackbarController.snackBarRightAligned;
 
     final Widget result = InkWell(
       onTap: onTap,
@@ -118,8 +121,10 @@ class SnackBarClosingScrollable extends StatelessWidget {
         constraints: constraints,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          physics: stage!.panelController.snackbarController.snackBarScrollPhysics(
-            bottom: !(stage.panelController.snackbarController.snackBarRightAligned),
+          physics:
+              stage!.panelController.snackbarController.snackBarScrollPhysics(
+            bottom: !(stage
+                .panelController.snackbarController.snackBarRightAligned),
             always: true,
           ),
           child: ConstrainedBox(
@@ -172,7 +177,8 @@ class StageSnackButton extends StatelessWidget {
         }
 
         return Material(
-          color: backgroundColor ?? (accent ? getColor(Theme.of(context), color) : color),
+          color: backgroundColor ??
+              (accent ? getColor(Theme.of(context), color) : color),
           borderRadius: BorderRadius.circular(dimensions.panelRadiusClosed),
           child: InkResponse(
             radius: height / 2.5,
@@ -197,7 +203,7 @@ class StageSnackButton extends StatelessWidget {
   }
 
   static Color getColor(ThemeData theme, Color color) => Color.alphaBlend(
-        theme.colorScheme.onSurface.withOpacity(0.1),
+        theme.colorScheme.onSurface.withValues(alpha: 0.1),
         color,
       );
 }
@@ -221,7 +227,8 @@ class _StageSnackBar extends StatelessWidget {
 
     final Widget closeButton = StageSnackButton(
       onTap: () {
-        for (var f in stage.panelController.snackbarController._onNextManualClose) {
+        for (var f
+            in stage.panelController.snackbarController._onNextManualClose) {
           f();
         }
         stage.panelController.snackbarController._onNextManualClose.clear();
@@ -231,11 +238,13 @@ class _StageSnackBar extends StatelessWidget {
       child: const Icon(Icons.close),
     );
 
-    final bool right = stage.panelController.snackbarController.snackBarRightAligned;
+    final bool right =
+        stage.panelController.snackbarController.snackBarRightAligned;
 
     return stage.themeController.derived.currentPrimaryColor.build(
       (_, color) {
-        final Brightness colorBrightness = ThemeData.estimateBrightnessForColor(color);
+        final Brightness colorBrightness =
+            ThemeData.estimateBrightnessForColor(color);
         final Color iconColor = colorBrightness.contrast;
 
         return Theme(
@@ -245,7 +254,7 @@ class _StageSnackBar extends StatelessWidget {
               opacity: textOpacity,
             ),
             textTheme: theme.primaryTextTheme.apply(
-              bodyColor: iconColor.withOpacity(textOpacity),
+              bodyColor: iconColor.withValues(alpha: textOpacity),
             ),
           ),
           child: stage.dimensionsController.dimensions.build((_, dimensions) {
@@ -273,11 +282,11 @@ class _StageSnackBar extends StatelessWidget {
                   final double val = animation.value;
                   // not clamped because they clamp it already in mapToRange
 
-                  final double scale = Curves.easeOut
-                      .transform(val.mapToRange(0.0, 1.0, fromMin: 0.0, fromMax: 0.6));
+                  final double scale = Curves.easeOut.transform(
+                      val.mapToRange(0.0, 1.0, fromMin: 0.0, fromMax: 0.6));
 
-                  final double clip = Curves.easeOut
-                      .transform(val.mapToRange(0.0, 1.0, fromMin: 0.4, fromMax: 1.0));
+                  final double clip = Curves.easeOut.transform(
+                      val.mapToRange(0.0, 1.0, fromMin: 0.4, fromMax: 1.0));
                   final _CircleClipper clipper = _CircleClipper(
                     center: center,
                     radiusFraction: clip,
@@ -337,11 +346,13 @@ class _CircleClipper extends CustomClipper<Rect> {
   Rect getClip(Size size) {
     final double xRemaining = math.max(size.width - center.dx, center.dx);
     final double yRemaining = math.max(size.height - center.dy, center.dy);
-    final double maxRadius = math.sqrt(xRemaining * xRemaining + yRemaining * yRemaining);
+    final double maxRadius =
+        math.sqrt(xRemaining * xRemaining + yRemaining * yRemaining);
 
     final Rect rect = Rect.fromCircle(
       radius: radiusFraction * maxRadius,
-      center: offsetFromRight ? Offset(size.width - center.dx, center.dy) : center,
+      center:
+          offsetFromRight ? Offset(size.width - center.dx, center.dy) : center,
     );
 
     return rect;

@@ -11,7 +11,8 @@ class StageColorPlaces {
     "Texts": StageColorPlace.texts,
   };
 
-  static StageColorPlace fromName(String? s) => map[s!] ?? StageColorPlace.background;
+  static StageColorPlace fromName(String? s) =>
+      map[s!] ?? StageColorPlace.background;
 }
 
 extension StageColorPlaceExt on StageColorPlace? {
@@ -36,7 +37,9 @@ class StageThemeUtils {
     required Color accent,
   }) {
     final Color toggleable = accent;
-    final Color canvas = brightness.isLight ? Colors.grey.shade50 : _darkCanvasColors[darkStyle!]!;
+    final Color canvas = brightness.isLight
+        ? Colors.grey.shade50
+        : _darkCanvasColors[darkStyle!]!;
 
     return ThemeData(
       splashFactory: InkRipple.splashFactory,
@@ -48,12 +51,15 @@ class StageThemeUtils {
 
       canvasColor: canvas,
 
-      scaffoldBackgroundColor:
-          brightness.isLight ? Colors.grey.shade200 : _darkBackgroundColors[darkStyle!],
+      scaffoldBackgroundColor: brightness.isLight
+          ? Colors.grey.shade200
+          : _darkBackgroundColors[darkStyle!],
 
       // TODO: check if still surface doesn't reflect canvas?
-      colorScheme:
-          (brightness.isLight ? const ColorScheme.light() : const ColorScheme.dark()).copyWith(
+      colorScheme: (brightness.isLight
+              ? const ColorScheme.light()
+              : const ColorScheme.dark())
+          .copyWith(
         secondary: accent,
         brightness: brightness,
         primary: primary,
@@ -80,10 +86,11 @@ class StageThemeUtils {
         inactiveTickMarkColor: toggleable.withAlpha(0x3d),
         inactiveTrackColor: toggleable.withAlpha(0x3d),
         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 9.0),
-        showValueIndicator: ShowValueIndicator.always,
+        showValueIndicator: ShowValueIndicator.onDrag,
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        thumbColor:
+            WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
             return null;
           }
@@ -92,7 +99,8 @@ class StageThemeUtils {
           }
           return null;
         }),
-        trackColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        trackColor:
+            WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
             return null;
           }
@@ -103,7 +111,8 @@ class StageThemeUtils {
         }),
       ),
       radioTheme: RadioThemeData(
-        fillColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        fillColor:
+            WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
             return null;
           }
@@ -114,7 +123,8 @@ class StageThemeUtils {
         }),
       ),
       checkboxTheme: CheckboxThemeData(
-        fillColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        fillColor:
+            WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
             return null;
           }

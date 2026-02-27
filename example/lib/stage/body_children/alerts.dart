@@ -9,28 +9,24 @@ class Alerts extends StatelessWidget {
 
     return ListView(
       children: <Widget>[
-        Section(
-          <Widget>[
-            const SectionTitle("Simple"),
-            Row(
-              children: <Widget>[
-                for (final child in <Widget>[
-                  ListTile(
-                    title: const Text("Big"),
-                    onTap: () => stage.showAlert(headered, size: 500),
-                  ),
-                  ListTile(
-                    title: const Text("Small"),
-                    onTap: () => stage.showAlert(headered, size: 300),
-                  ),
-                ])
-                  Expanded(
-                    child: child,
-                  ),
-              ],
-            ),
-          ],
-        ),
+        Section(<Widget>[
+          const SectionTitle("Simple"),
+          Row(
+            children: <Widget>[
+              for (final child in <Widget>[
+                ListTile(
+                  title: const Text("Big"),
+                  onTap: () => stage.showAlert(headered, size: 500),
+                ),
+                ListTile(
+                  title: const Text("Small"),
+                  onTap: () => stage.showAlert(headered, size: 300),
+                ),
+              ])
+                Expanded(child: child),
+            ],
+          ),
+        ]),
         Section(<Widget>[
           const SectionTitle("Multi page"),
           Row(
@@ -57,30 +53,21 @@ class Alerts extends StatelessWidget {
                   ),
                 ),
               ])
-                Expanded(
-                  child: child,
-                ),
+                Expanded(child: child),
             ],
           ),
         ]),
-        Section(
-          <Widget>[
-            const SectionTitle("Interactive"),
-            Row(
-              children: <Widget>[
-                for (final child in const <Widget>[
-                  _TextInput(),
-                  _NumberInput(),
-                ])
-                  Expanded(
-                    child: child,
-                  ),
-              ],
-            ),
-            const _ColorInput(),
-            const _ConfirmInput(),
-          ],
-        ),
+        Section(<Widget>[
+          const SectionTitle("Interactive"),
+          Row(
+            children: <Widget>[
+              for (final child in const <Widget>[_TextInput(), _NumberInput()])
+                Expanded(child: child),
+            ],
+          ),
+          const _ColorInput(),
+          const _ConfirmInput(),
+        ]),
         Section(<Widget>[
           const SectionTitle("Nested alerts"),
           ListTile(
@@ -92,35 +79,28 @@ class Alerts extends StatelessWidget {
     );
   }
 
-  static const Map<int, RadioHeaderedItem> radioItems = <int, RadioHeaderedItem>{
-    1: RadioHeaderedItem(
-      longTitle: "All favorites",
-      title: "Favs",
-      child: SizedBox(
-        height: 200,
-        child: Center(
-            child: Icon(
-          Icons.favorite_border,
-          size: 40,
-        )),
-      ),
-      icon: Icons.favorite,
-      unselectedIcon: Icons.favorite_border,
-    ),
-    2: RadioHeaderedItem(
-      longTitle: "Other stuff",
-      title: "Other",
-      child: SizedBox(
-        height: 200,
-        child: Center(
-            child: Icon(
-          Icons.menu,
-          size: 40,
-        )),
-      ),
-      icon: Icons.menu,
-    ),
-  };
+  static const Map<int, RadioHeaderedItem> radioItems =
+      <int, RadioHeaderedItem>{
+        1: RadioHeaderedItem(
+          longTitle: "All favorites",
+          title: "Favs",
+          child: SizedBox(
+            height: 200,
+            child: Center(child: Icon(Icons.favorite_border, size: 40)),
+          ),
+          icon: Icons.favorite,
+          unselectedIcon: Icons.favorite_border,
+        ),
+        2: RadioHeaderedItem(
+          longTitle: "Other stuff",
+          title: "Other",
+          child: SizedBox(
+            height: 200,
+            child: Center(child: Icon(Icons.menu, size: 40)),
+          ),
+          icon: Icons.menu,
+        ),
+      };
 
   static final Widget headered = HeaderedAlert(
     "Scroll this list!",
@@ -128,9 +108,7 @@ class Alerts extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         for (int i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
-          ListTile(
-            title: Text("Content $i"),
-          ),
+          ListTile(title: Text("Content $i")),
       ],
     ),
   );
@@ -179,10 +157,7 @@ class _ColorInputState extends State<_ColorInput> {
     return ListTile(
       leading: Icon(MdiIcons.paletteOutline),
       trailing: color != null
-          ? CircleAvatar(
-              backgroundColor: color,
-              child: Container(),
-            )
+          ? CircleAvatar(backgroundColor: color, child: Container())
           : null,
       title: const Text("Color pick Alert"),
       onTap: () => stage.pickColor(
@@ -193,14 +168,13 @@ class _ColorInputState extends State<_ColorInput> {
           });
           stage.showSnackBar(
             StageSnackBar(
-              title: Text("Color: ${value.value.toRadixString(16).toUpperCase()}"),
+              title: Text(
+                "Color: ${value.toARGB32().toRadixString(16).toUpperCase()}",
+              ),
               secondary: StageSnackButton(
                 onTap: null,
                 backgroundColor: value,
-                child: Icon(
-                  Icons.palette,
-                  color: value.contrast,
-                ),
+                child: Icon(Icons.palette, color: value.contrast),
               ),
             ),
           );
@@ -234,9 +208,7 @@ class _TextInputState extends State<_TextInput> {
             setState(() {
               text = value;
             });
-            stage.showSnackBar(
-              StageSnackBar(title: Text("Text: $value")),
-            );
+            stage.showSnackBar(StageSnackBar(title: Text("Text: $value")));
           },
         ),
         size: InsertAlert.height,
@@ -270,9 +242,7 @@ class _NumberInputState extends State<_NumberInput> {
             setState(() {
               number = int.tryParse(value);
             });
-            stage.showSnackBar(
-              StageSnackBar(title: Text("Number: $value")),
-            );
+            stage.showSnackBar(StageSnackBar(title: Text("Number: $value")));
           },
         ),
         size: InsertAlert.height,

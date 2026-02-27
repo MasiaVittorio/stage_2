@@ -1,6 +1,7 @@
 part of 'package:stage/stage.dart';
 
-class _StageContentState<T, S> extends State<_StageContent<T, S>> with TickerProviderStateMixin {
+class _StageContentState<T, S> extends State<_StageContent<T, S>>
+    with TickerProviderStateMixin {
   //====================================
   // State
 
@@ -81,8 +82,9 @@ class _StageContentState<T, S> extends State<_StageContent<T, S>> with TickerPro
         0.0,
         curve: Curves.easeOut,
         duration: Duration(
-            microseconds:
-                (220000 * (panelAnimation.value + (1 - panelAnimation.value) / 3)).round()),
+            microseconds: (220000 *
+                    (panelAnimation.value + (1 - panelAnimation.value) / 3))
+                .round()),
       );
     }
     return;
@@ -113,7 +115,9 @@ class _StageContentState<T, S> extends State<_StageContent<T, S>> with TickerPro
   //========================================
   // Gestures
   void onPanelDrag(DragUpdateDetails details, double delta) {
-    final double val = (panelAnimation.value - 1.2 * details.primaryDelta! / delta).clamp(0.0, 1.0);
+    final double val =
+        (panelAnimation.value - 1.2 * details.primaryDelta! / delta)
+            .clamp(0.0, 1.0);
     if (val != panelAnimation.value) {
       //change the value only if necessary, we do not want
       //to call listeners for no reasons
@@ -142,12 +146,14 @@ class _StageContentState<T, S> extends State<_StageContent<T, S>> with TickerPro
       ),
     );
 
-    final Widget scaffoldBody =
-        data.isReadingFromDisk.build(((_, isReading) => (isReading && widget.splashScreen != null)
+    final Widget scaffoldBody = data.isReadingFromDisk
+        .build(((_, isReading) => (isReading && widget.splashScreen != null)
             ? SizedBox.expand(child: widget.splashScreen)
             : data.dimensionsController.dimensions.build((_, dimensions) {
-                Widget builder(BuildContext context, BoxConstraints constraints) {
-                  final _StageDerivedDimensions derived = _StageDerivedDimensions(
+                Widget builder(
+                    BuildContext context, BoxConstraints constraints) {
+                  final _StageDerivedDimensions derived =
+                      _StageDerivedDimensions(
                     base: dimensions,
                     panelPages: data.panelPagesController != null,
                     constraints: constraints,
@@ -167,21 +173,23 @@ class _StageContentState<T, S> extends State<_StageContent<T, S>> with TickerPro
                     widget.extendedPanelBuilder == null
                         ? widget.extendedPanel!
                         : Builder(
-                            builder: (context) =>
-                                widget.extendedPanelBuilder!(context, panelAnimation)),
+                            builder: (context) => widget.extendedPanelBuilder!(
+                                context, panelAnimation)),
                     derived: derived,
                     dimensions: dimensions,
                     data: data,
                   );
 
-                  final double bodyHeight =
-                      constraints.maxHeight - derived.minTopBarSize - derived.bottomBarSize;
+                  final double bodyHeight = constraints.maxHeight -
+                      derived.minTopBarSize -
+                      derived.bottomBarSize;
                   final Widget boxedBody = SizedBox(
                     width: constraints.maxWidth,
                     height: bodyHeight,
                     child: MediaQuery(
                       data: mediaQuery.copyWith(
-                        padding: EdgeInsets.only(bottom: dimensions.collapsedPanelSize / 2),
+                        padding: EdgeInsets.only(
+                            bottom: dimensions.collapsedPanelSize / 2),
                       ),
                       child: widget.body,
                     ),
@@ -213,7 +221,8 @@ class _StageContentState<T, S> extends State<_StageContent<T, S>> with TickerPro
                         );
 
                         final double realDelta = alert
-                            ? maxAlertHeight - dimensions.collapsedPanelSize // alert delta
+                            ? maxAlertHeight -
+                                dimensions.collapsedPanelSize // alert delta
                             : derived.panelDelta; // regular panel delta
 
                         final Widget bottomGesture = Positioned(
@@ -222,14 +231,16 @@ class _StageContentState<T, S> extends State<_StageContent<T, S>> with TickerPro
                           right: 0.0,
                           height: derived.bottomBarSize,
                           child: _BottomGesture(
-                            onPanelDrag: (details) => onPanelDrag(details, realDelta),
+                            onPanelDrag: (details) =>
+                                onPanelDrag(details, realDelta),
                             onPanelDragEnd: onPanelDragEnd,
                           ),
                         );
 
                         final Widget alertBackground = Positioned.fill(
                           child: _AlertBackground(
-                            onPanelDrag: (details) => onPanelDrag(details, realDelta),
+                            onPanelDrag: (details) =>
+                                onPanelDrag(details, realDelta),
                             onPanelDragEnd: onPanelDragEnd,
                             // animation: this.panelAnimation,
                             backgroundColor: widget.backgroundColor,
@@ -250,7 +261,8 @@ class _StageContentState<T, S> extends State<_StageContent<T, S>> with TickerPro
                           onPanelDragEnd: onPanelDragEnd,
                           shadowBuilder: widget.shadowBuilder,
                           singleShadow: widget.singleShadow,
-                          customDecorationBuilder: widget.customDecorationBuilder,
+                          customDecorationBuilder:
+                              widget.customDecorationBuilder,
                         );
 
                         return AnimatedBuilder(
@@ -267,14 +279,19 @@ class _StageContentState<T, S> extends State<_StageContent<T, S>> with TickerPro
                               fit: StackFit.expand,
                               children: <Widget>[
                                 if (widget.scaffoldBackgroundFill != null)
-                                  Positioned.fill(child: widget.scaffoldBackgroundFill!),
+                                  Positioned.fill(
+                                      child: widget.scaffoldBackgroundFill!),
 
                                 Positioned(
                                   left: 0.0,
                                   right: 0.0,
                                   height: bodyHeight,
                                   top: derived.minTopBarSize -
-                                      (alert ? 0.0 : dimensions.parallax * clampedVal * realDelta),
+                                      (alert
+                                          ? 0.0
+                                          : dimensions.parallax *
+                                              clampedVal *
+                                              realDelta),
                                   child: boxedBody,
                                 ),
 
@@ -289,15 +306,18 @@ class _StageContentState<T, S> extends State<_StageContent<T, S>> with TickerPro
                                   top: 0.0,
                                   left: 0.0,
                                   right: 0.0,
-                                  height: 8.0 // extra space at the bottom to display the shadow properly
-                                      +
-                                      (!alert // Expand the app bar while opening the panel
-                                              ? clampedVal // But only if the regular panel is opened
-                                              : 0.0 // (NOT alerts)
-                                          )
-                                          .mapToRange(derived.minTopBarSize, derived.maxTopBarSize),
+                                  height:
+                                      8.0 // extra space at the bottom to display the shadow properly
+                                          +
+                                          (!alert // Expand the app bar while opening the panel
+                                                  ? clampedVal // But only if the regular panel is opened
+                                                  : 0.0 // (NOT alerts)
+                                              )
+                                              .mapToRange(derived.minTopBarSize,
+                                                  derived.maxTopBarSize),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0), // cast shadow
+                                    padding: const EdgeInsets.only(
+                                        bottom: 8.0), // cast shadow
                                     child: topBar,
                                   ),
                                 ),
@@ -308,7 +328,8 @@ class _StageContentState<T, S> extends State<_StageContent<T, S>> with TickerPro
                                 Positioned(
                                   left: 0.0,
                                   right: 0.0,
-                                  bottom: derived.bottomBarSize // avoid the bottom bar
+                                  bottom: derived
+                                          .bottomBarSize // avoid the bottom bar
                                       -
                                       dimensions.collapsedPanelSize /
                                           2 // bit of overlap with the top part of the bottom bar
@@ -363,7 +384,7 @@ class _StageContentState<T, S> extends State<_StageContent<T, S>> with TickerPro
               // ),
               child: PopScope(
                 canPop: false,
-                onPopInvoked: (didPop) async {
+                onPopInvokedWithResult: (didPop, result) async {
                   final bool decision = await data._decidePop();
                   if (decision) {
                     if (context.mounted) {

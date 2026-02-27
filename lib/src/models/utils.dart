@@ -20,7 +20,9 @@ class _StageUtils {
           if (!compareValue(
             entry.value,
             second[entry.key],
-          )) return false;
+          )) {
+            return false;
+          }
         } else {
           if (entry.value != second[entry.key]) {
             return false;

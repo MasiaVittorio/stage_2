@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:segmented_slider/segmented_slider.dart';
 import 'package:stage/stage.dart';
 
 class StageBrightnessToggle extends StatelessWidget {
@@ -40,6 +41,8 @@ class StageBrightnessToggle extends StatelessWidget {
   }
 }
 
+enum _V { light, auto, dark }
+
 class _LightDarkAuto extends StatelessWidget {
   const _LightDarkAuto({
     required this.brightness,
@@ -54,35 +57,39 @@ class _LightDarkAuto extends StatelessWidget {
     final StageData stage = Stage.of(context)!;
     final controller = stage.themeController.brightness;
 
-    return RadioSlider(
-      selectedIndex: autoDark!
-          ? 1
-          : brightness!.isLight
-              ? 0
-              : 2,
-      items: [
-        RadioSliderItem(
-          icon: Icon(MdiIcons.weatherSunny),
-          title: const Text("Light"),
+    return SegmentedSlider<_V>(
+      segments: [
+        SliderSegment(
+          value: _V.light,
+          selectedIcon: Icon(MdiIcons.weatherSunny),
+          label: const Text("Light"),
         ),
-        const RadioSliderItem(
-          icon: Icon(Icons.brightness_auto),
-          title: Text("Auto"),
+        const SliderSegment(
+          value: _V.auto,
+          selectedIcon: Icon(Icons.brightness_auto),
+          label: Text("Auto"),
         ),
-        RadioSliderItem(
-          icon: Icon(MdiIcons.weatherNight),
-          title: const Text("Dark"),
+        SliderSegment(
+          value: _V.dark,
+          selectedIcon: Icon(MdiIcons.weatherNight),
+          label: const Text("Dark"),
         ),
       ],
-      onTap: (i) {
-        switch (i) {
-          case 0:
+      value: switch ((autoDark, brightness?.isLight)) {
+        (true, _) => _V.auto,
+        (false, true) => _V.light,
+        (false, false) => _V.dark,
+        _ => null,
+      },
+      onSelect: (v) {
+        switch (v) {
+          case _V.light:
             controller.disableAutoDark(Brightness.light);
             break;
-          case 1:
+          case _V.auto:
             controller.enableAutoDark(context);
             break;
-          case 2:
+          case _V.dark:
             controller.disableAutoDark(Brightness.dark);
             break;
           default:
@@ -100,28 +107,41 @@ class _TimeOfDayVSSystem extends StatelessWidget {
     final StageData stage = Stage.of(context)!;
     final controller = stage.themeController.brightness;
 
-    return controller.autoDarkMode.build(
-      ((_, mode) => RadioSlider(
-            title: const Text("Based on:"),
-            selectedIndex: mode == AutoDarkMode.timeOfDay ? 0 : 1,
-            items: [
-              RadioSliderItem(
-                icon: Icon(MdiIcons.themeLightDark),
-                title: const Text("Day time"),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const SectionTitle("Auto dark mode based on:"),
+        controller.autoDarkMode.build(
+          (_, mode) => SegmentedSlider<AutoDarkMode>(
+            value: mode,
+            segments: [
+              SliderSegment(
+                value: AutoDarkMode.timeOfDay,
+                selectedIcon: Icon(MdiIcons.themeLightDark),
+                label: const Text("Time of day"),
               ),
-              const RadioSliderItem(
-                icon: Icon(Icons.timeline),
-                title: Text("System"),
+              const SliderSegment(
+                value: AutoDarkMode.system,
+                selectedIcon: Icon(Icons.timeline),
+                label: Text("System"),
               ),
             ],
-            onTap: (i) {
-              if (i == 0) {
-                controller.autoDarkBasedOnTime();
-              } else {
-                controller.autoDarkBasedOnSystem(context);
+            onSelect: (value) {
+              switch (value) {
+                case AutoDarkMode.timeOfDay:
+                  controller.autoDarkBasedOnTime();
+                  return;
+                case AutoDarkMode.system:
+                  controller.autoDarkBasedOnSystem(context);
+                  return;
+                case null:
+                  return;
               }
             },
-          )),
+          ),
+        ),
+      ],
     );
   }
 }

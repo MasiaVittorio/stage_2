@@ -35,8 +35,10 @@ class _StageAlertData {
   //================================
   // Constructor
   _StageAlertData(this.parent) {
-    currentChild = children.related<Widget?>((l) => l.isEmpty ? null : l.last);
-    currentSize = sizes.related<double?>((l) => l.isEmpty ? null : l.last);
+    currentChild = children.related<Widget?>(
+        (l) => l.isEmpty ? null : l.last, (a, b) => a == b);
+    currentSize = sizes.related<double?>(
+        (l) => l.isEmpty ? null : l.last, (a, b) => a == b);
     isShowing = (currentChild, currentSize).related<bool>(
       (c, s) => c != null && s != null,
     );

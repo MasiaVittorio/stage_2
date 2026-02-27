@@ -28,9 +28,12 @@ class _PanelBackground extends StatelessWidget {
                 onTap: stage.panelController.close,
                 child: themeController.colorPlace.build(
                   ((context, place) => Container(
-                        color: (backgroundColor?.call(theme, place) ?? const Color(0xFF000000))
-                            .withOpacity(
-                          alert ? 0.0 : clampedVal! * (backgroundOpacity ?? 1 / 1.3),
+                        color: (backgroundColor?.call(theme, place) ??
+                                const Color(0xFF000000))
+                            .withValues(
+                          alpha: alert
+                              ? 0.0
+                              : clampedVal! * (backgroundOpacity ?? 1 / 1.3),
                         ),
                       )),
                 ),

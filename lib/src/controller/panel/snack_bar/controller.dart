@@ -44,6 +44,6 @@ class _StageSnackBarData {
   //========================================
   // Constructor
   _StageSnackBarData(this.parent) {
-    isShowing = child.related((c) => c != null);
+    isShowing = child.related((c) => c != null, (a, b) => a == b);
   }
 }

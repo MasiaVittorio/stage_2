@@ -29,8 +29,11 @@ class _AlertBackground extends StatelessWidget {
               child: themeController.colorPlace.build(
                 ((context, place) => AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      color: (backgroundColor?.call(theme, place) ?? const Color(0xFF000000))
-                          .withOpacity(alert ? (backgroundOpacity ?? 1 / 1.3) : 0.0),
+                      color: (backgroundColor?.call(theme, place) ??
+                              const Color(0xFF000000))
+                          .withValues(
+                              alpha:
+                                  alert ? (backgroundOpacity ?? 1 / 1.3) : 0.0),
                     )),
               ),
             ),

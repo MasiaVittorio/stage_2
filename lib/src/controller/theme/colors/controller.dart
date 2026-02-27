@@ -54,7 +54,8 @@ class _StageColorsData<T, S> {
   final Reactive<Map<DarkStyle, Map<S, Color>>?> darkPanelPageToPrimaries;
 
   /// could be null
-  final Reactive<Map<DarkStyle, Map<S, Color>>?> _cachedDarkPanelPageToPrimaries;
+  final Reactive<Map<DarkStyle, Map<S, Color>>?>
+      _cachedDarkPanelPageToPrimaries;
 
   /// To store its value when manually disabled
 
@@ -66,140 +67,166 @@ class _StageColorsData<T, S> {
     required StageColorsData<T, S> initialData,
   })  : lightAccent = Reactive.modal<Color>(
           initVal: initialData.lightAccent!,
-          key: parent.parent._getStoreKey("${colorPlaceRef.name}_stage_colors_lightAccent"),
-          toJsonEncodable: (c) => c.value,
+          key: parent.parent
+              ._getStoreKey("${colorPlaceRef.name}_stage_colors_lightAccent"),
+          toJsonEncodable: (c) => c.toARGB32(),
           fromJsonDecoded: (j) => Color(j as int),
-          readCallback: (_) => parent.parent._readCallback("stage_colors_lightAccent"),
+          readCallback: (_) =>
+              parent.parent._readCallback("stage_colors_lightAccent"),
         ),
         lightMainPrimary = Reactive.modal<Color>(
           initVal: initialData.lightMainPrimary!,
-          key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_lightMainPrimary"),
-          toJsonEncodable: (c) => c.value,
+          key: parent.parent._getStoreKey(
+              "${colorPlaceRef.name}stage_colors_lightMainPrimary"),
+          toJsonEncodable: (c) => c.toARGB32(),
           fromJsonDecoded: (j) => Color(j as int),
-          readCallback: (_) => parent.parent._readCallback("stage_colors_lightMainPrimary"),
+          readCallback: (_) =>
+              parent.parent._readCallback("stage_colors_lightMainPrimary"),
         ),
         lightMainPageToPrimary = Reactive.modal<Map<T, Color>?>(
           initVal: initialData.lightMainPageToPrimary,
 
           /// could be null
-          key: parent.parent
-              ._getStoreKey("${colorPlaceRef.name}stage_colors_lightMainPageToPrimary"),
+          key: parent.parent._getStoreKey(
+              "${colorPlaceRef.name}stage_colors_lightMainPageToPrimary"),
           toJsonEncodable: (map) => map == null
               ? null
               : <String, dynamic>{
                   for (final entry in map.entries)
-                    jsonEncode(parent.parent._writeMainPage(entry.key)): entry.value.value,
+                    jsonEncode(parent.parent._writeMainPage(entry.key)):
+                        entry.value.toARGB32(),
                 },
           fromJsonDecoded: (j) => j == null
               ? null
               : <T, Color>{
                   for (final entry in (j as Map).entries)
-                    parent.parent._readMainPage(jsonDecode(entry.key as String)):
+                    parent.parent
+                            ._readMainPage(jsonDecode(entry.key as String)):
                         Color(entry.value as int),
                 },
-          readCallback: (_) => parent.parent._readCallback("stage_colors_lightMainPageToPrimary"),
+          readCallback: (_) => parent.parent
+              ._readCallback("stage_colors_lightMainPageToPrimary"),
         ),
         _cachedLightMainPageToPrimary = Reactive.modal<Map<T, Color>?>(
           initVal: null,
-          key: parent.parent
-              ._getStoreKey("${colorPlaceRef.name}stage_colors_lightMainPageToPrimary_CACHED"),
+          key: parent.parent._getStoreKey(
+              "${colorPlaceRef.name}stage_colors_lightMainPageToPrimary_CACHED"),
           toJsonEncodable: (map) => map == null
               ? null
               : <String, dynamic>{
                   for (final entry in map.entries)
-                    jsonEncode(parent.parent._writeMainPage(entry.key)): entry.value.value,
+                    jsonEncode(parent.parent._writeMainPage(entry.key)):
+                        entry.value.toARGB32(),
                 },
           fromJsonDecoded: (j) => j == null
               ? null
               : <T, Color>{
                   for (final entry in (j as Map).entries)
-                    parent.parent._readMainPage(jsonDecode(entry.key as String)):
+                    parent.parent
+                            ._readMainPage(jsonDecode(entry.key as String)):
                         Color(entry.value as int),
                 },
         ),
         lightPanelPrimary = Reactive.modal<Color>(
           initVal: initialData.lightPanelPrimary!,
-          key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_lightPanelPrimary"),
-          toJsonEncodable: (c) => c.value,
+          key: parent.parent._getStoreKey(
+              "${colorPlaceRef.name}stage_colors_lightPanelPrimary"),
+          toJsonEncodable: (c) => c.toARGB32(),
           fromJsonDecoded: (j) => Color(j as int),
-          readCallback: (_) => parent.parent._readCallback("stage_colors_lightPanelPrimary"),
+          readCallback: (_) =>
+              parent.parent._readCallback("stage_colors_lightPanelPrimary"),
         ),
         lightPanelPageToPrimary = Reactive.modal<Map<S, Color>?>(
           initVal: initialData.lightPanelPageToPrimary,
 
           ///could be null
-          key: parent.parent
-              ._getStoreKey("${colorPlaceRef.name}stage_colors_lightPanelPageToPrimary"),
+          key: parent.parent._getStoreKey(
+              "${colorPlaceRef.name}stage_colors_lightPanelPageToPrimary"),
           toJsonEncodable: (map) => map == null
               ? null
               : <String, dynamic>{
                   for (final entry in map.entries)
-                    jsonEncode(parent.parent._writePanelPage(entry.key)): entry.value.value,
+                    jsonEncode(parent.parent._writePanelPage(entry.key)):
+                        entry.value.toARGB32(),
                 },
           fromJsonDecoded: (j) => j == null
               ? null
               : <S, Color>{
                   for (final entry in (j as Map).entries)
-                    parent.parent._readPanelPage(jsonDecode(entry.key as String)):
+                    parent.parent
+                            ._readPanelPage(jsonDecode(entry.key as String)):
                         Color(entry.value as int),
                 },
-          readCallback: (_) => parent.parent._readCallback("stage_colors_lightPanelPageToPrimary"),
+          readCallback: (_) => parent.parent
+              ._readCallback("stage_colors_lightPanelPageToPrimary"),
         ),
         _cachedLightPanelPageToPrimary = Reactive.modal<Map<S, Color>?>(
           initVal: null,
-          key: parent.parent
-              ._getStoreKey("${colorPlaceRef.name}stage_colors_lightPanelPageToPrimary_CACHED"),
+          key: parent.parent._getStoreKey(
+              "${colorPlaceRef.name}stage_colors_lightPanelPageToPrimary_CACHED"),
           toJsonEncodable: (map) => map == null
               ? null
               : <String, dynamic>{
                   for (final entry in map.entries)
-                    jsonEncode(parent.parent._writePanelPage(entry.key)): entry.value.value,
+                    jsonEncode(parent.parent._writePanelPage(entry.key)):
+                        entry.value.toARGB32(),
                 },
           fromJsonDecoded: (j) => j == null
               ? null
               : <S, Color>{
                   for (final entry in (j as Map).entries)
-                    parent.parent._readPanelPage(jsonDecode(entry.key as String)):
+                    parent.parent
+                            ._readPanelPage(jsonDecode(entry.key as String)):
                         Color(entry.value as int),
                 },
         ),
         darkAccents = Reactive.modal<Map<DarkStyle, Color>>(
           initVal: initialData.darkAccents!,
-          key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_darkAccents"),
+          key: parent.parent
+              ._getStoreKey("${colorPlaceRef.name}stage_colors_darkAccents"),
           toJsonEncodable: (map) => <String?, dynamic>{
-            for (final entry in map.entries) entry.key.name: entry.value.value,
+            for (final entry in map.entries)
+              entry.key.name: entry.value.toARGB32(),
           },
           fromJsonDecoded: (j) => <DarkStyle, Color>{
             for (final entry in (j as Map).entries)
-              DarkStyle.fromName(entry.key as String): Color(entry.value as int),
+              DarkStyle.fromName(entry.key as String):
+                  Color(entry.value as int),
           },
-          readCallback: (_) => parent.parent._readCallback("stage_colors_darkAccents"),
+          readCallback: (_) =>
+              parent.parent._readCallback("stage_colors_darkAccents"),
         ),
         darkMainPrimaries = Reactive.modal<Map<DarkStyle, Color>>(
           initVal: initialData.darkMainPrimaries!,
-          key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_darkMainPrimaries"),
+          key: parent.parent._getStoreKey(
+              "${colorPlaceRef.name}stage_colors_darkMainPrimaries"),
           toJsonEncodable: (map) => <String?, dynamic>{
-            for (final entry in map.entries) entry.key.name: entry.value.value,
+            for (final entry in map.entries)
+              entry.key.name: entry.value.toARGB32(),
           },
           fromJsonDecoded: (j) => <DarkStyle, Color>{
             for (final entry in (j as Map).entries)
-              DarkStyle.fromName(entry.key as String): Color(entry.value as int),
+              DarkStyle.fromName(entry.key as String):
+                  Color(entry.value as int),
           },
-          readCallback: (_) => parent.parent._readCallback("stage_colors_darkMainPrimaries"),
+          readCallback: (_) =>
+              parent.parent._readCallback("stage_colors_darkMainPrimaries"),
         ),
-        darkMainPageToPrimaries = Reactive.modal<Map<DarkStyle, Map<T, Color>>?>(
+        darkMainPageToPrimaries =
+            Reactive.modal<Map<DarkStyle, Map<T, Color>>?>(
           initVal: initialData.darkMainPageToPrimaries,
 
           ///could be null
-          key: parent.parent
-              ._getStoreKey("${colorPlaceRef.name}stage_colors_darkMainPageToPrimaries"),
+          key: parent.parent._getStoreKey(
+              "${colorPlaceRef.name}stage_colors_darkMainPageToPrimaries"),
           toJsonEncodable: (mapOfMaps) => mapOfMaps == null
               ? null
               : <String?, dynamic>{
                   for (final e in mapOfMaps.entries)
                     e.key.name: <String, dynamic>{
                       for (final entry in e.value.entries)
-                        jsonEncode(parent.parent._writeMainPage(entry.key)): entry.value.value
+                        jsonEncode(parent.parent._writeMainPage(entry.key)):
+                            entry.value.toARGB32()
                     },
                 },
           fromJsonDecoded: (json) => json == null
@@ -208,23 +235,27 @@ class _StageColorsData<T, S> {
                   for (final e in (json as Map).entries)
                     DarkStyle.fromName(e.key as String): <T, Color>{
                       for (final entry in (e.value as Map).entries)
-                        parent.parent._readMainPage(jsonDecode(entry.key as String)):
+                        parent.parent
+                                ._readMainPage(jsonDecode(entry.key as String)):
                             Color(entry.value as int),
                     }
                 },
-          readCallback: (_) => parent.parent._readCallback("stage_colors_darkMainPageToPrimaries"),
+          readCallback: (_) => parent.parent
+              ._readCallback("stage_colors_darkMainPageToPrimaries"),
         ),
-        _cachedDarkMainPageToPrimaries = Reactive.modal<Map<DarkStyle, Map<T, Color>>?>(
+        _cachedDarkMainPageToPrimaries =
+            Reactive.modal<Map<DarkStyle, Map<T, Color>>?>(
           initVal: null,
-          key: parent.parent
-              ._getStoreKey("${colorPlaceRef.name}stage_colors_darkMainPageToPrimaries_CACHED"),
+          key: parent.parent._getStoreKey(
+              "${colorPlaceRef.name}stage_colors_darkMainPageToPrimaries_CACHED"),
           toJsonEncodable: (mapOfMaps) => mapOfMaps == null
               ? null
               : <String?, dynamic>{
                   for (final e in mapOfMaps.entries)
                     e.key.name: <String, dynamic>{
                       for (final entry in e.value.entries)
-                        jsonEncode(parent.parent._writeMainPage(entry.key)): entry.value.value
+                        jsonEncode(parent.parent._writeMainPage(entry.key)):
+                            entry.value.toARGB32()
                     },
                 },
           fromJsonDecoded: (json) => json == null
@@ -233,36 +264,43 @@ class _StageColorsData<T, S> {
                   for (final e in (json as Map).entries)
                     DarkStyle.fromName(e.key as String): <T, Color>{
                       for (final entry in (e.value as Map).entries)
-                        parent.parent._readMainPage(jsonDecode(entry.key as String)):
+                        parent.parent
+                                ._readMainPage(jsonDecode(entry.key as String)):
                             Color(entry.value as int),
                     }
                 },
         ),
         darkPanelPrimaries = Reactive.modal<Map<DarkStyle, Color>>(
           initVal: initialData.darkPanelPrimaries!,
-          key: parent.parent._getStoreKey("${colorPlaceRef.name}stage_colors_darkPanelPrimaries"),
+          key: parent.parent._getStoreKey(
+              "${colorPlaceRef.name}stage_colors_darkPanelPrimaries"),
           toJsonEncodable: (map) => <String?, dynamic>{
-            for (final entry in map.entries) entry.key.name: entry.value.value,
+            for (final entry in map.entries)
+              entry.key.name: entry.value.toARGB32(),
           },
           fromJsonDecoded: (j) => <DarkStyle, Color>{
             for (final entry in (j as Map).entries)
-              DarkStyle.fromName(entry.key as String): Color(entry.value as int),
+              DarkStyle.fromName(entry.key as String):
+                  Color(entry.value as int),
           },
-          readCallback: (_) => parent.parent._readCallback("stage_colors_darkPanelPrimaries"),
+          readCallback: (_) =>
+              parent.parent._readCallback("stage_colors_darkPanelPrimaries"),
         ),
-        darkPanelPageToPrimaries = Reactive.modal<Map<DarkStyle, Map<S, Color>>?>(
+        darkPanelPageToPrimaries =
+            Reactive.modal<Map<DarkStyle, Map<S, Color>>?>(
           initVal: initialData.darkPanelPageToPrimaries,
 
           ///could be null
-          key: parent.parent
-              ._getStoreKey("${colorPlaceRef.name}stage_colors_darkPanelPageToPrimaries"),
+          key: parent.parent._getStoreKey(
+              "${colorPlaceRef.name}stage_colors_darkPanelPageToPrimaries"),
           toJsonEncodable: (mapOfMaps) => mapOfMaps == null
               ? null
               : <String?, dynamic>{
                   for (final e in mapOfMaps.entries)
                     e.key.name: <String, dynamic>{
                       for (final entry in e.value.entries)
-                        jsonEncode(parent.parent._writePanelPage(entry.key)): entry.value.value
+                        jsonEncode(parent.parent._writePanelPage(entry.key)):
+                            entry.value.toARGB32()
                     },
                 },
           fromJsonDecoded: (json) => json == null
@@ -271,23 +309,27 @@ class _StageColorsData<T, S> {
                   for (final e in (json as Map).entries)
                     DarkStyle.fromName(e.key as String): <S, Color>{
                       for (final entry in (e.value as Map).entries)
-                        parent.parent._readPanelPage(jsonDecode(entry.key as String)):
+                        parent.parent._readPanelPage(
+                                jsonDecode(entry.key as String)):
                             Color(entry.value as int),
                     }
                 },
-          readCallback: (_) => parent.parent._readCallback("stage_colors_darkPanelPageToPrimaries"),
+          readCallback: (_) => parent.parent
+              ._readCallback("stage_colors_darkPanelPageToPrimaries"),
         ),
-        _cachedDarkPanelPageToPrimaries = Reactive.modal<Map<DarkStyle, Map<S, Color>>?>(
+        _cachedDarkPanelPageToPrimaries =
+            Reactive.modal<Map<DarkStyle, Map<S, Color>>?>(
           initVal: null,
-          key: parent.parent
-              ._getStoreKey("${colorPlaceRef.name}stage_colors_darkPanelPageToPrimaries_CACHED"),
+          key: parent.parent._getStoreKey(
+              "${colorPlaceRef.name}stage_colors_darkPanelPageToPrimaries_CACHED"),
           toJsonEncodable: (mapOfMaps) => mapOfMaps == null
               ? null
               : <String?, dynamic>{
                   for (final e in mapOfMaps.entries)
                     e.key.name: <String, dynamic>{
                       for (final entry in e.value.entries)
-                        jsonEncode(parent.parent._writePanelPage(entry.key)): entry.value.value
+                        jsonEncode(parent.parent._writePanelPage(entry.key)):
+                            entry.value.toARGB32()
                     },
                 },
           fromJsonDecoded: (json) => json == null
@@ -296,7 +338,8 @@ class _StageColorsData<T, S> {
                   for (final e in (json as Map).entries)
                     DarkStyle.fromName(e.key as String): <S, Color>{
                       for (final entry in (e.value as Map).entries)
-                        parent.parent._readPanelPage(jsonDecode(entry.key as String)):
+                        parent.parent._readPanelPage(
+                                jsonDecode(entry.key as String)):
                             Color(entry.value as int),
                     }
                 },
